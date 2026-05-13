@@ -1,0 +1,29 @@
+﻿{
+  "common": {
+    "next": "Proximo",
+    "skip": "Pular",
+    "start": "Comecar",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "loading": "Carregando...",
+    "add": "Adicionar",
+    "close": "Fechar"
+  },
+  "auth": {
+    "login": "Entrar",
+    "register": "Criar conta",
+    "forgot": "Esqueceu a senha?",
+    "email": "E-mail",
+    "password": "Senha",
+    "name": "Nome completo",
+    "confirmPassword": "Confirmar senha",
+    "successReset": "Se o e-mail existir, enviaremos instrucoes.",
+    "validation": {
+      "email": "Informe um e-mail valido",
+      "password": "Senha precisa ter pelo menos 6 caracteres",
+      "passwordStrong": "Senha precisa ter 8+ caracteres",
+      "name": "Informe seu nome completo",
+      "passwordMatch": "As senhas nao conferem"
+    }
+  }
+}
