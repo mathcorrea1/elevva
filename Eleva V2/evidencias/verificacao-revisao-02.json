@@ -1,0 +1,16 @@
+{
+  "revision": "0.2",
+  "date": "2026-10-22",
+  "source_files_compared": 179,
+  "source_files_changed": [],
+  "broken_local_links": [],
+  "original_ids": {
+    "RF": 10,
+    "RNF": 8,
+    "UC": 14
+  },
+  "api_inference_executed": false,
+  "cloud_provisioned": false,
+  "training_executed": false,
+  "previous_documents_archived": true
+}

@@ -1,0 +1,10 @@
+{
+  "environment": "local-development-sqlite",
+  "checks": [
+    "Real local Better Auth sign-up and server session introspection: A/B/P/Q",
+    "Independent children, explicit teacher grants, assessments, observations, attempts, individual/collective reports and school/classroom contexts persisted",
+    "Groq absent: explicit 503; core learning/history still available",
+    "Real Better Auth logout rejects prior session in FastAPI"
+  ],
+  "groq_live": false
+}

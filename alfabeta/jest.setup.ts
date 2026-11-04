@@ -8,3 +8,9 @@
 jest.mock('@expo/vector-icons', () => ({
   Ionicons: 'Ionicons',
 }));
+
+jest.mock('expo-linear-gradient', () => {
+  // Native rendering is not available in Jest; retain children, events and accessibility props.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  return { LinearGradient: require('react-native').View };
+});

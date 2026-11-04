@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-22",
+  "scope": "mobile visual revision on existing Expo app; synthetic local development only",
+  "web_bundle": "AppEntry-91988da18b14923e02500f9e02637928.js",
+  "api_url": "http://localhost:8100",
+  "identity_url": "http://localhost:3001",
+  "ui_url": "http://localhost:8081",
+  "port_fix": "Other listeners owned IPv6 localhost:8000. Only the Eleva API process moved to8100; other project processes preserved.",
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "frontend": { "suites": 8, "tests_passed": 15 },
+    "backend": { "tests_passed": 23, "warning": "Starlette TestClient httpx deprecation" },
+    "web_export": "passed and served from current dist",
+    "android_js_export": "passed; includes local mascot and five Poppins font assets",
+    "apk_built_or_installed": false,
+    "native_accessibility_tested": false
+  },
+  "browser_evidence": {
+    "onboarding": "Three pages traversed; persisted completion and skip; replay preserves mounted application in unit test",
+    "auth": "Both A guardian and P teacher logged in through the interface using local real Better Auth credentials",
+    "display_names": { "A": "Ana - demonstração", "P": "Marina - demonstração" },
+    "learning_flow": "Guardian added activity, started attempt, answered two items, saved completion and opened report",
+    "report_after": { "completed_tasks": 2, "finished_attempts": 2, "observations": 1, "confirmed_level": null },
+    "reopen": "Professor loaded same authorized student/report with two persisted completed tasks after current build reload",
+    "teacher_context": "Classroom and authored draft controls available in teacher profile; no profession-based global student access",
+    "appearance": "Dark/high contrast/additional font150percent at320px: document width320, no visible primary controls outside viewport",
+    "gallery": "12 real application screenshots loaded in premium-galeria.html; viewport-width web previews, not APK screenshots"
+  },
+  "mascot": {
+    "file": "alfabeta/src/assets/mascot/lumi-welcome-v1.png",
+    "method": "built-in image_gen, transparent background",
+    "status": "original proposal; character/name not approved brand identity",
+    "prompt_record": "alfabeta/src/assets/mascot/ORIGEM.md"
+  },
+  "not_completed": ["Official logo integration", "Full usability/accessibility evaluation per screen", "Live Groq inference", "Remote PostgreSQL verification", "Reviewed pedagogical corpus", "Reviewed Libras videos", "APK/native session and TalkBack", "iOS"],
+  "source_preservation": "Six preexisting original source files still match archived entry bytes; App.tsx deliberately migrated",
+  "secrets": "No credentials in this receipt, gallery or APK. Operator access sheet is local and git-ignored."
+}

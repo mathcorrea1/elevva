@@ -1,0 +1,7 @@
+node_modules/
+.env
+*.db
+*.db-*
+demo-accounts.local.json
+ACESSOS-TESTE.local.md
+review-accounts.local.json

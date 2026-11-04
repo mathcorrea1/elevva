@@ -1,0 +1,54 @@
+# Configuracao e dados privados do ambiente local
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local.json
+*.local.md
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencias, builds, caches e logs reproduziveis
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.expo/
+.gradle/
+coverage/
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+.idea/
+*.apk
+*.aab
+*.jks
+*.keystore
+!debug.keystore
+/alfabeta/android/build/
+/alfabeta/android/app/build/
+/alfabeta/android/.cxx/
+/alfabeta/android/app/.cxx/
+/alfabeta/android/local.properties
+
+# Ferramentas, backups e copias de trabalho locais
+/.eleva-local/
+/.playwright-mcp/
+/Eleva V2.zip
+/ux-ui-expert.zip
+/Eleva V2/evidencias/implementacao-baseline.zip
+/alfabeta/tmpcheck/
+/alfabeta/tmpcheck2/
+/alfabeta/package/
+/alfabeta/expo-template-bare-minimum-*.tgz

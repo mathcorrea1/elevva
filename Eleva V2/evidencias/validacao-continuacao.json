@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-22",
+  "environment": "local-development-only",
+  "frontend": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "jest": { "suites": 7, "tests_passed": 14 },
+    "web_export": "passed",
+    "android_hermes_export": "passed",
+    "apk_built": false,
+    "apk_blocker": "Java/JAVA_HOME and Android SDK/adb not available",
+    "ios_tested": false
+  },
+  "backend": {
+    "pytest_tests_passed": 23,
+    "warning": "Starlette TestClient reports a deprecation concerning httpx; suite passes",
+    "fresh_local_migration_chain": "passed",
+    "alembic_metadata_check": "passed",
+    "migration_head": "7c923f1b4a20",
+    "local_development_migration": "applied to backend/eleva-development.db after checking its resolved path",
+    "postgresql_sql": "generated offline; includes attention_flags and content_revisions",
+    "postgresql_execution_tested": false,
+    "real_local_identity_smoke": "passed; see full-stack-smoke.json"
+  },
+  "browser": {
+    "web_server": "Python static server on localhost:8081 serving current alfabeta/dist; Metro stopped",
+    "final_bundle_loaded": "/_expo/static/js/web/AppEntry-ceafa2fe62a712018640968f44d1cf31.js",
+    "boot": "passed",
+    "logout_cancel": "session retained",
+    "logout_confirm": "private child text removed, login displayed, API students returned401",
+    "second_synthetic_account": "created via real local Better Auth; zero own students; first account report returned404",
+    "authorship_ui": "created two items, answers0 and1; edited title; version2 and version1 recovered from API; draft still requires review",
+    "reopen": "final build reload recovered draft version2 and two items",
+    "themes": "light and dark/high contrast inspected; 150percent additional font and320px viewport inspected without document horizontal overflow",
+    "keyboard": "ArrowRight moved focus to Biblioteca; Enter selected destination; focus border visible",
+    "tts": "two PT-BR system voices became available; native browser synthesis reported speaking=true before Stop, false after Stop",
+    "tts_audio_heard_by_human": false,
+    "vlibras": "public help widget loaded; sandbox=allow-scripts; browser blocked cross-frame DOM access with SecurityError; only appearance parameters in iframe URL",
+    "vlibras_translation_approved": false,
+    "libras_reviewed_videos_available": false,
+    "full_wcag_or_native_accessibility_evaluation": false,
+    "console_notes": "Static server favicon404 was observed; deliberately unauthorized test requests returned401/404. These are not evidence of app boot failure."
+  },
+  "external_services": {
+    "groq_live_call": false,
+    "neon_connected": false,
+    "smtp_email_delivered": false,
+    "vm_provisioned": false
+  },
+  "existing_work": "Six original source files match baseline bytes; App.tsx intentionally migrated, original archived",
+  "not_proven": [
+    "Pedagogical validity or approved rubric/content",
+    "Model personalization from real Groq responses",
+    "Release permission for children or real personal data",
+    "APK build, installation, native session, TalkBack or iOS",
+    "PostgreSQL concurrency and restart behavior",
+    "Human-reviewed Libras translation or audible TTS quality"
+  ]
+}

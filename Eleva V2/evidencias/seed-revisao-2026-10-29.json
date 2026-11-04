@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-29",
+  "environment": "local-development-sqlite",
+  "actors": {
+    "A": {
+      "students": 3,
+      "foreign_report_denied": true
+    },
+    "B": {
+      "students": 2,
+      "foreign_report_denied": true
+    },
+    "P": {
+      "students": 3,
+      "foreign_report_denied": true
+    },
+    "Q": {
+      "students": 2,
+      "foreign_report_denied": true
+    }
+  },
+  "seed_repeat_created": 0,
+  "restart_preserved_data": true,
+  "ai_live": false,
+  "backend_tests": 26,
+  "frontend_tests": 15
+}

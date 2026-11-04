@@ -1,0 +1,50 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Eleva — instruções públicas</title>
+    <link rel="stylesheet" href="/help.css" />
+    <script src="/public-appearance.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Ajuda do Eleva</h1>
+      <p>Esta página contém apenas instruções públicas.</p>
+      <h2>Como acompanhar</h2>
+      <p>
+        Escolha uma criança. Abra as atividades para ver o próximo passo. Confirme cada resposta e
+        aguarde a confirmação do salvamento.
+      </p>
+      <h2>Adaptações</h2>
+      <p>
+        Em Ajustes, você pode mudar o tema, aumentar a fonte e ativar alto contraste. As instruções
+        continuam disponíveis em texto.
+      </p>
+      <h2>Tradução automática</h2>
+      <p>
+        Use o widget VLibras para apoio nesta página. Ele depende de rede e não garante tradução
+        completa ou revisada. No aplicativo, os vídeos em Libras ainda aguardam produção.
+      </p>
+      <p id="status" role="status">Carregando apoio VLibras…</p>
+    </main>
+    <div vw class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>
+    </div>
+    <script
+      src="https://vlibras.gov.br/app/vlibras-plugin.js"
+      onerror="
+        document.getElementById('status').textContent =
+          'VLibras indisponível. As instruções em texto permanecem disponíveis.'
+      "
+    ></script>
+    <script>
+      if (window.VLibras) {
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+        document.getElementById('status').textContent =
+          'Widget carregado. Tradução e navegação ainda dependem do serviço e do navegador.';
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+{
+  "recorded_on": "2026-11-04",
+  "verification_session": "2026-10-29",
+  "scope": "local development; synthetic data only",
+  "checks": {
+    "backend_tests": {
+      "passed": 47
+    },
+    "frontend_tests": {
+      "passed": 22,
+      "suites": 13
+    },
+    "typescript": "passed",
+    "lint": "passed",
+    "fresh_sqlite_migrations": "passed",
+    "alembic_check": "passed",
+    "migration_head": "80c95fbd1e56",
+    "repeat_seed_new_rows": 0
+  },
+  "builds": {
+    "web": [
+      {
+        "file": "_expo/static/js/web/AppEntry-de558413aa796d321373ebc3c32babfa.js",
+        "bytes": 3635979,
+        "sha256": "eff6c0914ccceac12260fbf33588d5add8590a9048e70678351d74dd58a600db"
+      }
+    ],
+    "android": [
+      {
+        "file": "_expo/static/js/android/AppEntry-081e7742dfa3451f7d39c8a45e900068.hbc",
+        "bytes": 5916960,
+        "sha256": "d38c4e58530206c22b716d91cd02898644819d04c4572002e8274a656829e781"
+      }
+    ]
+  },
+  "browser_checks": {
+    "viewport_widths": [
+      320,
+      390,
+      1280
+    ],
+    "font_150_dark_high_contrast_at_320": "checked in resume flow; no horizontal overflow",
+    "dialog_keyboard": "Tab/Shift+Tab, Escape and focus return checked",
+    "local_better_auth_sessions": "real local identity service; account switching exercised",
+    "flows": [
+      "draft, copy, edit, release synthetic revision",
+      "teacher share acceptance and assignment to authorized class",
+      "student registration with optional structured supports",
+      "five mechanics, pause/resume, pending written answer and human review reflected in report"
+    ]
+  },
+  "pending": {
+    "apk_built_or_installed": false,
+    "android_device_talkback": false,
+    "ios_tested": false,
+    "postgresql_executed": false,
+    "postgresql_offline_sql": "backend/migrations/postgresql-current.sql",
+    "groq_live": false,
+    "groq_missing_configuration": "GROQ_API_KEY",
+    "remote_hosting": false,
+    "release_environment": "blocked: local development URLs must be replaced by reachable HTTPS endpoints",
+    "libras_reviewed_media": false,
+    "pedagogical_approval": false,
+    "child_real_data_release": false,
+    "native_video_playback_tested": false
+  },
+  "notes": [
+    "Tests above refer to the completed implementation session, not a new execution on the recording date.",
+    "Exported Android JavaScript/Hermes is not an APK.",
+    "No remote database, deployment, paid service, or real student data was used."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "App.tsx": false,
+  "src/navigation/RootNavigator.tsx": true,
+  "src/screens/Dashboard/DashboardScreen.tsx": true,
+  "src/screens/Profile/ProfileScreen.tsx": true,
+  "src/store/app.store.ts": true,
+  "src/theme/colors.ts": true,
+  "src/utils/constants.ts": true
+}

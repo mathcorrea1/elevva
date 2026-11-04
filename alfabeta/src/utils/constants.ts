@@ -3,6 +3,7 @@ export const TOKEN_KEY = 'elevva.access_token';
 export const REFRESH_TOKEN_KEY = 'elevva.refresh_token';
 export const USER_KEY = 'elevva.user';
 export const ONBOARDING_KEY = 'elevva.onboarding.completed';
+export const THEME_PREFERENCE_KEY = 'elevva.theme.preference';
 export const API_TIMEOUT_MS = 10000;
 const useMockFlag = process.env.EXPO_PUBLIC_USE_MOCK;
 export const IS_MOCK = useMockFlag ? useMockFlag === 'true' : true;

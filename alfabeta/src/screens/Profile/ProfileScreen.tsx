@@ -11,13 +11,20 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Avatar } from '@/components/ui/Avatar';
 import { useAuth } from '@/hooks/useAuth';
-import { maskEmail } from '@/utils/formatters';
+import { useToast } from '@/hooks/useToast';
+import { useAppStore } from '@/store/app.store';
+import type { ThemePreference } from '@/store/app.store';
 import { theme } from '@/theme';
+import { maskEmail } from '@/utils/formatters';
 
 const roleLabel = { teacher: 'Professor(a)', guardian: 'Responsável' };
 
 export const ProfileScreen = () => {
   const { user, logout } = useAuth();
+  const { showToast } = useToast();
+  const themePreference = useAppStore((state) => state.themePreference);
+  const setThemePreference = useAppStore((state) => state.setThemePreference);
+
   const [avatar, setAvatar] = useState<string | undefined>(undefined);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -28,18 +35,42 @@ export const ProfileScreen = () => {
     }
   };
 
+  const handleThemeChange = async (value: ThemePreference) => {
+    if (value === themePreference) return;
+    await setThemePreference(value);
+    showToast({
+      message: 'Tema atualizado.',
+      type: 'success',
+      duration: 2000,
+      position: 'bottom',
+    });
+  };
+
   const infoRows = [
     { icon: 'mail-outline' as const, label: 'E-mail', value: maskEmail(user?.email ?? '') },
-    { icon: 'person-outline' as const, label: 'Tipo de conta', value: roleLabel[user?.role as keyof typeof roleLabel] ?? 'Usuário' },
+    {
+      icon: 'person-outline' as const,
+      label: 'Tipo de conta',
+      value: roleLabel[user?.role as keyof typeof roleLabel] ?? 'Usuário',
+    },
     { icon: 'shield-checkmark-outline' as const, label: 'Conta verificada', value: 'Sim' },
+  ];
+
+  const themeOptions: Array<{ value: ThemePreference; label: string; hint: string }> = [
+    { value: 'system', label: 'Usar sistema', hint: 'Acompanha o tema do celular' },
+    { value: 'light', label: 'Claro', hint: 'Fundo claro e contraste suave' },
+    { value: 'dark', label: 'Escuro', hint: 'Fundo escuro para ambientes com pouca luz' },
   ];
 
   return (
     <View style={styles.container}>
       <Header title="Perfil" />
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-        {/* Hero do perfil */}
-        <MotiView from={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', delay: 100 }}>
+        <MotiView
+          from={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: 'spring', delay: 100 }}
+        >
           <LinearGradient
             colors={theme.colors.gradients.hero}
             start={{ x: 0, y: 0 }}
@@ -60,18 +91,19 @@ export const ProfileScreen = () => {
             <View style={styles.heroTextArea}>
               <Text style={styles.heroName}>{user?.name}</Text>
               <View style={styles.rolePill}>
-                <Text style={styles.roleText}>{roleLabel[user?.role as keyof typeof roleLabel] ?? 'Usuário'}</Text>
+                <Text style={styles.roleText}>
+                  {roleLabel[user?.role as keyof typeof roleLabel] ?? 'Usuário'}
+                </Text>
               </View>
             </View>
           </LinearGradient>
         </MotiView>
 
-        {/* Informações da conta */}
         <MotiView from={{ opacity: 0, translateY: 12 }} animate={{ opacity: 1, translateY: 0 }} transition={{ delay: 200 }}>
           <View style={styles.infoCard}>
             <Text style={styles.infoCardTitle}>Informações da conta</Text>
-            {infoRows.map((row, i) => (
-              <View key={row.label} style={[styles.infoRow, i < infoRows.length - 1 && styles.infoRowBorder]}>
+            {infoRows.map((row, index) => (
+              <View key={row.label} style={[styles.infoRow, index < infoRows.length - 1 && styles.infoRowBorder]}>
                 <View style={styles.infoIconCircle}>
                   <Ionicons name={row.icon} size={18} color={theme.colors.primary[600]} />
                 </View>
@@ -84,27 +116,52 @@ export const ProfileScreen = () => {
           </View>
         </MotiView>
 
-        {/* Ações */}
-        <MotiView from={{ opacity: 0, translateY: 12 }} animate={{ opacity: 1, translateY: 0 }} transition={{ delay: 300 }}>
-          <View style={styles.actionsCard}>
+        <MotiView from={{ opacity: 0, translateY: 12 }} animate={{ opacity: 1, translateY: 0 }} transition={{ delay: 260 }}>
+          <View style={styles.settingsCard}>
+            <Text style={styles.infoCardTitle}>Aparência</Text>
+            {themeOptions.map((option) => {
+              const isActive = themePreference === option.value;
+              return (
+                <Pressable
+                  key={option.value}
+                  onPress={() => void handleThemeChange(option.value)}
+                  style={[styles.themeOption, isActive && styles.themeOptionActive]}
+                >
+                  <View style={styles.themeOptionText}>
+                    <Text style={[styles.themeOptionTitle, isActive && styles.themeOptionTitleActive]}>
+                      {option.label}
+                    </Text>
+                    <Text style={styles.themeOptionHint}>{option.hint}</Text>
+                  </View>
+                  <View style={[styles.radioOuter, isActive && styles.radioOuterActive]}>
+                    {isActive ? <View style={styles.radioInner} /> : null}
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        </MotiView>
+
+        <MotiView from={{ opacity: 0, translateY: 12 }} animate={{ opacity: 1, translateY: 0 }} transition={{ delay: 320 }}>
+          <View style={styles.settingsCard}>
             <Text style={styles.infoCardTitle}>Configurações</Text>
             <Pressable style={styles.actionRow}>
-              <View style={[styles.actionIcon, { backgroundColor: theme.colors.primary[50] }]}>
+              <View style={styles.actionIcon}>
                 <Ionicons name="notifications-outline" size={20} color={theme.colors.primary[600]} />
               </View>
               <Text style={styles.actionLabel}>Notificações</Text>
               <Ionicons name="chevron-forward" size={16} color={theme.colors.neutral[300]} />
             </Pressable>
             <Pressable style={styles.actionRow}>
-              <View style={[styles.actionIcon, { backgroundColor: '#dbeafe' }]}>
-                <Ionicons name="help-circle-outline" size={20} color="#2563eb" />
+              <View style={styles.actionIcon}>
+                <Ionicons name="help-circle-outline" size={20} color={theme.colors.primary[600]} />
               </View>
               <Text style={styles.actionLabel}>Ajuda e suporte</Text>
               <Ionicons name="chevron-forward" size={16} color={theme.colors.neutral[300]} />
             </Pressable>
             <Pressable style={styles.actionRow}>
-              <View style={[styles.actionIcon, { backgroundColor: '#dcfce7' }]}>
-                <Ionicons name="document-text-outline" size={20} color="#16a34a" />
+              <View style={styles.actionIcon}>
+                <Ionicons name="document-text-outline" size={20} color={theme.colors.primary[600]} />
               </View>
               <Text style={styles.actionLabel}>Termos de uso</Text>
               <Ionicons name="chevron-forward" size={16} color={theme.colors.neutral[300]} />
@@ -112,7 +169,6 @@ export const ProfileScreen = () => {
           </View>
         </MotiView>
 
-        {/* Logout */}
         <MotiView from={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 400 }}>
           <Button label="Sair da conta" onPress={() => setConfirmOpen(true)} variant="danger" fullWidth />
           <Text style={styles.version}>Versão 1.0.0 • Elevva</Text>
@@ -125,7 +181,10 @@ export const ProfileScreen = () => {
           <Button label="Cancelar" onPress={() => setConfirmOpen(false)} variant="ghost" fullWidth />
           <Button
             label="Sair"
-            onPress={() => { setConfirmOpen(false); void logout(); }}
+            onPress={() => {
+              setConfirmOpen(false);
+              void logout();
+            }}
             variant="danger"
             fullWidth
           />
@@ -173,7 +232,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: theme.colors.secondary[500],
+    backgroundColor: theme.colors.primary[500],
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -206,7 +265,17 @@ const styles = StyleSheet.create({
     padding: 16,
     ...theme.shadows.level2,
     borderWidth: 1,
-    borderColor: '#f0edf8',
+    borderColor: theme.colors.neutral[200],
+    gap: 4,
+  },
+  settingsCard: {
+    backgroundColor: theme.colors.surface,
+    marginHorizontal: 16,
+    borderRadius: theme.borderRadius.xl,
+    padding: 16,
+    ...theme.shadows.level1,
+    borderWidth: 1,
+    borderColor: theme.colors.neutral[200],
     gap: 4,
   },
   infoCardTitle: {
@@ -225,7 +294,7 @@ const styles = StyleSheet.create({
   },
   infoRowBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: '#f0edf8',
+    borderBottomColor: theme.colors.neutral[200],
   },
   infoIconCircle: {
     width: 40,
@@ -239,7 +308,7 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontSize: 12,
     fontFamily: 'Poppins_400Regular',
-    color: theme.colors.neutral[400],
+    color: theme.colors.neutral[500],
   },
   infoValue: {
     fontSize: 14,
@@ -247,15 +316,50 @@ const styles = StyleSheet.create({
     color: theme.colors.text,
     marginTop: 1,
   },
-  actionsCard: {
-    backgroundColor: theme.colors.surface,
-    marginHorizontal: 16,
-    borderRadius: theme.borderRadius.xl,
-    padding: 16,
-    ...theme.shadows.level1,
+  themeOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
     borderWidth: 1,
-    borderColor: '#f0edf8',
-    gap: 4,
+    borderColor: theme.colors.neutral[200],
+    borderRadius: theme.borderRadius.lg,
+    paddingHorizontal: 12,
+    paddingVertical: 11,
+    marginBottom: 8,
+  },
+  themeOptionActive: {
+    borderColor: theme.colors.primary[500],
+    backgroundColor: theme.colors.primary[50],
+  },
+  themeOptionText: { flex: 1 },
+  themeOptionTitle: {
+    fontSize: 14,
+    fontFamily: 'Poppins_600SemiBold',
+    color: theme.colors.text,
+  },
+  themeOptionTitleActive: { color: theme.colors.primary[700] },
+  themeOptionHint: {
+    marginTop: 1,
+    fontSize: 12,
+    fontFamily: 'Poppins_400Regular',
+    color: theme.colors.textSecondary,
+  },
+  radioOuter: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 1.5,
+    borderColor: theme.colors.neutral[400],
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  radioOuterActive: { borderColor: theme.colors.primary[600] },
+  radioInner: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: theme.colors.primary[600],
   },
   actionRow: {
     flexDirection: 'row',
@@ -269,6 +373,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: theme.colors.primary[50],
   },
   actionLabel: {
     flex: 1,
@@ -298,4 +403,3 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreen;
-

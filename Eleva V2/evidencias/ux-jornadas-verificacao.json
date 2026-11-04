@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-29",
+  "scope": "development, synthetic data only",
+  "identity": "real local Better Auth sessions for A/B/P; isolated JWT identities only inside backend unit tests",
+  "database": "known local SQLite development database, backed up before migration/seed",
+  "migration": "82dd104c907a",
+  "alembic_check": "No new upgrade operations detected",
+  "backend": {
+    "tests": 29,
+    "passed": 29
+  },
+  "frontend": {
+    "tests": 16,
+    "suites": 9,
+    "passed": 16,
+    "type_check": "passed",
+    "lint": "passed"
+  },
+  "exports": {
+    "web": "passed",
+    "android_hermes": "passed",
+    "apk_installed": false,
+    "ios_validated": false,
+    "web_bundle": "AppEntry-2c653b04ac96a91abeb087b82d2d7f00.js",
+    "android_bundle": "AppEntry-719d6530ab702eac55b1c5b921cb3822.hbc"
+  },
+  "browser": {
+    "origin": "http://localhost:8081",
+    "viewports": [
+      [
+        390,
+        844
+      ],
+      [
+        320,
+        844
+      ],
+      [
+        1440,
+        1000
+      ],
+      [
+        390,
+        960
+      ]
+    ],
+    "real_account_switch": {
+      "A_children": [
+        "Lia",
+        "Theo",
+        "Nina"
+      ],
+      "B_children": [
+        "Caio",
+        "Bia"
+      ],
+      "A_children_visible_for_B": false,
+      "P_context_restored": true
+    },
+    "school_switch": {
+      "other_school_leaks_Lia": false,
+      "empty_class_shown": true,
+      "context_preserved_on_student_return": true
+    },
+    "activity": {
+      "resumed_attempt": true,
+      "two_remaining_responses_confirmed": true,
+      "finished": true,
+      "Lia_completed_before": 2,
+      "Lia_completed_after_reload": 3,
+      "assigned_tasks": 6,
+      "next_task_available": true,
+      "next_stage_locked": true
+    },
+    "profile": {
+      "name_changed_to": "Ana Revisão",
+      "recovered_after_reload": true,
+      "photo_supported": false
+    },
+    "content": {
+      "cancel_archive": true,
+      "archive": true,
+      "archived_filter": true,
+      "restore": true,
+      "historical_snapshots_preserved": "backend test"
+    },
+    "sheets": {
+      "background_inert": true,
+      "focus_trapped": true,
+      "escape_closes": true,
+      "focus_restored_to_stage": true,
+      "cancel_filters": true,
+      "invalid_calendar_date_disabled": true
+    },
+    "large_text": {
+      "font_scale": 1.5,
+      "viewport_width": 320,
+      "dark": true,
+      "high_contrast": true,
+      "horizontal_overflow": false,
+      "close_control_visible": true
+    },
+    "tab_keyboard_end_focus": "Perfil",
+    "logout_confirmed_and_cancelled": true,
+    "reports": {
+      "individual_and_collective_opened": true,
+      "chart_derived_from_events": "backend tests",
+      "period_text_and_numeric_alternative": true
+    },
+    "ai": {
+      "request_to_backend": true,
+      "expected_failure": 503,
+      "previous_pregenerated_example_preserved": true,
+      "live_groq_call": false
+    },
+    "last_core_flow_console": {
+      "runtime_errors": 0,
+      "legacy_web_warnings": true
+    },
+    "guardian_next_step_visible_without_scrolling": true
+  },
+  "pending": [
+    "Groq credential and live contrastive personalization proof",
+    "Neon/VM/HTTPS and PostgreSQL validation",
+    "SMTP",
+    "D03/D14 pedagogical review",
+    "D05 reviewed Libras videos",
+    "D13/D15 real-child privacy/provider terms",
+    "JDK/Android SDK, installed APK, TalkBack and physical-device audio",
+    "complete web accessibility evaluation",
+    "separate iOS validation",
+    "photo upload"
+  ],
+  "not_done": [
+    "commit",
+    "push",
+    "deploy",
+    "cloud provisioning",
+    "remote database mutation",
+    "model download or training"
+  ]
+}

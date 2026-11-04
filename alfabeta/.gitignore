@@ -2,3 +2,7 @@
 .expo
 dist
 .env
+.env.*
+!.env.example
+web-build
+dist-android/

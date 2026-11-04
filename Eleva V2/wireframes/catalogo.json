@@ -1,0 +1,493 @@
+{
+  "version": "0.1",
+  "referenceDate": "2026-10-22",
+  "screens": [
+    {
+      "id": "T01",
+      "title": "Entrar",
+      "actor": "adulto",
+      "blocks": [
+        "Eleva · acesso adulto",
+        "E-mail [________________]",
+        "Senha [________________] [Mostrar]",
+        "Mensagem de erro junto ao campo"
+      ],
+      "primary": "Entrar",
+      "secondary": [
+        "Criar conta",
+        "Recuperar senha",
+        "Acessibilidade"
+      ]
+    },
+    {
+      "id": "T02",
+      "title": "Criar conta",
+      "actor": "adulto",
+      "blocks": [
+        "Nome [________________]",
+        "E-mail [________________]",
+        "Senha e confirmação [________________]",
+        "Perfil: ( ) Responsável ( ) Professor",
+        "[ ] Li os termos e política · abrir texto",
+        "Participação futura não vem marcada"
+      ],
+      "primary": "Criar conta",
+      "secondary": [
+        "Já tenho conta",
+        "Acessibilidade"
+      ]
+    },
+    {
+      "id": "T03",
+      "title": "Conta e perfil",
+      "actor": "adulto",
+      "blocks": [
+        "Nome [Maria de demonstração____]",
+        "E-mail verificado · alterar pelo fluxo de verificação",
+        "Contexto: Responsável / Professor",
+        "Preferências e acessibilidade →",
+        "Ajuda · limites e privacidade →",
+        "Feedback e participação →"
+      ],
+      "primary": "Salvar alteração",
+      "secondary": [
+        "Cancelar edição",
+        "Sair da conta"
+      ]
+    },
+    {
+      "id": "T04",
+      "title": "Recuperar acesso",
+      "actor": "adulto",
+      "blocks": [
+        "1. E-mail [________________]",
+        "Se houver conta, enviaremos instruções.",
+        "2. Código/link · estado de validade",
+        "3. Nova senha [________________]",
+        "Confirmar senha [________________]"
+      ],
+      "primary": "Enviar / confirmar etapa",
+      "secondary": [
+        "Reenviar instruções",
+        "Voltar para entrar"
+      ]
+    },
+    {
+      "id": "T05",
+      "title": "Confirmar saída",
+      "actor": "adulto",
+      "blocks": [
+        "Diálogo · foco contido, fundo inerte",
+        "Deseja sair desta conta?",
+        "Se houver registro pendente: ainda não foi salvo.",
+        "Aguarde o salvamento ou confirme descarte."
+      ],
+      "primary": "Sair",
+      "secondary": [
+        "Cancelar",
+        "Tentar salvar pendência"
+      ]
+    },
+    {
+      "id": "T06",
+      "title": "Cadastrar criança",
+      "actor": "adulto",
+      "blocks": [
+        "Etapa 1 de 2 · identificação",
+        "Nome [________________]",
+        "Nascimento [DD/MM/AAAA]",
+        "Escola e turma · opcionais [Selecionar]",
+        "Etapa 2 · adaptações desejadas",
+        "[ ] Leitura da instrução [ ] Apoio em Libras",
+        "Informações sensíveis · opcionais, abrir detalhes"
+      ],
+      "primary": "Salvar criança",
+      "secondary": [
+        "Voltar etapa",
+        "Cancelar"
+      ]
+    },
+    {
+      "id": "T07",
+      "title": "Quem acompanha",
+      "actor": "responsavel",
+      "blocks": [
+        "Criança selecionada: nome fictício",
+        "Responsável gestor · ativo",
+        "Segundo adulto · papel / escopo / status",
+        "Professor convidado · pendente",
+        "Cada vínculo mostra opção de revisar/revogar"
+      ],
+      "primary": "Convidar adulto",
+      "secondary": [
+        "Revisar escopo",
+        "Revogar com confirmação"
+      ]
+    },
+    {
+      "id": "T08",
+      "title": "Aceitar convite",
+      "actor": "adulto",
+      "blocks": [
+        "Solicitação recebida · remetente adulto",
+        "Criança · informação mínima autorizada",
+        "Permissões solicitadas · leitura, observação...",
+        "Conta destinatária verificada",
+        "Validade e estado do convite"
+      ],
+      "primary": "Aceitar convite",
+      "secondary": [
+        "Recusar",
+        "Entrar na conta destinatária"
+      ]
+    },
+    {
+      "id": "T09",
+      "title": "Avaliação por etapas",
+      "actor": "adulto",
+      "blocks": [
+        "Criança · instrumento e versão",
+        "Etapa 2 de 4 · exemplo de estrutura",
+        "Uma instrução curta e um item",
+        "[Estímulo do instrumento aprovado]",
+        "[Resposta ou observação __________________]",
+        "Apoio utilizado [Selecionar]",
+        "Último rascunho confirmado: data/hora"
+      ],
+      "primary": "Próximo item",
+      "secondary": [
+        "Ouvir / parar / repetir",
+        "Ver em Libras · se coberto",
+        "Pausar avaliação"
+      ]
+    },
+    {
+      "id": "T10",
+      "title": "Revisar avaliação",
+      "actor": "adulto",
+      "blocks": [
+        "Evidências coletadas · abrir lista",
+        "Hipótese da IA · ainda não confirmada",
+        "Nível sugerido [ou dados insuficientes]",
+        "Justificativa e IDs de evidência",
+        "Nível a confirmar [Selecionar]",
+        "Motivo de ajuste [________________]"
+      ],
+      "primary": "Confirmar avaliação",
+      "secondary": [
+        "Pedir mais evidências",
+        "Salvar para revisão"
+      ]
+    },
+    {
+      "id": "T11",
+      "title": "Próximo passo da trilha",
+      "actor": "adulto",
+      "blocks": [
+        "Criança · plano e versão",
+        "2 de 3 tarefas concluídas · exemplo operacional",
+        "PRÓXIMA TAREFA: título e instrução breve",
+        "[Disponível] · modalidade e apoio",
+        "Concluídas (abrir) · evidências",
+        "Etapa seguinte: Bloqueada · conclua a atual"
+      ],
+      "primary": "Continuar tarefa",
+      "secondary": [
+        "Ver tarefas concluídas",
+        "Voltar ao perfil"
+      ]
+    },
+    {
+      "id": "T12",
+      "title": "Uma tarefa de cada vez",
+      "actor": "crianca",
+      "blocks": [
+        "Olá! Vamos fazer esta atividade.",
+        "Etapa 1 de 3 · sem cronômetro obrigatório",
+        "Instrução curta aprovada",
+        "[ESTÍMULO / IMAGEM COM ALTERNATIVA]",
+        "( ) Opção A    ( ) Opção B",
+        "[Resposta selecionada · texto e marca]"
+      ],
+      "primary": "Confirmar resposta",
+      "secondary": [
+        "Ouvir / parar / repetir",
+        "Ver em Libras",
+        "Pausar / voltar ao adulto"
+      ]
+    },
+    {
+      "id": "T13",
+      "title": "Resultado ou pausa",
+      "actor": "crianca",
+      "blocks": [
+        "Resposta registrada · texto, não só cor/som",
+        "Retorno breve aprovado para esta atividade",
+        "[Sem ranking ou percentual de alfabetização]",
+        "Se pausado: último item salvo e como retomar"
+      ],
+      "primary": "Continuar / retomar",
+      "secondary": [
+        "Repetir instrução",
+        "Voltar ao adulto"
+      ]
+    },
+    {
+      "id": "T14",
+      "title": "Atividade observada",
+      "actor": "adulto",
+      "blocks": [
+        "Criança selecionada e autor adulto",
+        "Data [DD/MM/AAAA]",
+        "Atividade [Selecionar ou descrever]",
+        "Desempenho observado [________________]",
+        "Apoio utilizado [________________]",
+        "Este registro é observação adulta, não correção automática."
+      ],
+      "primary": "Salvar registro",
+      "secondary": [
+        "Cancelar",
+        "Ouvir ajuda"
+      ]
+    },
+    {
+      "id": "T15",
+      "title": "Análise e recomendações",
+      "actor": "adulto",
+      "blocks": [
+        "Criança · dados até data/hora",
+        "Origem: ao vivo / cache / pré-gerado · indicar",
+        "Modelo, versão e data · detalhes disponíveis",
+        "Sugestão da IA · revisar antes de publicar",
+        "Evidências e fontes (abrir)",
+        "Até 3 recomendações com razão concreta",
+        "Aceitar / editar / rejeitar + justificativa"
+      ],
+      "primary": "Revisar e publicar",
+      "secondary": [
+        "Gerar nova análise",
+        "Ver última análise revisada",
+        "Orientações gerais"
+      ]
+    },
+    {
+      "id": "T16",
+      "title": "Histórico e progresso",
+      "actor": "adulto",
+      "blocks": [
+        "Nível confirmado · autor e data / ainda não avaliada",
+        "Conclusão de tarefas: contagem separada",
+        "[Filtrar período / tipo de registro]",
+        "Data · avaliação · autoria",
+        "Data · atividade no app · resultado",
+        "Data · observação adulta · apoio",
+        "Gráfico opcional acompanhado de tabela"
+      ],
+      "primary": "Ver relatório",
+      "secondary": [
+        "Abrir evidência",
+        "Nova observação"
+      ]
+    },
+    {
+      "id": "T17",
+      "title": "Relatório individual",
+      "actor": "adulto",
+      "blocks": [
+        "Criança · ano / período letivo [Selecionar]",
+        "Intervalo e data de corte explícitos",
+        "Nível inicial e final confirmados",
+        "Sessões, tarefas e observações · contagens",
+        "Métrica sem rubrica: não disponível",
+        "Resumo e evidências com autoria",
+        "Tabela equivalente ao gráfico"
+      ],
+      "primary": "Ver registros do período",
+      "secondary": [
+        "Alterar período",
+        "Análise revisada",
+        "Exportação apenas se implementada"
+      ]
+    },
+    {
+      "id": "T18",
+      "title": "Relatório da turma",
+      "actor": "professor",
+      "blocks": [
+        "Escola / turma / ano [Selecionar]",
+        "Período e conjunto autorizado",
+        "Distribuição por nível + sem avaliação",
+        "Contagem de atividades / estudantes",
+        "Tabela textual dos mesmos dados",
+        "Acompanhamento sinalizado por adulto · motivo",
+        "Lista de estudantes visíveis, sem ranking clínico"
+      ],
+      "primary": "Abrir estudante",
+      "secondary": [
+        "Alterar período",
+        "Ver critérios de acompanhamento"
+      ]
+    },
+    {
+      "id": "T19",
+      "title": "Biblioteca",
+      "actor": "adulto",
+      "blocks": [
+        "[Atividades] [Orientações]",
+        "Buscar por título ou tema [________________]",
+        "Geral / específica da criança autorizada",
+        "Título · resumo curto · modalidade suportada",
+        "Título · autor / revisão",
+        "Professor pode criar conteúdo; responsável usa catálogo."
+      ],
+      "primary": "Abrir conteúdo",
+      "secondary": [
+        "Limpar filtros",
+        "Criar · apenas professor"
+      ]
+    },
+    {
+      "id": "T20",
+      "title": "Orientação pedagógica",
+      "actor": "adulto",
+      "blocks": [
+        "Título do conteúdo",
+        "Autor · versão · geral ou individual",
+        "Texto com parágrafos curtos",
+        "Como aplicar: uma ação por etapa",
+        "Fontes e revisão disponíveis",
+        "Cobertura em Libras indicada por conteúdo"
+      ],
+      "primary": "Ouvir / parar / repetir",
+      "secondary": [
+        "Ver em Libras · se disponível",
+        "Favoritar",
+        "Voltar à biblioteca"
+      ]
+    },
+    {
+      "id": "T21",
+      "title": "Autoria docente",
+      "actor": "professor",
+      "blocks": [
+        "Tipo: orientação / atividade / aplicar avaliação",
+        "Template executável aprovado [Selecionar]",
+        "Título [________________]",
+        "Instruções / conteúdo [________________]",
+        "Destino: criança ou turma autorizada",
+        "Prévia de conteúdo e apoios",
+        "Draft ou publicado · origem humana/IA revisada"
+      ],
+      "primary": "Publicar conteúdo",
+      "secondary": [
+        "Salvar rascunho",
+        "Pré-visualizar",
+        "Cancelar"
+      ]
+    },
+    {
+      "id": "T22",
+      "title": "Minhas turmas",
+      "actor": "professor",
+      "blocks": [
+        "Escola / ano [Selecionar]",
+        "Turma [Selecionar ou criar contexto]",
+        "Estudantes com vínculo ativo",
+        "Nome · próximo passo · abrir perfil",
+        "Sem autorização não há detalhe pessoal",
+        "Relatório da turma em destino próprio"
+      ],
+      "primary": "Abrir estudante",
+      "secondary": [
+        "Criar turma",
+        "Convidar / solicitar vínculo",
+        "Atribuir atividade",
+        "Relatório coletivo"
+      ]
+    },
+    {
+      "id": "T23",
+      "title": "Acessibilidade e aparência",
+      "actor": "adulto",
+      "blocks": [
+        "Tema: ( ) Claro ( ) Escuro ( ) Sistema",
+        "[ ] Alto contraste · independente do tema",
+        "Texto: [Padrão] [120%] [150%] + tamanho do sistema",
+        "Movimento: [Sistema] [Reduzir]",
+        "Leitura: sob demanda · ouvir / parar / repetir",
+        "Libras: vídeos disponíveis / apoio web automático",
+        "Prévia de texto, botão, erro e foco",
+        "Escopo: dispositivo / minha conta / apoio da criança"
+      ],
+      "primary": "Aplicar automaticamente",
+      "secondary": [
+        "Restaurar opções do app",
+        "Ver cobertura de Libras"
+      ]
+    },
+    {
+      "id": "T24",
+      "title": "Feedback e participação",
+      "actor": "adulto",
+      "blocks": [
+        "Seu comentário [________________]",
+        "Categoria opcional [Selecionar]",
+        "Não inclua dados identificáveis de crianças.",
+        "Participação em pesquisa futura: [ ] Tenho interesse",
+        "Finalidade e política · separadas dos termos",
+        "Revogar interesse a qualquer momento"
+      ],
+      "primary": "Enviar feedback",
+      "secondary": [
+        "Salvar / revogar interesse",
+        "Voltar à conta"
+      ]
+    }
+  ],
+  "states": {
+    "ready": {
+      "label": "Conteúdo disponível",
+      "text": "Composição principal e próximo passo."
+    },
+    "loading": {
+      "label": "Carregando",
+      "text": "Carregando conteúdo… título e voltar continuam disponíveis.",
+      "action": "Aguardar · sem travar navegação"
+    },
+    "error": {
+      "label": "Erro",
+      "text": "Não foi possível concluir. Os dados preenchidos foram mantidos.",
+      "action": "Tentar novamente"
+    },
+    "empty": {
+      "label": "Vazio",
+      "text": "Ainda não há registros para este contexto.",
+      "action": "Criar primeiro registro · se autorizado"
+    },
+    "unlinked": {
+      "label": "Sem vínculo",
+      "text": "Nenhuma criança vinculada ou acesso indisponível. Nenhum nome alheio é exibido.",
+      "action": "Cadastrar / aceitar convite · conforme papel"
+    },
+    "insufficient": {
+      "label": "Dados insuficientes",
+      "text": "Faltam evidências exigidas pelo instrumento. Não há nível ou score inventado.",
+      "action": "Continuar coleta de evidências"
+    },
+    "pending": {
+      "label": "Salvamento pendente",
+      "text": "Não salvo. Sua edição permanece aberta; aguarde ou tente novamente.",
+      "action": "Tentar salvar · mesma operação"
+    },
+    "aiDown": {
+      "label": "IA indisponível",
+      "text": "A análise não foi concluída. Seus registros confirmados estão salvos.",
+      "action": "Ver orientações gerais / tentar depois"
+    },
+    "conflict": {
+      "label": "Conflito de edição",
+      "text": "Outra pessoa atualizou este registro. Seu rascunho foi preservado.",
+      "action": "Recarregar e comparar"
+    }
+  }
+}

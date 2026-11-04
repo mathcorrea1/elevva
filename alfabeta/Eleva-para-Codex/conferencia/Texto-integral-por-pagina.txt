@@ -1,0 +1,2766 @@
+===== PÁGINA FÍSICA 1; IMPRESSA sem numeração impressa identificada =====
+
+         SUNIVERSIDADE DE RIBEIRÃO PRETO
+CENTRO DE CIÊNCIAS EXATAS, NATURAIS E TECNOLÓGICAS
+            ENGENHARIA DE SOFTWARE
+
+
+
+
+
+         JOAQUIM TAVARES DE MATOS NETO
+           MATHEUS DA SILVA CORREA
+               VITOR MUSSI DALPINO
+
+
+
+APLICATIVO EDUCACIONAL PARA ALFABETIZAÇÃO
+                  INFANTIL
+
+
+
+
+
+                           Ribeirão Preto
+                           2026
+
+===== PÁGINA FÍSICA 2; IMPRESSA sem numeração impressa identificada =====
+
+        JOAQUIM TAVARES DE MATOS NETO
+          MATHEUS DA SILVA CORREA
+              VITOR MUSSI DALPINO
+
+
+
+
+
+APLICATIVO EDUCACIONAL PARA ALFABETIZAÇÃO
+                  INFANTIL
+
+
+
+
+
+                                     Trabalho de Conclusão de Curso apresentado ao
+                                    Centro  de  Ciências   Exatas,  Naturais  e
+                                     Tecnológicas da Universidade de Ribeirão Preto
+                              como parte dos requisitos para obtenção do grau
+                                   de bacharel em Engenharia de Software.
+
+                                       Orientador: Prof. Milton Faria Junior
+
+===== PÁGINA FÍSICA 3; IMPRESSA sem numeração impressa identificada =====
+
+                               Ribeirão Preto
+                              2026
+
+              FOLHA DE APROVAÇÃO
+
+
+
+
+839756 – Joaquim Tavares de Matos Neto
+840088 – Matheus Da Silva Correa
+839827 – Vitor Mussi Dalpino
+Aplicativo Educacional para Alfabetização Infantil
+
+
+
+
+
+                                          Trabalho de Conclusão de Curso apresentado ao
+                                         Centro  de  Ciências   Exatas,  Naturais  e
+                                          Tecnológicas da Universidade de Ribeirão Preto
+                                  como parte dos requisitos para obtenção do grau
+                                        de bacharel em Engenharia de Software.
+
+                                             Orientador: Prof. Milton Faria Junior
+
+
+Aprovada em:
+
+                              Banca Examinadora
+
+
+
+Prof.
+Instituição:
+
+
+Prof.
+Instituição:
+
+
+Prof.
+Instituição:
+
+===== PÁGINA FÍSICA 4; IMPRESSA sem numeração impressa identificada =====
+
+                   DEDICATÓRIA
+      Dedicamos este trabalho, primeiramente, às nossas famílias, pelo apoio incondicional,
+pela compreensão nos momentos de ausência e pelo incentivo constante durante toda a nossa
+trajetória acadêmica. Sem esse suporte, a realização deste projeto não seria possível.
+     Aos professores, orientador e colaboradores da Universidade de Ribeirão Preto –
+UNAERP, expressamos nossa gratidão pelos conhecimentos compartilhados, pela dedicação
+ao ensino e por todo o suporte oferecido ao longo do curso, contribuindo diretamente para
+nossa formação acadêmica e profissional.
+     Também dedicamos este trabalho aos amigos e colegas que estiveram presentes nessa
+caminhada, compartilhando desafios, experiências, aprendizados e momentos marcantes que
+tornaram essa jornada mais leve e significativa.
+      Por fim, dedicamos este projeto a todas as crianças, educadores e responsáveis que
+enfrentam diariamente os desafios do processo de alfabetização. Que esta proposta possa
+contribuir, de alguma forma, para o fortalecimento da educação e para a construção de um
+aprendizado mais acessível, inclusivo e apoiado pela tecnologia.
+
+===== PÁGINA FÍSICA 5; IMPRESSA sem numeração impressa identificada =====
+
+                AGRADECIMENTOS
+
+Agradecemos, primeiramente, a Deus, por nos conceder força, sabedoria e perseverança para
+  superar os desafios enfrentados ao longo desta jornada acadêmica e pela oportunidade de
+                      concluirmos mais esta etapa de nossas vidas.
+Ao nosso orientador, Prof. Milton Faria Junior, pela orientação, dedicação, paciência e apoio
+durante o desenvolvimento deste trabalho, contribuindo de forma essencial para a construção
+                               e evolução deste projeto.
+ Aos professores do curso de Engenharia de Software da Universidade de Ribeirão Preto –
+UNAERP, pelos conhecimentos compartilhados, pelas experiências transmitidas e por toda a
+      contribuição em nossa formação acadêmica e profissional ao longo da graduação.
+Também agradecemos à coordenação do curso e a todos os colaboradores da instituição, que
+proporcionaram suporte e infraestrutura fundamentais para o desenvolvimento das atividades
+                                     acadêmicas.
+ Por fim, agradecemos aos nossos familiares, amigos e colegas, que estiveram ao nosso lado
+    durante essa trajetória, oferecendo apoio, incentivo e motivação nos momentos mais
+                                        desafiadores.
+
+===== PÁGINA FÍSICA 6; IMPRESSA sem numeração impressa identificada =====
+
+         EPÍGRAFE
+
+
+
+
+
+                      “O sucesso não acontece por acaso.
+               É trabalho duro, perseverança, aprendizagem,
+estudo, sacrifício e, acima de tudo, amor pelo que você está fazendo.”
+
+                         Edson Arantes do Nascimento – Pelé
+
+===== PÁGINA FÍSICA 7; IMPRESSA sem numeração impressa identificada =====
+
+                   RESUMO
+
+
+DALPINO, V. M.; CORREA, M. S.; MATOS NETO, J. T. Aplicativo educacional para
+alfabetização infantil. 2026. Trabalho de Conclusão de Curso (Bacharelado em Engenharia de
+Software) – Centro de Ciências Exatas, Naturais e Tecnológicas, Universidade de Ribeirão
+Preto, Ribeirão Preto - SP, 2026.
+O processo de alfabetização infantil representa uma etapa fundamental no desenvolvimento
+educacional das crianças, exigindo acompanhamento contínuo por parte de pais, responsáveis
+e educadores. Entretanto, fatores como falta de tempo, ausência de conhecimento pedagógico
+e dificuldade em acompanhar a evolução da aprendizagem tornam esse processo desafiador.
+Nesse contexto, o presente trabalho propõe o desenvolvimento de um aplicativo educacional
+voltado ao acompanhamento da alfabetização infantil, utilizando inteligência artificial para
+oferecer recomendações personalizadas de aprendizagem e apoio pedagógico aos usuários. O
+sistema foi idealizado para auxiliar no monitoramento do progresso das crianças, identificar
+dificuldades de aprendizagem e sugerir atividades adequadas ao nível de desenvolvimento
+individual. Para validar a proposta, foi realizada uma análise de viabilidade por meio de
+pesquisa com  potenciais  usuários,  permitindo  identificar  demandas  relacionadas  ao
+acompanhamento educacional e ao uso de tecnologias aplicadas à alfabetização. Os resultados
+obtidos demonstraram interesse significativo na utilização de soluções tecnológicas capazes de
+apoiar o processo de ensino-aprendizagem, especialmente aquelas que oferecem personalização
+e acompanhamento contínuo. Além disso, o trabalho contempla etapas de modelagem do
+sistema, definição de requisitos funcionais e não funcionais, modelagem de banco de dados,
+prototipagem de interfaces e planejamento da proposta de desenvolvimento da solução. Dessa
+forma, o projeto busca integrar tecnologia e educação, oferecendo uma ferramenta acessível e
+inovadora  para  apoio ao  processo de  alfabetização  infantil,  contribuindo  para maior
+participação dos responsáveis e melhoria do acompanhamento pedagógico.
+Palavras-chave:  alfabetização  infantil;  inteligência  artificial;  tecnologia  educacional;
+acompanhamento pedagógico; aplicativo educacional.
+
+===== PÁGINA FÍSICA 8; IMPRESSA sem numeração impressa identificada =====
+
+                    ABSTRACT
+
+
+DALPINO, V. M.; CORREA, M. S.; MATOS NETO, J. T. Educational application for child
+literacy. 2026. Undergraduate Thesis (Bachelor’s degree in Software Engineering) – Center of
+Exact, Natural and Technological Sciences, University of Ribeirão Preto, Ribeirão Preto - SP,
+2026.
+The  child  literacy  process  represents  a  fundamental  stage  in  children’s  educational
+development, requiring continuous monitoring by parents, guardians, and educators. However,
+factors such as lack of time, insufficient pedagogical knowledge, and difficulties in monitoring
+learning progress make this process challenging. In this context, this study proposes the
+development of an educational application focused on supporting child literacy through the use
+of artificial intelligence to provide personalized learning recommendations and pedagogical
+guidance. The system was designed to assist in monitoring children’s progress, identifying
+learning difficulties, and suggesting activities according to each child’s level of development.
+To validate the proposal, a feasibility analysis was conducted through a survey with potential
+users, allowing the identification of demands related to educational monitoring and the use of
+technology in literacy processes. The results demonstrated significant interest in technological
+solutions capable of supporting the teaching-learning process, especially those offering
+personalization and continuous monitoring. In addition, the study includes system modeling
+stages, definition of functional and non-functional requirements, database modeling, interface
+prototyping, and planning of the proposed development process. Therefore, the project seeks to
+integrate technology and education by providing an accessible and innovative tool to support
+child  literacy,  contributing  to  greater  participation  of guardians and improvements  in
+pedagogical monitoring.
+Keywords:  child  literacy;  artificial  intelligence;  educational  technology;  pedagogical
+monitoring; educational application.
+
+===== PÁGINA FÍSICA 9; IMPRESSA sem numeração impressa identificada =====
+
+                 LISTA DE ILUSTRAÇÕES
+
+Figura 1. Persona cliente: Carlos Henrique ................................................................................ 8
+Figura 2. Persona cliente: Juliana Souza .................................................................................... 9
+Figura 3. Persona cliente: Liceu Comtemporâneo...................................................................... 9
+Figura 4. Business Model Canvas ............................................................................................ 12
+Figura 5. Formulário aplicado para análise de demanda .......................................................... 14
+Figura 6. Percepção sobre a dificuldade no acompanhamento da alfabetização ...................... 15
+Figura 7. Principais desafios no acompanhamento da alfabetização infantil ........................... 15
+Figura 8. Frequência de acompanhamento do processo de aprendizagem ............................... 16
+Figura 9. Necessidade de orientação no processo de alfabetização ......................................... 16
+Figura 10. Utilização de ferramentas de apoio à alfabetização ................................................ 17
+Figura 11. Tipos de ferramentas utilizadas ............................................................................... 17
+Figura 12. Percepção sobre a efetividade das ferramentas utilizadas....................................... 17
+Figura 13. Interesse no uso de aplicativo de acompanhamento ............................................... 18
+Figura 14. Percepção sobre a utilidade da solução proposta .................................................... 18
+Figura 15. Funcionalidades consideradas mais importantes .................................................... 19
+Figura 16. Confiança no uso de inteligência artificial na educação ......................................... 19
+Figura 17. Intenção de uso frequente da solução...................................................................... 20
+Figura 18. Interesse em participar de testes futuros ................................................................. 20
+Figura 19. Cronograma do projeto ........................................................................................... 25
+Figura 20 - Matriz SWOT ........................................................................................................ 26
+Figura 21 - Diagrama de Casos de Uso .................................................................................... 34
+Figura 22 - Diagrama de Classes .............................................................................................. 43
+Figura 23 - Diagrama Entidade Relacionamento ..................................................................... 45
+Figura 24 - Diagrama de Sequência ......................................................................................... 46
+Figura 25 - Protótipo do painel do professor e acompanhamento pedagógico do sistemav .... 47
+Figura 26 -Protótipo do módulo de acompanhamento pedagógico do sistema ........................ 48
+Figura 27 - Protótipo do módulo de gerenciamento pedagógico e acompanhamento de turmas
+ .................................................................................................................................................. 48
+Figura 28 - Protótipo do módulo de acompanhamento pedagógico e relatórios de desempenho
+ .................................................................................................................................................. 49
+Figura 29 - Protótipo do módulo de gerenciamento de estudantes e acompanhamento
+pedagógico ................................................................................................................................ 49
+
+===== PÁGINA FÍSICA 10; IMPRESSA sem numeração impressa identificada =====
+
+                   LISTA DE QUADROS
+
+Quadro 1 - Planos de assinatura                                                21
+Quadro 2 – Valores Planos de assinatura                                         22
+Quadro 3 - Cronograma do Projeto                                              24
+Quadro 4 - Stakeholders                                                      28
+Quadro 5 - Restrições                                                        30
+Quadro 6 - Requisitos funcionais                                               31
+Quadro 7 - Requisitos não funcionais e de qualidade                                32
+Quadro 8 - Caso de uso: Realizar cadastro                                        34
+Quadro 9 - Caso de uso: Realizar login                                          35
+Quadro 10 - Caso de uso: Cadastrar criança                                       35
+Quadro 11 - Caso de uso: Registrar atividade realizada                              36
+Quadro 12 - Caso de uso: Realizar atividade educativa                              36
+Quadro 13 - Caso de uso: Identificar nicel da criança                               36
+Quadro 14 – Caso de uso: Gerar recomendações personalizadas                       37
+Quadro 15 - Caso de uso: Visualizar progresso da criança                            37
+Quadro 16 - Caso de uso: Acessar orientações pedagógicas                          38
+Quadro 17 - Caso de uso: Gerenciar perfil do usuário                               38
+Quadro 18 - Caso de uso: Vincular professor ou responsável à criança                  39
+Quadro 19 - Caso de uso: Visualizar relatório de desempenho                        39
+Quadro 20 - Caso de uso: Recuperar senha                                       40
+Quadro 21 - Sair do sistema                                                   40
+Quadro 22 - Tecnologias utilizadas para o desenvolvimento do software                50
+Quadro 23 -Metodologias e padrões utilizados para o desenvolvimento do software       52
+Quadro 24 - Priorização de métricas de qualidade                                  53
+Quadro 25 - Etapas macro de desenvolvimento                                    54
+Quadro 26 - Principais riscos técnicos e estratégias de mitigação                      55
+
+===== PÁGINA FÍSICA 11; IMPRESSA sem numeração impressa identificada =====
+
+            LISTA DE SIGLAS E ABREVIATURAS
+
+API         Application Programming Interface
+BNCC    Base Nacional Comum Curricular
+DER      Diagrama Entidade Relacionamento
+IA          Inteligência Artificial
+LGPD     Lei Geral de Proteção de Dados
+RF         Requisito Funcional
+RNF       Requisito Não Funcional
+SGBD    Sistema Gerenciador de Banco de Dados
+SQL       Structured Query Language
+TCC       Trabalho de Conclusão de Curso
+UML       Unified Modeling Language
+UX        User Experience
+WEB    World Wide Web
+
+===== PÁGINA FÍSICA 12; IMPRESSA sem numeração impressa identificada =====
+
+                    SUMÁRIO
+
+
+1 CONTEXTUALIZAÇÃO ....................................................................................................... 7
+  1.1   OBJETIVO ................................................................................................................. 7
+  1.2   PÚBLICO-ALVO ....................................................................................................... 7
+     1.2.1 Personas ..................................................................................................................... 8
+  1.3   CONCEITO DO PRODUTO ................................................................................... 10
+2 BUSINESS MODEL CANVAS ............................................................................................... 11
+3 ANÁLISE DE VIABILIDADE ............................................................................................. 14
+  3.1 ANÁLISE DE DEMANDA E VIABILIDADE ............................................................. 14
+  3.2 PREÇO DE VENDA ...................................................................................................... 21
+4 GESTÃO DO PROJETO ...................................................................................................... 23
+  4.1 Detalhamento das Atividades ......................................................................................... 23
+  4.2 Detalhamento dos Recursos ........................................................................................... 24
+  4.4 Riscos do Projeto – Matriz SWOT ................................................................................. 25
+5 ANÁLISE DE REQUISITOS ............................................................................................... 27
+  5.1 DEFINIÇÃO DO PROBLEMA ..................................................................................... 27
+  5.2 STAKEHOLDERS ......................................................................................................... 27
+  5.3 CAUSAS RAÍZES DO PROBLEMA ............................................................................ 29
+6 MODELAGEM DO SISTEMA ............................................................................................ 30
+  6.1 LISTA DE RESTRIÇÕES ............................................................................................. 30
+  6.2 REQUISITOS E DIAGRAMAS .................................................................................... 31
+     6.2.1 Requisitos funcionais ............................................................................................... 31
+     6.2.2 Requisitos não funcionais ........................................................................................ 32
+     6.2.3 Diagrama de casos de uso ........................................................................................ 33
+     6.2.4 Descrição de casos de uso ....................................................................................... 34
+7 MODELAGEM DO BANCO DE DADOS .......................................................................... 42
+  7.1 MODELAGEM DO BANCO DE DADOS ................................................................... 42
+  7.2 DIAGRAMA ENTIDADE RELACIONAMENTO ....................................................... 43
+  7.3 DIAGRAMA DE SEQUÊNCIA .................................................................................... 45
+8 PROTOTIPAGEM DAS TELAS .......................................................................................... 47
+9 PROPOSTA DE DESENVOLVIMENTO ............................................................................ 50
+  9.1 TECNOLOGIAS QUE SERÃO UTILIZADAS ............................................................ 50
+     9.1.1 Decisão sobre a estratégia de banco de dados ......................................................... 51
+  9.2 METODOLOGIA DE PADRÕES DE SOFTWARE .................................................... 52
+  9.3 METODOLOGIA PARA TESTES DE SOFTWARE ................................................... 53
+  9.4 MÉTRICAS DE QUALIDADE ..................................................................................... 53
+  9.5 MODELO DE DADOS E ESTRATÉGIA DE PERSISTÊNCIA .................................. 54
+  9.6 PLANO DE IMPLEMENTAÇÃO ................................................................................. 54
+  9.7 RISCOS E MITIGAÇÕES ............................................................................................. 55
+  9.8 INFRAESTRUTURA E IMPLANTAÇÃO ................................................................... 55
+REFERÊNCIAS ....................................................................................................................... 57
+
+===== PÁGINA FÍSICA 13; IMPRESSA 7 =====
+
+                                                                           7
+
+
+1 CONTEXTUALIZAÇÃO
+
+    O processo de alfabetização infantil constitui uma etapa essencial no desenvolvimento
+educacional, sendo responsável pela construção das habilidades básicas de leitura e escrita.
+Nesse contexto, o acompanhamento por parte de pais, responsáveis e educadores desempenha
+papel fundamental para o progresso da criança, contribuindo diretamente para seu
+desempenho escolar e desenvolvimento cognitivo.
+       Entretanto, observa-se que esse acompanhamento nem sempre ocorre de forma eficaz.
+Fatores como a falta de tempo, a ausência de conhecimento pedagógico e a dificuldade em
+identificar o nível de desenvolvimento da criança tornam esse processo desafiador para
+muitos responsáveis. Além disso, a carência de ferramentas acessíveis e orientações claras
+dificulta a participação ativa no processo de aprendizagem.
+       Diante desse cenário, surge a necessidade de soluções que auxiliem no
+acompanhamento da alfabetização infantil de forma prática e eficiente. Com o avanço das
+tecnologias digitais, especialmente no campo da inteligência artificial, torna-se possível
+desenvolver sistemas capazes de analisar o desempenho da criança e oferecer direcionamentos
+personalizados, contribuindo para a melhoria do processo educacional.
+      Nesse sentido, o presente trabalho tem como objetivo desenvolver um aplicativo que
+utilize inteligência artificial para acompanhar o progresso da alfabetização infantil,
+fornecendo orientações individualizadas de aprendizagem. A proposta busca atender tanto
+responsáveis quanto educadores, oferecendo suporte no processo de ensino e aprendizagem.
+  A relevância deste projeto justifica-se pela crescente necessidade de integrar tecnologia e
+educação, bem como pela demanda identificada por meio de pesquisas realizadas com o
+público-alvo. Além disso, a proposta se relaciona com estudos e soluções existentes na área
+de tecnologia educacional, diferenciando-se pela utilização de inteligência artificial para
+personalização do ensino e apoio direto ao acompanhamento da alfabetização.
+
+
+1.1 OBJETIVO
+
+   Desenvolver um aplicativo que utilize inteligência artificial para acompanhar o processo
+de alfabetização infantil, oferecendo orientações personalizadas de aprendizagem com base no
+nível de desenvolvimento da criança, a fim de auxiliar pais, responsáveis e educadores no
+acompanhamento do desempenho educacional.
+
+1.2 PÚBLICO-ALVO
+
+  O público-alvo do presente projeto é composto por indivíduos e instituições diretamente
+envolvidos no processo de alfabetização infantil, que demandam suporte no acompanhamento
+e desenvolvimento educacional das crianças.
+    Inicialmente, destacam-se os pais e responsáveis por crianças em fase de alfabetização,
+que buscam ferramentas que auxiliem na compreensão do progresso de aprendizagem e
+forneçam orientações práticas para apoiar esse processo. Além disso, o sistema também se
+destina a professores e pedagogos da educação infantil, que necessitam de recursos
+complementares para acompanhar o desempenho dos alunos de forma individualizada.
+   Adicionalmente, considera-se como público-alvo as instituições de ensino, tanto públicas
+quanto privadas, que podem adotar a solução como ferramenta de apoio pedagógico. Nesse
+contexto, o aplicativo pode contribuir para a melhoria do acompanhamento educacional,
+facilitando a análise do desenvolvimento dos alunos e promovendo maior integração entre
+escola e responsáveis.
+   Dessa forma, o projeto apresenta potencial de aplicação tanto no âmbito individual quanto
+institucional, ampliando seu alcance e relevância no contexto educacional.
+
+===== PÁGINA FÍSICA 14; IMPRESSA 8 =====
+
+                                                                           8
+
+
+
+
+1.2.1 Personas
+      Nesta seção são apresentadas as personas definidas para o desenvolvimento da solução
+proposta. As personas representam perfis fictícios baseados em usuários reais, com o objetivo
+de compreender melhor suas necessidades, comportamentos, desafios e expectativas em
+relação ao sistema.
+     As personas foram divididas em dois grupos principais: profissionais da educação e
+responsáveis pelos alunos, permitindo uma visão ampla do contexto educacional e das
+interações envolvidas no processo de alfabetização.
+
+Figura 1. Persona cliente: Carlos Henrique
+
+
+
+
+
+Fonte: elaborado pelo autor (2026)
+
+===== PÁGINA FÍSICA 15; IMPRESSA 9 =====
+
+                                                                           9
+
+
+
+Figura 2. Persona cliente: Juliana Souza
+
+
+
+
+
+Fonte: elaborado pelo autor (2026)
+
+
+
+Figura 3. Persona cliente: Liceu Comtemporâneo
+
+
+
+
+
+Fonte: elaborado pelo autor (2026)
+
+     As personas definidas representam os principais atores envolvidos no processo
+educacional: o professor, o responsável e a instituição de ensino. O professor, representado
+por Carlos Henrique, destaca a necessidade de ferramentas que auxiliem no acompanhamento
+individual dos alunos, reduzindo a sobrecarga de trabalho e otimizando o processo de
+alfabetização. A responsável, Juliana Souza, evidencia a dificuldade em conciliar a rotina com
+
+===== PÁGINA FÍSICA 16; IMPRESSA 10 =====
+
+                                                                          10
+
+
+
+o acompanhamento escolar, além da necessidade de orientações claras para apoiar o
+desenvolvimento do filho. Já a instituição de ensino, representada pelo Liceu Contemporâneo,
+demonstra a busca por soluções tecnológicas integradas que melhorem o monitoramento do
+desempenho dos alunos e fortaleçam a comunicação com os responsáveis.
+   De forma geral, as personas apontam para a necessidade de uma solução que promova
+integração, praticidade e personalização no acompanhamento educacional, beneficiando todos
+os envolvidos no processo de aprendizagem.
+
+
+1.3 CONCEITO DO PRODUTO
+
+  O produto proposto consiste no desenvolvimento de um aplicativo educacional que utiliza
+inteligência artificial para apoiar o processo de alfabetização infantil, por meio do
+acompanhamento do desempenho da criança e da oferta de orientações personalizadas de
+aprendizagem.
+  A solução busca atender à necessidade de pais, responsáveis e educadores que enfrentam
+dificuldades em acompanhar de forma eficaz o desenvolvimento educacional das crianças.
+Nesse contexto, o sistema tem como finalidade fornecer suporte no entendimento do nível de
+aprendizagem, além de sugerir atividades e estratégias adequadas para cada etapa do processo
+de alfabetização.
+     Como diferencial, o aplicativo propõe a utilização de inteligência artificial para análise
+do progresso individual da criança, possibilitando a personalização do ensino de acordo com
+suas necessidades específicas. Além disso, destaca-se a integração entre responsáveis e
+educadores, promovendo maior alinhamento no acompanhamento do desenvolvimento
+educacional. Outro aspecto relevante é a proposta de uma interface acessível e de fácil
+utilização, visando atender usuários com diferentes níveis de familiaridade tecnológica.
+       Entretanto, o desenvolvimento da solução envolve alguns riscos que devem ser
+considerados. Entre eles, destacam-se a aceitação da tecnologia por parte dos usuários,
+especialmente no que se refere à confiança no uso de inteligência artificial no contexto
+educacional. Além disso, a eficácia das recomendações depende diretamente da qualidade dos
+dados fornecidos ao sistema. Por fim, desafios técnicos relacionados à implementação e
+manutenção da plataforma também podem impactar o desenvolvimento do produto.
+Dessa forma, o projeto apresenta potencial para contribuir significativamente com o processo
+de alfabetização infantil, ao mesmo tempo em que exige planejamento adequado para mitigar
+os riscos identificados.
+
+===== PÁGINA FÍSICA 17; IMPRESSA 11 =====
+
+                                                                          11
+
+
+2 BUSINESS MODEL CANVAS
+
+     No desenvolvimento de um projeto de software, especialmente aqueles que envolvem
+inovação tecnológica, como o uso de inteligência artificial na educação, não basta apenas
+definir as funcionalidades do sistema. É fundamental compreender como a solução proposta
+gera valor para os usuários e como esse valor será sustentado ao longo do tempo. Nesse
+contexto, o Business Model Canvas se apresenta como uma ferramenta estratégica para
+estruturar e visualizar o modelo de negócio de forma integrada.
+    A principal “dor” que o Business Model Canvas busca resolver é a dificuldade de
+organizar, de maneira clara e objetiva, todos os elementos que envolvem a criação, entrega e
+captura de valor de uma solução. Em muitos projetos, há um forte foco no desenvolvimento
+técnico, enquanto aspectos como público-alvo, forma de monetização, canais de distribuição e
+relacionamento com o cliente acabam sendo tratados de forma superficial ou desconectada.
+Isso pode resultar em soluções tecnicamente eficientes, mas com baixa aderência ao mercado
+ou dificuldade de sustentação.
+     No caso do presente projeto, que propõe o desenvolvimento de um aplicativo
+educacional com inteligência artificial voltado à alfabetização infantil, essa dor se manifesta
+na necessidade de alinhar diferentes perspectivas: as necessidades das crianças em fase de
+aprendizagem, as expectativas de pais e educadores, e a viabilidade de implementação e
+manutenção da solução. Sem uma estrutura clara, esses elementos poderiam ser tratados de
+forma isolada, comprometendo a efetividade do sistema.
+      Dessa forma, o Business Model Canvas permite integrar esses aspectos em um único
+modelo visual, facilitando a compreensão de como o aplicativo atende aos diferentes
+segmentos de clientes, quais são as propostas de valor oferecidas, como essas propostas serão
+entregues por meio de canais específicos, e de que forma o projeto se sustenta
+financeiramente. Além disso, possibilita identificar os recursos necessários, as atividades
+essenciais e as parcerias estratégicas para o desenvolvimento e operação da solução.
+       Portanto, a utilização do Canvas neste trabalho não apenas organiza o modelo de
+negócio, mas também contribui para a validação da proposta, garantindo que o sistema
+desenvolvido esteja alinhado com as necessidades reais dos usuários e com a viabilidade do
+projeto.
+    A Figura a seguir apresenta o modelo de negócios desenvolvido para o presente
+projeto
+
+===== PÁGINA FÍSICA 18; IMPRESSA 12 =====
+
+                                                                          12
+
+
+
+Figura 4. Business Model Canvas
+
+
+
+
+
+    A partir da análise do modelo de negócios apresentado, é possível detalhar os
+principais elementos que compõem a solução proposta.
+     No que se refere aos segmentos de clientes, o sistema é direcionado a crianças a partir
+de cinco anos em fase de alfabetização, além de seus pais ou responsáveis, que acompanham
+o desenvolvimento educacional. Também fazem parte desse público professores e pedagogos
+do ensino infantil, bem como escolas de educação infantil, tanto públicas quanto privadas, e
+instituições educacionais interessadas na aplicação de tecnologias no processo de ensino-
+aprendizagem.
+    Em relação às propostas de valor, o projeto oferece um acompanhamento
+personalizado do processo de alfabetização infantil, utilizando inteligência artificial para
+identificar dificuldades de aprendizagem e fornecer recomendações pedagógicas adaptativas.
+Além disso, a solução apoia os pais no monitoramento do desempenho escolar das crianças e
+oferece ferramentas que auxiliam professores no acompanhamento individual dos alunos,
+promovendo melhorias no processo de ensino por meio do uso de tecnologia.
+     No que diz respeito aos canais de acesso, o sistema será disponibilizado por meio de
+um aplicativo mobile, compatível com plataformas Android e iOS, além de uma plataforma
+web voltada para pais e educadores. A comunicação com os usuários também ocorrerá por
+meio de redes sociais, e-mails e conteúdos educativos, como webinars, além de parcerias com
+instituições de ensino que contribuirão para a distribuição da solução.
+      Quanto ao relacionamento com os clientes, a proposta inclui suporte online
+diretamente pelo aplicativo, comunicação contínua por meio de notificações e relatórios de
+desempenho, além de funcionalidades de autoatendimento dentro da plataforma. Também
+será promovida a interação entre usuários por meio de comunidades, como fóruns entre
+educadores e responsáveis, estabelecendo um relacionamento baseado no acompanhamento
+contínuo do progresso da criança.
+
+===== PÁGINA FÍSICA 19; IMPRESSA 13 =====
+
+                                                                          13
+
+
+
+
+     No que se refere aos modelos de receita, o projeto adota a estratégia de assinatura
+mensal ou anual para acesso completo às funcionalidades, além de um modelo freemium, no
+qual recursos básicos são disponibilizados gratuitamente e funcionalidades avançadas são
+oferecidas mediante pagamento. Também são consideradas fontes de receita provenientes do
+licenciamento da plataforma para escolas e instituições, bem como da venda de conteúdos
+educacionais adicionais e parcerias estratégicas.
+    Em relação aos recursos principais, destacam-se a equipe de desenvolvimento de
+software, a equipe pedagógica especializada, os algoritmos de inteligência artificial, a
+infraestrutura de tecnologia da informação, incluindo servidores e banco de dados, a
+plataforma do aplicativo (mobile e web) e o suporte ao cliente.
+     As atividades principais envolvem o desenvolvimento e evolução contínua do
+aplicativo, a implementação e o treinamento dos modelos de inteligência artificial, a criação e
+atualização de conteúdos pedagógicos, a análise de dados de aprendizagem dos usuários, além
+da manutenção da plataforma e do suporte aos usuários.
+     No que se refere às parcerias principais, o projeto estabelece conexões com escolas de
+educação infantil, plataformas de ensino a distância, empresas de tecnologia, editoras de
+conteúdo educacional, organizações educacionais e profissionais da área pedagógica, visando
+ampliar a qualidade, o alcance e a escalabilidade da solução.
+      Por fim, a estrutura de custos do projeto envolve despesas com desenvolvimento e
+manutenção do sistema, infraestrutura tecnológica, salários da equipe envolvida, ações de
+marketing e divulgação, custos relacionados a parcerias e licenciamento de conteúdo, além do
+atendimento ao cliente.
+
+===== PÁGINA FÍSICA 20; IMPRESSA 14 =====
+
+                                                                          14
+
+
+3 ANÁLISE DE VIABILIDADE
+
+    A análise de viabilidade tem como objetivo avaliar a possibilidade de
+desenvolvimento e implementação do sistema proposto sob três perspectivas principais:
+demanda, econômica e técnica. Essa etapa é fundamental para verificar se a solução atende a
+uma necessidade real do público-alvo, se é financeiramente sustentável e se pode ser
+desenvolvida com os recursos e tecnologias disponíveis.
+       Para a análise da viabilidade de demanda, optou-se pela aplicação de um formulário
+estruturado, disponibilizado ao público em geral por meio de plataformas digitais. A
+divulgação foi realizada de forma ampla, com foco em potenciais usuários da solução. O
+objetivo da pesquisa foi compreender as dificuldades enfrentadas no acompanhamento da
+alfabetização, bem como avaliar o interesse na utilização de uma ferramenta tecnológica de
+apoio.
+
+                             3.1 ANÁLISE DE DEMANDA E VIABILIDADE
+
+       Para analisar a viabilidade de demanda do projeto, foi realizada uma pesquisa com
+potenciais usuários da solução, incluindo pais, responsáveis e indivíduos envolvidos no
+processo de alfabetização infantil. O objetivo da pesquisa foi compreender as dificuldades
+enfrentadas no acompanhamento da alfabetização, bem como avaliar o interesse na utilização
+de uma ferramenta tecnológica de apoio.
+    O instrumento de coleta de dados utilizado foi um formulário estruturado, contendo
+questões relacionadas à percepção sobre o acompanhamento da alfabetização, frequência de
+participação no processo de aprendizagem, uso de ferramentas educacionais e interesse em
+soluções baseadas em tecnologia e inteligência artificial.
+
+
+Figura 5. Formulário aplicado para análise de demanda
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+    A pesquisa abordou inicialmente a percepção dos participantes quanto à dificuldade no
+acompanhamento do processo de alfabetização infantil.
+
+===== PÁGINA FÍSICA 21; IMPRESSA 15 =====
+
+                                                                            15
+
+
+
+
+Figura 6. Percepção sobre a dificuldade no acompanhamento da alfabetização
+
+
+
+
+
+   Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+      A partir dos dados apresentados, observa-se que a maioria dos respondentes considera
+  o acompanhamento da alfabetização como difícil ou moderadamente difícil. Esse resultado
+   evidencia a existência de desafios no processo, indicando uma necessidade por soluções que
+   auxiliem os responsáveis. Dessa forma, reforça-se a viabilidade do projeto ao propor uma
+   ferramenta de apoio que facilite esse acompanhamento.
+      Em relação aos principais desafios enfrentados, foram identificados fatores como falta
+  de tempo, ausência de conhecimento pedagógico e dificuldade em acompanhar a evolução da
+   criança.
+
+
+   Figura 7. Principais desafios no acompanhamento da alfabetização infantil
+
+
+
+
+
+   Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+        Conforme os resultados obtidos, observa-se que a falta de tempo e a ausência de
+   orientação pedagógica estão entre os principais desafios enfrentados pelos responsáveis. Esses
+   fatores evidenciam dificuldades práticas no acompanhamento da alfabetização infantil. Nesse
+   contexto, a proposta do projeto mostra-se viável ao oferecer suporte e direcionamento,
+   auxiliando na superação dessas limitações.
+
+===== PÁGINA FÍSICA 22; IMPRESSA 16 =====
+
+                                                                          16
+
+
+
+     Também foi analisada a frequência com que os participantes acompanham o processo
+de aprendizagem da criança, permitindo compreender o nível de envolvimento dos
+responsáveis.
+
+Figura 8. Frequência de acompanhamento do processo de aprendizagem
+
+
+
+
+
+Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+    A partir dos dados apresentados, observa-se que a maior parte dos respondentes não
+acompanha o processo de aprendizagem de forma contínua, concentrando-se principalmente
+nas opções de acompanhamento esporádico. Esse resultado indica uma limitação no
+envolvimento dos responsáveis, o que pode impactar o desenvolvimento da criança. Nesse
+contexto, a proposta do projeto mostra-se viável, ao oferecer uma solução que auxilia no
+acompanhamento e orientação de forma mais prática e acessível.
+     Além disso, verificou-se a necessidade de orientações mais claras para auxiliar no
+desenvolvimento da alfabetização infantil.
+
+
+Figura 9. Necessidade de orientação no processo de alfabetização
+
+
+
+
+
+Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+     Com base nas respostas coletadas, verifica-se que a maioria dos participantes sente
+necessidade de orientações mais claras no processo de alfabetização infantil. Esse resultado
+evidencia uma lacuna no suporte disponível aos responsáveis. Nesse sentido, a proposta do
+projeto mostra-se viável ao oferecer direcionamento e orientações personalizadas.
+    A pesquisa também investigou o uso de ferramentas ou recursos para auxiliar na
+alfabetização e sua efetividade percebida pelos usuários.
+
+===== PÁGINA FÍSICA 23; IMPRESSA 17 =====
+
+                                                                          17
+
+
+
+Figura 10. Utilização de ferramentas de apoio à alfabetização
+
+
+
+
+
+Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+
+
+Figura 11. Tipos de ferramentas utilizadas
+
+
+
+
+
+Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+
+Figura 12. Percepção sobre a efetividade das ferramentas utilizadas
+
+
+
+
+
+Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+      Conforme apresentado na Figura 11, 59% dos participantes afirmaram não utilizar
+ferramentas de apoio no processo de alfabetização, enquanto 41% relataram fazer uso desses
+recursos.
+     Na Figura 8, entre os principais recursos utilizados destacam-se jogos educativos e
+vídeos educativos (34,4%), seguidos por materiais didáticos impressos (29,7%) e aplicativos
+educacionais (25%). As plataformas educacionais online foram mencionadas por 15,6% dos
+
+===== PÁGINA FÍSICA 24; IMPRESSA 18 =====
+
+                                                                            18
+
+
+
+   participantes, enquanto 7,8% indicaram utilizar outros recursos. Além disso, 35,9% afirmaram
+  não utilizar nenhum tipo de ferramenta.
+         Por fim, conforme a Figura 12, a maioria dos participantes (53,5%) considera que as
+   ferramentas ajudam muito no processo de alfabetização, enquanto 36,6% avaliam que ajudam
+   parcialmente e 9,9% acreditam que ajudam pouco. Esses resultados indicam uma percepção
+   majoritariamente positiva sobre a efetividade dessas ferramentas.
+       No que se refere à aceitação da solução proposta, os participantes demonstraram
+   interesse significativo na utilização de um aplicativo que acompanhe o progresso da
+   alfabetização da criança.
+
+
+   Figura 13. Interesse no uso de aplicativo de acompanhamento
+
+
+
+
+
+   Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+        Conforme apresentado na Figura 13, a maioria dos participantes (78,2%) demonstrou
+   interesse em utilizar um aplicativo para acompanhar o progresso da alfabetização da criança.
+  Além disso, 14,1% responderam que talvez utilizariam, enquanto apenas 7,7% indicaram que
+  não utilizariam.
+
+Figura 14. Percepção sobre a utilidade da solução proposta
+
+
+
+
+
+   Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+       Na Figura 14, observa-se que 65,4% dos participantes consideram a solução proposta
+  muito útil, enquanto 26,9% a classificam como útil. Uma pequena parcela avaliou a solução
+  como pouco útil ou não útil, indicando que a percepção geral sobre a proposta é
+   majoritariamente positiva.
+      A proposta de um aplicativo que utiliza inteligência artificial para personalização do
+   aprendizado foi amplamente considerada útil pelos respondentes
+
+===== PÁGINA FÍSICA 25; IMPRESSA 19 =====
+
+                                                                          19
+
+
+
+Figura 15. Funcionalidades consideradas mais importantes
+
+
+
+
+
+Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+    A Figura 15 apresenta as funcionalidades consideradas mais importantes pelos
+participantes. Entre as mais citadas estão orientações para pais sobre como auxiliar na
+alfabetização (78,2%), recomendações personalizadas (67,9%) e relatórios de progresso do
+aprendizado (65,4%). Também foram mencionados jogos educativos interativos (51,3%),
+identificação automática do nível da criança (50%) e acompanhamento pedagógico (32,1%).
+     Também foram identificadas as funcionalidades mais relevantes esperadas pelos
+usuários, com destaque para acompanhamento de desempenho, recomendações
+personalizadas e orientações práticas.
+    A confiança no uso de inteligência artificial aplicada à educação foi analisada,
+demonstrando aceitação por parte dos participantes.
+
+Figura 16. Confiança no uso de inteligência artificial na educação
+
+
+
+
+
+Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+    A Figura 16 apresenta a confiança dos participantes no uso de inteligência artificial
+aplicada à educação. Observa-se que 55,1% afirmaram confiar nesse tipo de tecnologia,
+enquanto 38,5% responderam que talvez confiem e apenas uma pequena parcela indicou não
+confiar. Esses resultados demonstram uma tendência positiva em relação ao uso da
+inteligência artificial no contexto educacional.
+     No que se refere à percepção dos participantes acerca da contribuição da tecnologia no
+processo de alfabetização infantil, a questão foi apresentada de forma aberta, possibilitando a
+obtenção de respostas descritivas e mais aprofundadas.
+    A análise qualitativa das respostas evidencia que, de modo geral, os participantes
+reconhecem o potencial positivo da tecnologia no processo de ensino-aprendizagem. Observa-
+se que os respondentes destacam a capacidade das ferramentas tecnológicas de tornar o
+aprendizado mais interativo, dinâmico e atrativo, contribuindo para o engajamento das
+crianças no desenvolvimento das habilidades de leitura e escrita.
+
+===== PÁGINA FÍSICA 26; IMPRESSA 20 =====
+
+                                                                          20
+
+
+
+      Outro aspecto recorrente nas respostas refere-se à possibilidade de personalização do
+ensino, especialmente por meio da utilização de inteligência artificial. Nesse contexto, os
+participantes apontam que a tecnologia pode auxiliar na identificação de dificuldades
+específicas de cada criança, permitindo a adaptação de conteúdos e estratégias pedagógicas
+conforme o ritmo individual de aprendizagem.
+       Adicionalmente, evidencia-se a percepção de que a tecnologia pode atuar como
+ferramenta de apoio tanto para os responsáveis quanto para os profissionais da educação,
+especialmente no acompanhamento do progresso da criança e na oferta de orientações mais
+direcionadas. Também foram mencionados aspectos relacionados à ampliação da
+acessibilidade e à utilização de diferentes recursos pedagógicos, como jogos e aplicações
+interativas.
+      Por outro lado, parte dos participantes ressaltou a importância do uso consciente e
+supervisionado da tecnologia, enfatizando que sua aplicação deve ocorrer de forma
+complementar ao ensino tradicional, sem substituir o papel do professor ou a participação
+ativa dos responsáveis no processo de alfabetização.
+      Dessa forma, as respostas obtidas indicam que a tecnologia é percebida como um
+elemento relevante no apoio ao processo de alfabetização infantil, desde que utilizada de
+maneira adequada, contribuindo para a personalização do ensino, o acompanhamento
+contínuo e o suporte pedagógico aos envolvidos.
+      Por fim, observou-se intenção de uso contínuo da solução e interesse em participar de
+testes futuros.
+
+
+Figura 17. Intenção de uso frequente da solução
+
+
+
+
+
+Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+
+Figura 18. Interesse em participar de testes futuros
+
+
+
+
+
+Fonte: Formulário - Pesquisa sobre Alfabetização Infantil e Uso de Tecnologia Educacional (2026).
+
+===== PÁGINA FÍSICA 27; IMPRESSA 21 =====
+
+                                                                          21
+
+
+
+
+    A Figura 17 apresenta a intenção de uso frequente da solução. Observa-se que a
+grande maioria dos participantes (91%) afirmou que utilizaria a ferramenta, enquanto 9%
+responderam que talvez utilizariam.
+       Já a Figura 18 mostra o interesse em participar de testes futuros da solução. Os
+resultados indicam que 79,5% dos participantes demonstraram interesse em participar,
+enquanto 20,5% afirmaram que não participariam. Esses dados indicam uma boa aceitação da
+proposta e abertura dos usuários para futuras melhorias da solução.
+     De modo geral, os resultados do formulário indicam que há uma necessidade
+significativa de apoio no processo de alfabetização infantil, especialmente no que se refere a
+orientações mais claras para pais e responsáveis. Observou-se que, embora parte dos
+participantes ainda não utilize ferramentas de apoio, aqueles que utilizam percebem
+benefícios no acompanhamento da aprendizagem.
+     Além disso, os dados demonstram boa aceitação da proposta de uma solução
+tecnológica voltada ao acompanhamento da alfabetização, com destaque para funcionalidades
+como recomendações personalizadas, orientações práticas e relatórios de progresso. Também
+foi identificada uma percepção positiva em relação ao uso de inteligência artificial na
+educação.
+      Por fim, a maioria dos participantes demonstrou interesse em utilizar a solução com
+frequência e participar de testes futuros, indicando potencial de adoção da ferramenta e
+relevância da proposta para apoiar o processo de alfabetização infantil.
+
+                                          3.2 PREÇO DE VENDA
+    O modelo de precificação adotado para a solução proposta baseia-se na estratégia
+freemium, amplamente utilizada no mercado de aplicativos educacionais. A análise de
+mercado realizada demonstrou que a maioria dos aplicativos de alfabetização disponíveis é
+gratuita ou apresenta custos reduzidos, utilizando modelos de monetização baseados em
+assinaturas ou funcionalidades premium.
+       Diante desse cenário, optou-se por disponibilizar uma versão gratuita do aplicativo,
+com acesso a funcionalidades básicas, visando ampliar o alcance da solução e facilitar a
+adesão por parte dos usuários. Paralelamente, será oferecida uma versão premium por meio de
+assinatura, que incluirá recursos avançados, como personalização do aprendizado por meio de
+inteligência artificial, relatórios detalhados de desempenho e acompanhamento contínuo do
+desenvolvimento da criança.
+    O Quadro 1 apresenta com detalhes a descrição das regras utilizadas para a definição
+dos planos oferecidos.
+
+
+Quadro 1 - Planos de assinatura
+
+   Planos                                 Descrição
+   Gratuito
+               Será composto por funcionalidades básicas do aplicativo, incluindo acesso a
+                   atividades iniciais de alfabetização, jogos educativos e uso limitado do
+                                     sistema de acompanhamento.
+  Premium
+                 Será composto por todos os módulos disponíveis no sistema, incluindo
+                 personalização completa por inteligência artificial, relatórios detalhados,
+                   plano de desenvolvimento individual da criança e acompanhamento
+                                        contínuo do progresso.
+ Institucional
+
+===== PÁGINA FÍSICA 28; IMPRESSA 22 =====
+
+                                                                          22
+
+
+
+                Será composto pelos módulos do plano Premium, adaptados para uso em
+                  escolas e instituições de ensino, com possibilidade de gerenciamento de
+                  múltiplos alunos e relatórios coletivos. O valor poderá variar de acordo
+                             com o número de usuários.
+
+Fonte: Elaborado pelos autores (2026).
+
+
+Quadro 2 – Valores Planos de assinatura
+    O Quadro 2 define os valores utilizados para a comercialização do software
+, juntamente aos módulos incluídos na versão inicial, no contexto de planos individuais,
+focados em pequenas equipes, profissionais liberais e estudantes.
+
+          Planos                    Descrição                   Valor
+           Gratuito              Atividades básicas, jogos              Gratuito
+                                 educativos, acesso limitado
+                                    ao sistema
+         Premium                                     R$ 19,90
+                               Acesso completo, IA
+                                  personalizada, relatórios
+                                        detalhados,
+                           acompanhamento contínuo
+          Institucional            Acesso completo para               Variável
+                                 múltiplos usuários, gestão
+                                        escolar, relatórios
+                                    pedagógicos
+Fonte: Elaborado pelos autores (2026).
+
+    A definição dos valores foi realizada com base na análise comparativa de aplicativos
+concorrentes e na percepção de valor identificada na pesquisa com o público-alvo. Dessa
+forma, estabeleceu-se o valor de R$ 19,90 mensais para o plano premium.
+       Adicionalmente, considera-se a possibilidade de licenciamento da solução para
+instituições de ensino, permitindo sua utilização em larga escala e ampliando o impacto
+educacional do sistema.
+    A estratégia de precificação adotada busca equilibrar acessibilidade financeira,
+competitividade de mercado e sustentabilidade do projeto, ao mesmo tempo em que valoriza o
+diferencial tecnológico da solução, baseado no uso de inteligência artificial para
+personalização do processo de aprendizagem.
+       Ressalta-se que a solução proposta não tem como objetivo substituir o papel do
+professor, mas atuar como ferramenta complementar de apoio ao processo de alfabetização.
+
+===== PÁGINA FÍSICA 29; IMPRESSA 23 =====
+
+                                                                          23
+
+
+4 GESTÃO DO PROJETO
+
+    A gestão do projeto consiste no conjunto de práticas utilizadas para planejar,
+organizar, executar e controlar o desenvolvimento da solução proposta, garantindo o
+cumprimento dos objetivos estabelecidos dentro dos prazos e recursos disponíveis.
+     No contexto deste trabalho, a gestão do projeto tem como foco o desenvolvimento de
+um aplicativo educacional com uso de inteligência artificial, voltado ao acompanhamento do
+processo de alfabetização infantil. Para isso, são consideradas etapas que envolvem desde o
+levantamento de requisitos até a validação da solução junto ao público-alvo.
+    A condução do projeto busca alinhar aspectos técnicos e pedagógicos, garantindo que
+a solução desenvolvida atenda às necessidades identificadas na pesquisa de viabilidade e
+esteja de acordo com os objetivos definidos.
+     Além disso, a gestão do projeto envolve a definição de um planejamento estruturado
+das atividades, permitindo o acompanhamento contínuo do progresso e a identificação de
+possíveis desvios ao longo do desenvolvimento. Dessa forma, torna-se possível realizar
+ajustes necessários de maneira antecipada, contribuindo para a eficiência do processo e a
+qualidade da solução final.
+      Outro aspecto relevante refere-se à organização das etapas de desenvolvimento, que
+seguem uma sequência lógica baseada nas fases de engenharia de software, incluindo análise,
+modelagem, prototipação e definição da proposta de implementação. Essa estrutura permite
+maior controle sobre o desenvolvimento do sistema, bem como a integração entre os
+diferentes componentes do projeto.
+       Adicionalmente, a gestão contempla a utilização de ferramentas e práticas que
+auxiliam na comunicação entre os envolvidos, no registro das atividades realizadas e no
+acompanhamento das entregas previstas. Esse processo contribui para a transparência do
+desenvolvimento e para a organização das informações geradas ao longo do projeto.
+      Por fim, destaca-se que a gestão do projeto também considera a análise de riscos, a
+definição de recursos necessários e o planejamento das etapas futuras, garantindo que a
+solução proposta seja desenvolvida de forma estruturada, viável e alinhada às necessidades do
+público-alvo, conforme identificado nas etapas anteriores do trabalho.
+                                      4.1 Detalhamento das Atividades
+    O desenvolvimento do projeto foi estruturado em etapas, considerando o fluxo lógico
+de criação de um sistema de software educacional.
+       Inicialmente, realizou-se a etapa de contextualização e definição do problema, com o
+objetivo de compreender as dificuldades enfrentadas no processo de alfabetização infantil.
+Essa etapa foi fundamental para delimitar o escopo do projeto e identificar as principais
+necessidades relacionadas ao acompanhamento do desenvolvimento educacional das crianças.
+Em seguida, foi realizada a identificação do público-alvo e a construção de personas,
+permitindo uma melhor compreensão das necessidades, comportamentos e desafios dos
+usuários envolvidos no processo.
+       Posteriormente, foi desenvolvido o modelo de negócio por meio do Business Model
+Canvas, possibilitando a organização dos principais elementos relacionados à proposta de
+valor, segmentos de clientes, canais de distribuição, fontes de receita e estrutura de custos.
+Essa etapa contribuiu para a definição estratégica da solução, garantindo alinhamento entre a
+proposta do sistema e as demandas do mercado.
+     Na sequência, foi realizada a análise de viabilidade, com destaque para a aplicação de
+um formulário estruturado, que permitiu validar a existência da demanda e identificar as
+principais dificuldades enfrentadas pelos usuários. A análise dos dados coletados possibilitou
+uma compreensão mais aprofundada do problema, além de fornecer subsídios para a definição
+das funcionalidades e características da solução proposta.
+
+===== PÁGINA FÍSICA 30; IMPRESSA 24 =====
+
+                                                                          24
+
+
+
+     Com base nesses dados, serão desenvolvidas as etapas técnicas do projeto, incluindo a
+análise de requisitos, modelagem do sistema, definição do banco de dados e prototipagem das
+interfaces. Essas atividades têm como objetivo estruturar o funcionamento do sistema, definir
+suas funcionalidades e garantir que a solução atenda às necessidades identificadas nas etapas
+anteriores.
+     Além disso, essas etapas permitem a organização lógica do sistema, facilitando o
+desenvolvimento, a implementação e a manutenção da solução. A modelagem e a
+prototipagem contribuem para a visualização do funcionamento do aplicativo, possibilitando a
+validação prévia das funcionalidades antes da etapa de desenvolvimento.
+    O projeto contempla a proposta de desenvolvimento, envolvendo a definição das
+tecnologias, metodologias e métricas de qualidade a serem utilizadas. Essa etapa final tem
+como objetivo orientar a implementação da solução, garantindo que o sistema seja
+desenvolvido de forma estruturada, eficiente e alinhada aos padrões de qualidade
+estabelecidos.
+
+
+
+
+
+                                      4.2 Detalhamento dos Recursos
+       Para o desenvolvimento da solução proposta, são necessários recursos humanos,
+tecnológicos e organizacionais.
+     No que se refere aos recursos humanos, o projeto conta com a participação dos autores
+do trabalho, responsáveis pelo planejamento, desenvolvimento e validação da solução. Além
+disso, considera-se a necessidade de conhecimento técnico em desenvolvimento de software e
+conhecimento pedagógico para a elaboração das funcionalidades educacionais.
+    Em relação aos recursos tecnológicos, destacam-se os dispositivos computacionais
+utilizados no desenvolvimento, ferramentas de programação, ambientes de desenvolvimento e
+tecnologias necessárias para a implementação do aplicativo, incluindo plataformas mobile e
+web, banco de dados e infraestrutura de tecnologia da informação.
+     Também são considerados recursos relacionados à inteligência artificial, utilizados
+para análise do desempenho da criança e geração de recomendações personalizadas.
+     No âmbito organizacional, incluem-se os materiais de apoio utilizados na pesquisa,
+como o formulário aplicado para análise de demanda, bem como ferramentas de comunicação
+e organização das atividades do projeto.
+
+Quadro 3 - Cronograma do Projeto
+
+          Etapa                    Atividade                   Período
+            1               Contextualização e definição         Início do projeto
+                                 do problema
+            2               Definição do público-alvo e         Início do projeto
+                                       personas
+            3                 Desenvolvimento do              Fase inicial
+                                Business Model Canvas
+            4                Elaboração e aplicação do           Fase inicial
+                                        questionário
+            5                  Análise de viabilidade          Fase intermediária
+
+===== PÁGINA FÍSICA 31; IMPRESSA 25 =====
+
+                                                                          25
+
+
+
+            6                   Análise de requisitos          Fase intermediária
+
+            7               Modelagem do sistema         Fase intermediária
+
+            8              Modelagem do banco de         Fase intermediária
+                                      dados
+            9                 Prototipagem das telas             Fase final
+
+            10                Definição da proposta de            Fase final
+                                  desenvolvimento
+Fonte: Elaborado pelos autores (2026).
+
+
+
+
+
+       Figura 19. Cronograma do projeto
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+                                   4.4 Riscos do Projeto – Matriz SWOT
+
+    A análise SWOT foi utilizada para identificar os principais fatores internos e externos
+que podem impactar o desenvolvimento da solução proposta.
+
+===== PÁGINA FÍSICA 32; IMPRESSA 26 =====
+
+                                                                          26
+
+
+
+Figura 20 - Matriz SWOT
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+===== PÁGINA FÍSICA 33; IMPRESSA 27 =====
+
+                                                                          27
+
+
+5 ANÁLISE DE REQUISITOS
+
+    A análise de requisitos consiste em uma etapa fundamental no desenvolvimento de
+sistemas de software, sendo responsável por identificar, compreender e documentar as
+necessidades dos usuários e as funcionalidades que o sistema deve oferecer. Essa etapa tem
+como objetivo garantir que a solução proposta esteja alinhada com os problemas identificados
+e com as expectativas do público-alvo.
+     No contexto deste trabalho, a análise de requisitos é baseada nas informações obtidas
+nas etapas anteriores, especialmente na contextualização do problema, definição do público-
+alvo, construção de personas e análise de viabilidade. Dessa forma, busca-se assegurar que o
+sistema desenvolvido atenda de maneira efetiva às dificuldades relacionadas ao
+acompanhamento do processo de alfabetização infantil.
+     Além disso, essa etapa contribui para a organização das funcionalidades do sistema,
+permitindo uma visão estruturada do que será desenvolvido e servindo como base para as
+etapas de modelagem, implementação e validação da solução.
+
+5.1 DEFINIÇÃO DO PROBLEMA
+
+    O processo de alfabetização infantil exige acompanhamento contínuo por parte de
+pais, responsáveis e educadores, sendo um fator determinante para o desenvolvimento das
+habilidades de leitura e escrita. No entanto, observa-se que esse acompanhamento nem
+sempre ocorre de forma eficaz, devido a diferentes dificuldades enfrentadas pelos envolvidos
+no processo.
+       Entre os principais desafios identificados, destacam-se a falta de tempo por parte dos
+responsáveis, a ausência de conhecimento pedagógico adequado e a dificuldade em
+compreender o nível de desenvolvimento da criança. Esses fatores dificultam a participação
+ativa no processo de aprendizagem, podendo impactar negativamente o desempenho
+educacional.
+     Além disso, verifica-se a carência de ferramentas acessíveis que auxiliem no
+acompanhamento da alfabetização de forma prática e orientada. Embora existam recursos
+educacionais disponíveis, muitos deles não oferecem direcionamento individualizado ou não
+possibilitam uma análise clara do progresso da criança. E muito menos um acompanhamento,
+personalizado para cada indivíduo, fazendo com que cada criança tenha um progresso muito
+mais gradual do que, na forma convencional.
+     Com base nos dados obtidos por meio da pesquisa realizada, observa-se que uma
+parcela significativa dos participantes considera o acompanhamento da alfabetização como
+difícil ou moderadamente difícil, além de demonstrar necessidade de orientações mais claras e
+interesse em soluções tecnológicas que auxiliem nesse processo.
+       Diante desse cenário, o problema central abordado neste trabalho consiste na
+dificuldade enfrentada por pais, responsáveis e educadores em acompanhar, de forma eficaz, o
+desenvolvimento da alfabetização infantil, especialmente no que se refere à identificação do
+nível da criança e à definição de estratégias adequadas para seu aprendizado.
+
+5.2 STAKEHOLDERS
+
+     Os stakeholders correspondem aos indivíduos ou organizações que possuem interesse
+direto ou indireto no desenvolvimento e na utilização do sistema proposto. A identificação
+desses atores é essencial para compreender suas necessidades, expectativas e influências no
+projeto.
+     Os principais stakeholders estão diretamente relacionados ao processo de alfabetização
+infantil e ao uso da solução proposta.
+
+===== PÁGINA FÍSICA 34; IMPRESSA 28 =====
+
+                                                                          28
+
+
+
+        Inicialmente, destacam-se as crianças em fase de alfabetização, que representam os
+usuários finais do sistema. Embora não interajam diretamente com todas as funcionalidades,
+são o foco principal da solução, uma vez que o aplicativo busca contribuir para o seu
+desenvolvimento educacional.
+    Em seguida, destacam-se os pais e responsáveis, que atuam no acompanhamento da
+aprendizagem da criança. Esses usuários utilizam o sistema para compreender o progresso
+educacional, receber orientações e apoiar o desenvolvimento das habilidades de leitura e
+escrita.
+      Os professores e pedagogos também representam stakeholders importantes, uma vez
+que podem utilizar a solução como ferramenta de apoio no acompanhamento individual dos
+alunos, auxiliando na identificação de dificuldades e na aplicação de estratégias pedagógicas
+mais adequadas.
+      Além disso, incluem-se as instituições de ensino, tanto públicas quanto privadas, que
+podem adotar a solução como recurso complementar ao processo educacional. Nesse
+contexto, o sistema pode contribuir para a melhoria do acompanhamento do desempenho dos
+alunos e para a integração entre escola e responsáveis.
+       Destacam-se os desenvolvedores do sistema, responsáveis pela implementação,
+manutenção e evolução da solução, garantindo seu funcionamento adequado e sua adaptação
+às necessidades dos usuários.
+
+
+Quadro 4 - Stakeholders
+
+  Stakeholder         Descrição          Interesse no     Influência      Necessidades
+                                            Projeto                         Principais
+
+                  Usuários finais do      Alto, pois são                 Aprendizado
+                    sistema, em processo   diretamente                        interativo, atividades
+Crianças em fase   de desenvolvimento   impactadas pela    Baixa       adequadas ao nível de
+de alfabetização    das habilidades de     solução                        desenvolvimento,
+                      leitura e escrita                                         experiência acessível
+                                                                       e atrativa
+               Acompanham o       Muito alto, pois                 Orientações claras,
+                  desenvolvimento       utilizam                     acompanhamento do
+Pais e             educacional da        diretamente a       Alta         progresso, facilidade
+responsáveis       criança e utilizam o    solução                      de uso e praticidade
+                   sistema para
+                 monitoramento
+                     Profissionais           Alto, pois podem               Ferramentas de
+                   responsáveis pelo       utilizar o sistema             acompanhamento
+Professores e       ensino e           como apoio        Alta         individual, relatórios
+pedagogos        acompanhamento     pedagógico                   de desempenho e
+                   educacional das                                      apoio na identificação
+                    crianças                                          de dificuldades
+                   Escolas e           Médio a alto,                 Monitoramento
+                   organizações         dependendo da                    coletivo, integração
+Instituições de     educacionais que      adoção da solução  Alta      com responsáveis,
+ensino          podem adotar a                                        gestão de múltiplos
+                   solução                                              alunos
+                  Responsáveis pela     Alto, pois                      Definição clara de
+                     criação, manutenção   garantem o         Alta          requisitos, viabilidade
+
+===== PÁGINA FÍSICA 35; IMPRESSA 29 =====
+
+                                                                          29
+
+
+
+Desenvolvedores   e evolução do         funcionamento da                 técnica, organização
+do sistema          aplicativo             solução                     do projeto
+
+                  Responsável pela                                      Garantia de qualidade
+Equipe             validação das         Alto             Média      pedagógica,
+pedagógica         atividades e                                         alinhamento com
+                  alinhamento                                               práticas educacionais
+                   educacional
+                  Pessoas que ainda                                       Acessibilidade,
+Usuários em       não utilizam a        Médio            Baixa       confiabilidade e valor
+potencial           solução, mas podem                                   percebido da solução
+                      vir a utilizar
+Fonte: Elaborado pelos autores (2026).
+
+
+5.3 CAUSAS RAÍZES DO PROBLEMA
+
+    A identificação das causas raízes do problema permite compreender de forma mais
+aprofundada os fatores que contribuem para as dificuldades no acompanhamento da
+alfabetização infantil. Essa análise é fundamental para o desenvolvimento de uma solução
+eficaz, que atue diretamente nos pontos críticos identificados.
+     Com base nas informações obtidas na pesquisa de viabilidade e nas etapas anteriores
+do projeto, foram identificadas algumas causas principais relacionadas ao problema.
+     Uma das principais causas refere-se à falta de tempo por parte dos pais e responsáveis,
+o que dificulta o acompanhamento contínuo do processo de aprendizagem da criança. Esse
+fator está diretamente relacionado às rotinas diárias e às demandas pessoais e profissionais
+dos responsáveis.
+       Outra causa relevante é a ausência de conhecimento pedagógico adequado, o que
+impede que os responsáveis compreendam o nível de desenvolvimento da criança e saibam
+como auxiliá-la de forma eficiente. Essa limitação dificulta a tomada de decisões relacionadas
+às estratégias de ensino mais apropriadas.
+      Além disso, destaca-se a dificuldade em identificar o progresso da criança, uma vez
+que nem sempre existem ferramentas que apresentem informações claras e acessíveis sobre o
+desempenho educacional. Essa falta de visibilidade compromete o acompanhamento e a
+intervenção no momento adequado.
+     Também foi identificada a carência de soluções tecnológicas que ofereçam
+direcionamento personalizado, considerando as necessidades específicas de cada criança.
+Embora existam aplicativos educacionais, muitos não apresentam recursos que permitam
+adaptação individualizada do conteúdo.
+       Observa-se que o uso da tecnologia no processo educacional ainda enfrenta desafios
+relacionados à aceitação e à confiança, especialmente no que se refere à utilização de
+inteligência artificial. Esse fator pode influenciar a adoção da solução proposta.
+      Dessa forma, as causas identificadas evidenciam a necessidade de uma solução que
+ofereça acompanhamento contínuo, orientações claras e personalização do aprendizado,
+contribuindo para a melhoria do processo de alfabetização infantil.
+
+===== PÁGINA FÍSICA 36; IMPRESSA 30 =====
+
+                                                                          30
+
+
+6 MODELAGEM DO SISTEMA
+
+    A modelagem do sistema tem como objetivo representar, de forma estruturada, as
+principais funcionalidades, restrições e comportamentos esperados para a solução proposta.
+Essa etapa permite compreender como o aplicativo deverá funcionar, quais atores irão
+interagir com o sistema e quais requisitos deverão ser atendidos durante seu desenvolvimento.
+     No contexto deste projeto, a modelagem considera as necessidades identificadas nas
+etapas anteriores, especialmente a análise de demanda, o público-alvo e a proposta de uso de
+inteligência artificial para acompanhamento personalizado da alfabetização infantil. Dessa
+forma, são definidos os requisitos funcionais, requisitos não funcionais, restrições do sistema
+e os diagramas necessários para apoiar a compreensão da solução.
+
+6.1 LISTA DE RESTRIÇÕES
+
+    A lista de restrições apresenta limitações e condições que devem ser consideradas
+durante o desenvolvimento e utilização do sistema. Essas restrições auxiliam na definição dos
+limites técnicos, operacionais e pedagógicos da solução.
+
+
+Quadro 5 - Restrições
+
+                                    A solução foi pensada para
+
+         Software        O sistema deverá possuir     atender pais, responsáveis e
+
+                              acesso por aplicativo mobile    educadores em diferentes
+
+                                   e plataforma web              contextos de uso
+
+                                     O sistema dependerá de
+
+       Hardware        O usuário precisará de     comunicação com banco de
+
+                                   dispositivo com acesso à        dados e recursos de
+
+                                              internet                  inteligência artificial
+
+                    O progresso da criança       A qualidade das
+
+          Usuário               dependerá dos dados      recomendações depende das
+
+                                  inseridos e das atividades       informações coletadas
+
+                                          realizadas                   durante o uso
+
+                    A inteligência artificial
+
+                                 dependerá de dados      A personalização exige
+
+         Tecnologia               suficientes para gerar         análise do desempenho
+
+                                 recomendações             individual da criança
+
+                                      personalizadas
+
+===== PÁGINA FÍSICA 37; IMPRESSA 31 =====
+
+                                                                          31
+
+
+
+                                                           Por se tratar de dados
+
+                   O sistema deverá proteger      educacionais infantis, é
+
+        Segurança              dados de crianças e         necessário cuidado com
+
+                                      responsáveis            privacidade e segurança
+
+                                     O aplicativo deve atuar
+
+        Pedagógica         As recomendações devem    como apoio ao processo de
+
+                                seguir critérios educacionais   alfabetização, sem substituir
+
+                                    adequados                 o professor
+
+Fonte: Elaborado pelos autores (2026).
+
+
+6.2 REQUISITOS E DIAGRAMAS
+
+       Esta seção apresenta os requisitos identificados para o sistema, divididos em requisitos
+funcionais e requisitos não funcionais. Os requisitos funcionais descrevem as ações que o
+sistema deve permitir ao usuário realizar, enquanto os requisitos não funcionais representam
+características de qualidade esperadas, como segurança, usabilidade, desempenho e
+confiabilidade.
+     Além disso, são apresentados os diagramas e descrições de casos de uso, com o
+objetivo de representar a interação entre os usuários e as funcionalidades principais do
+aplicativo.
+
+6.2.1 Requisitos funcionais
+
+Quadro 6 - Requisitos funcionais
+
+  Código        Requisito            Descrição       Prioridade       Ator(es)
+                      O usuário deve
+  RF001      Realizar cadastro       conseguir criar     Obrigatório   Pai/Responsável,
+                             uma conta no                        Professor
+                                         sistema
+                      O usuário deve
+  RF002        Realizar login      conseguir acessar o   Obrigatório       Usuário
+                                     sistema por meio
+                                 de e-mail e senha
+                     O responsável deve
+                                    conseguir cadastrar
+  RF003      Cadastrar criança     os dados básicos da   Obrigatório   Pai/Responsável
+                                           criança
+                      O sistema deve
+                                       permitir registrar    Obrigatório       Usuário
+  RF004     Registrar atividades         atividades
+                                         realizadas pela
+                                           criança
+                      O sistema deve
+                                              analisar         Obrigatório      Sistema/IA
+  RF005      Identificar nível da      informações e
+                    criança           indicar o nível de
+
+===== PÁGINA FÍSICA 38; IMPRESSA 32 =====
+
+                                                                          32
+
+
+
+                                   desenvolvimento
+                                    da criança
+            Gerar recomendações   O sistema deve
+                personalizadas        sugerir atividades    Obrigatório      Sistema/IA
+  RF006                         conforme o nível
+                                          identificado
+
+                      O usuário deve
+  RF007     Visualizar progresso        conseguir        Obrigatório   Pai/Responsável,
+                                  acompanhar o                        Professor
+                                       progresso da
+                                     criança por meio de
+                                              relatórios
+                      O usuário deve
+  RF008      Gerenciar perfil       conseguir alterar     Desejável        Usuário
+                                        seus dados
+                                            cadastrais
+                      O sistema deve
+             Acessar orientações       disponibilizar      Obrigatório   Pai/Responsável,
+  RF009        pedagógicas         orientações para                       Professor
+                                      apoiar o processo
+                                  de alfabetização
+                      O sistema poderá
+              Participar de testes ou         permitir         Desejável        Usuário
+  RF010     acompanhamento     acompanhamento
+                     futuro            da evolução e
+                                       coleta de feedback
+Fonte: Elaborado pelos autores (2026).
+
+6.2.2 Requisitos não funcionais
+
+Quadro 7 - Requisitos não funcionais e de qualidade
+
+                             O sistema deve possuir
+
+   RNF001            Usabilidade            interface simples, acessível e   Obrigatório
+
+                                                                intuitiva
+
+                            O sistema deve proteger os
+
+   RNF002            Segurança            dados dos usuários e das     Obrigatório
+
+                                                    crianças cadastradas
+
+                            O sistema deve respeitar a
+
+   RNF003            Privacidade              confidencialidade das       Obrigatório
+
+                                             informações educacionais
+
+                            O sistema deve apresentar
+
+   RNF004          Desempenho            respostas rápidas durante o     Desejável
+
+                                             uso das funcionalidades
+
+===== PÁGINA FÍSICA 39; IMPRESSA 33 =====
+
+                                                                          33
+
+
+
+                            O sistema deve manter os
+
+   RNF005           Confiabilidade             dados de progresso        Obrigatório
+
+                                              corretamente armazenados
+
+                           O sistema deve funcionar em
+
+   RNF006            Portabilidade              dispositivos móveis e       Obrigatório
+
+                                                    plataforma web
+
+                             O sistema deve permitir
+
+   RNF007         Manutenibilidade           atualizações e melhorias      Desejável
+
+                                                             futuras
+
+                            O sistema deve ser fácil de
+
+   RNF008           Acessibilidade              utilizar por usuários com     Obrigatório
+
+                                                       diferentes níveis de
+
+                                                  familiaridade tecnológica
+
+Fonte: Elaborado pelos autores (2026).
+
+
+6.2.3 Diagrama de casos de uso
+    O diagrama de casos de uso tem como objetivo representar as principais interações
+entre os usuários e o sistema. Por meio dele, é possível visualizar quais funcionalidades
+estarão disponíveis para cada ator, facilitando a compreensão do funcionamento geral da
+aplicação.
+      Neste projeto, os principais atores identificados são pais ou responsáveis, professores e
+pedagogos, crianças em fase de alfabetização e o sistema de inteligência artificial, responsável
+pela análise do desempenho e geração de recomendações personalizadas.
+
+===== PÁGINA FÍSICA 40; IMPRESSA 34 =====
+
+                                                                          34
+
+
+
+Figura 21 - Diagrama de Casos de Uso
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+6.2.4 Descrição de casos de uso
+
+      Nesta seção serão descritos os principais casos de uso identificados para o sistema
+proposto. Cada caso de uso apresenta seu respectivo identificador, atores envolvidos,
+descrição, pré-condições, pós-condições, fluxo principal e fluxos alternativos. O objetivo é
+detalhar o comportamento esperado do sistema diante das principais funcionalidades previstas
+para o aplicativo
+
+
+Quadro 8 - Caso de uso: Realizar cadastro
+
+       Campo                                 Descrição
+      Caso de uso        [UC001] Realizar cadastro
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite que o usuário crie uma conta no sistema para acessar
+                              as funcionalidades do aplicativo.
+      Pré-condições     O usuário ainda não possui cadastro no sistema.
+      Pós-condições     O cadastro é criado e o usuário passa a ter acesso à
+                              plataforma.
+                                 1. O usuário acessa a tela de cadastro.
+                                 2. O sistema apresenta o formulário de cadastro.
+     Fluxo principal        3. O usuário informa os dados solicitados.
+                                 4. O sistema valida os dados informados.
+                                 5. O sistema registra o novo usuário.
+                                 6. O sistema informa que o cadastro foi realizado com
+                              sucesso.
+
+===== PÁGINA FÍSICA 41; IMPRESSA 35 =====
+
+                                                                          35
+
+
+
+                                    a. Caso existam campos obrigatórios não preenchidos, o
+    Fluxos alternativos     sistema informa o erro e solicita correção.
+                                 b. Caso o e-mail informado já esteja cadastrado, o sistema
+                           informa que já existe uma conta vinculada ao e-mail.
+Fonte: Elaborado pelos autores (2026).
+
+
+
+Quadro 9 - Caso de uso: Realizar login
+
+       Campo                                 Descrição
+      Caso de uso        [UC002] Realizar login
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite que o usuário acesse o sistema por meio de
+                              autenticação.
+      Pré-condições     O usuário deve possuir cadastro ativo no sistema.
+      Pós-condições     O usuário é direcionado para a área principal do aplicativo.
+                                 1. O usuário acessa a tela de login.
+                                 2. O usuário informa e-mail e senha.
+     Fluxo principal        3. O sistema valida as credenciais informadas.
+                                 4. O sistema libera o acesso à plataforma
+
+
+                                    a. Caso os dados estejam incorretos, o sistema apresenta
+    Fluxos alternativos    mensagem de erro.
+                                 b. Caso o usuário tenha esquecido a senha, o sistema permite
+                                  iniciar o processo de recuperação.
+Fonte: Elaborado pelos autores (2026).
+
+Quadro 10 - Caso de uso: Cadastrar criança
+
+       Campo                                 Descrição
+      Caso de uso        [UC003] Cadastrar criança
+          Ator(es)          Pai/Responsável
+        Descrição          Permite que o responsável cadastre uma criança para
+                        acompanhamento do processo de alfabetização.
+      Pré-condições     O usuário deve estar autenticado no sistema.
+      Pós-condições     A criança é cadastrada e vinculada ao perfil do responsável.
+                                 1. O usuário acessa a área de cadastro de criança.
+                                 2. O sistema apresenta o formulário com os dados necessários.
+     Fluxo principal        3. O usuário informa os dados básicos da criança.
+                                 4. O sistema valida as informações.
+                                 5. O sistema salva o cadastro da criança.
+                                 6. O sistema informa que o cadastro foi realizado com
+                              sucesso.
+                                    a. Caso existam dados obrigatórios não preenchidos, o sistema
+    Fluxos alternativos     informa o erro.
+                                 b. Caso ocorra falha no salvamento, o sistema apresenta
+                       mensagem solicitando nova tentativa.
+Fonte: Elaborado pelos autores (2026).
+
+===== PÁGINA FÍSICA 42; IMPRESSA 36 =====
+
+                                                                          36
+
+
+
+Quadro 11 - Caso de uso: Registrar atividade realizada
+
+       Campo                                 Descrição
+      Caso de uso        [UC004] Registrar atividade realizada
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite registrar atividades realizadas pela criança durante o
+                            processo de alfabetização.
+      Pré-condições     A criança deve estar cadastrada no sistema.
+      Pós-condições     A atividade é registrada e passa a compor o histórico de
+                          aprendizagem da criança.
+                                 1. O usuário acessa o perfil da criança.
+                                 2. O sistema apresenta as opções de registro de atividade.
+     Fluxo principal        3. O usuário seleciona ou informa a atividade realizada.
+                                 4. O usuário registra o desempenho observado.
+                                 5. O sistema salva as informações.
+                                 6. O sistema atualiza o histórico de aprendizagem.
+                                    a. Caso a atividade não seja preenchida corretamente, o
+    Fluxos alternativos     sistema solicita correção.
+                                 b. Caso não seja possível salvar o registro, o sistema apresenta
+                       mensagem de erro.
+Fonte: Elaborado pelos autores (2026).
+
+
+
+Quadro 12 - Caso de uso: Realizar atividade educativa
+
+       Campo                                 Descrição
+      Caso de uso        [UC005] Realizar atividade educativa
+          Ator(es)          Criança
+        Descrição          Permite que a criança realize atividades educativas voltadas
+                          ao desenvolvimento da alfabetização.
+      Pré-condições     A criança deve estar cadastrada e possuir atividades
+                               disponíveis.
+      Pós-condições     O desempenho da criança na atividade é registrado pelo
+                              sistema.
+                                 1. A criança acessa a atividade disponível.
+                                 2. O sistema apresenta a atividade educativa.
+     Fluxo principal        3. A criança interage com a atividade.
+                                 4. O sistema registra o desempenho obtido.
+                                 5. O sistema finaliza a atividade e atualiza o progresso da
+                               criança.
+                                    a. Caso a atividade seja interrompida, o sistema poderá salvar
+    Fluxos alternativos     o progresso parcial.
+                                 b. Caso ocorra erro no carregamento, o sistema apresenta
+                       mensagem e permite nova tentativa.
+Fonte: Elaborado pelos autores (2026).
+
+Quadro 13 - Caso de uso: Identificar nicel da criança
+
+       Campo                                 Descrição
+      Caso de uso        [UC006] Identificar nível da criança
+          Ator(es)          Sistema de Inteligência Artificial
+
+===== PÁGINA FÍSICA 43; IMPRESSA 37 =====
+
+                                                                          37
+
+
+
+        Descrição          Permite que o sistema analise os dados registrados e
+                               identifique o nível de desenvolvimento da criança no processo
+                          de alfabetização.
+      Pré-condições     A criança deve possuir registros de atividades ou informações
+                                suficientes para análise.
+      Pós-condições     O sistema identifica o nível da criança e disponibiliza essa
+                           informação para acompanhamento.
+                                 1. O sistema coleta os dados de desempenho da criança.
+                                 2. A inteligência artificial analisa os registros disponíveis.
+     Fluxo principal        3. O sistema identifica padrões de desempenho.
+                                 4. O sistema define o nível atual da criança.
+                                 5. O resultado é armazenado no perfil da criança.
+
+                                    a. Caso não existam dados suficientes, o sistema informa a
+    Fluxos alternativos     necessidade de novas atividades.
+                                 b. Caso ocorra falha na análise, o sistema mantém o último
+                               nível registrado e solicita nova avaliação posteriormente.
+
+Fonte: Elaborado pelos autores (2026).
+
+Quadro 14 – Caso de uso: Gerar recomendações personalizadas
+
+       Campo                                 Descrição
+      Caso de uso        [UC007] Gerar recomendações personalizadas
+          Ator(es)          Sistema de Inteligência Artificial
+        Descrição          Permite que o sistema gere orientações e atividades
+                             personalizadas com base no nível identificado da criança.
+      Pré-condições     O nível da criança deve ter sido identificado pelo sistema.
+      Pós-condições     O sistema disponibiliza recomendações individualizadas para
+                         o usuário.
+                                 1. O sistema acessa o nível de desenvolvimento da criança.
+                                 2. A inteligência artificial analisa as necessidades
+     Fluxo principal        identificadas.
+                                 3. O sistema seleciona recomendações adequadas.
+                                 4. O sistema apresenta atividades e orientações
+                              personalizadas.
+                                 5. As recomendações ficam disponíveis para pais,
+                             responsáveis ou educadores.
+                                    a. Caso não haja informações suficientes, o sistema
+    Fluxos alternativos     recomenda a realização de novas atividades diagnósticas.
+                                 b. Caso ocorra erro na geração das recomendações, o sistema
+                             apresenta mensagem e permite nova tentativa.
+Fonte: Elaborado pelos autores (2026).
+
+
+Quadro 15 - Caso de uso: Visualizar progresso da criança
+
+       Campo                                 Descrição
+      Caso de uso        [UC008] Visualizar progresso da criança
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite acompanhar o desenvolvimento da criança por meio
+                          de informações e relatórios de progresso.
+
+===== PÁGINA FÍSICA 44; IMPRESSA 38 =====
+
+                                                                          38
+
+
+
+      Pré-condições     A criança deve possuir registros de atividades ou avaliações
+                         no sistema.
+      Pós-condições     O usuário visualiza o progresso da criança de forma
+                             organizada.
+                                 1. O usuário acessa o perfil da criança.
+                                 2. O sistema carrega os dados de desempenho.
+     Fluxo principal        3. O sistema apresenta informações sobre o progresso da
+                               alfabetização.
+                                 4. O usuário visualiza relatórios, histórico e evolução da
+                               criança.
+                                    a. Caso não existam registros suficientes, o sistema informa
+    Fluxos alternativos     que ainda não há dados para exibição.
+                                 b. Caso ocorra erro no carregamento, o sistema apresenta
+                       mensagem e permite tentar novamente.
+Fonte: Elaborado pelos autores (2026).
+
+
+
+Quadro 16 - Caso de uso: Acessar orientações pedagógicas
+
+       Campo                                 Descrição
+      Caso de uso        [UC009] Acessar orientações pedagógicas
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite que o usuário acesse orientações voltadas ao apoio da
+                              alfabetização infantil.
+      Pré-condições     O usuário deve estar autenticado no sistema.
+      Pós-condições     O usuário visualiza orientações relacionadas ao
+                           desenvolvimento da criança.
+                                 1. O usuário acessa a área de orientações.
+                                 2. O sistema apresenta conteúdos e recomendações
+     Fluxo principal        disponíveis.
+                                 3. O usuário seleciona a orientação desejada.
+                                 4. O sistema exibe o conteúdo correspondente.
+
+                                    a. Caso não existam orientações disponíveis para o nível da
+    Fluxos alternativos      criança, o sistema apresenta orientações gerais.
+                                 b. Caso ocorra erro no carregamento, o sistema solicita nova
+                                 tentativa.
+Fonte: Elaborado pelos autores (2026).
+
+
+
+Quadro 17 - Caso de uso: Gerenciar perfil do usuário
+
+       Campo                                 Descrição
+      Caso de uso        [UC010] Gerenciar perfil do usuário
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite que o usuário visualize e altere seus dados cadastrais.
+      Pré-condições     O usuário deve estar autenticado no sistema.
+      Pós-condições      Os dados do usuário são atualizados no sistema.
+
+===== PÁGINA FÍSICA 45; IMPRESSA 39 =====
+
+                                                                          39
+
+
+
+                                 1. O usuário acessa a área de perfil.
+                                 2. O sistema apresenta os dados cadastrados.
+     Fluxo principal        3. O usuário altera as informações desejadas.
+                                 4. O sistema valida os dados informados.
+                                 5. O sistema salva as alterações.
+                                 6. O sistema informa que os dados foram atualizados com
+                              sucesso.
+                                    a. Caso algum dado esteja inválido, o sistema informa o erro e
+    Fluxos alternativos      solicita correção.
+                                 b. Caso o usuário cancele a operação, nenhuma alteração é
+                                realizada.
+Fonte: Elaborado pelos autores (2026).
+
+
+
+Quadro 18 - Caso de uso: Vincular professor ou responsável à criança
+
+       Campo                                 Descrição
+      Caso de uso        [UC011] Vincular professor ou responsável à criança
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite associar um responsável ou educador ao perfil da
+                              criança para acompanhamento do desenvolvimento
+                             educacional.
+      Pré-condições     A criança deve estar cadastrada no sistema.
+      Pós-condições     O usuário passa a ter acesso às informações de
+                        acompanhamento da criança.
+                                 1. O usuário acessa o perfil da criança.
+                                 2. O sistema apresenta a opção de vínculo.
+     Fluxo principal        3. O usuário informa os dados necessários para associação.
+                                 4. O sistema valida as informações.
+                                 5. O sistema cria o vínculo entre usuário e criança.
+                                 6. O sistema informa que o vínculo foi realizado com sucesso.
+                                    a. Caso os dados informados não sejam válidos, o sistema
+    Fluxos alternativos      solicita correção.
+                                 b. Caso o vínculo já exista, o sistema informa que o usuário já
+                                está associado à criança.
+Fonte: Elaborado pelos autores (2026).
+
+
+
+Quadro 19 - Caso de uso: Visualizar relatório de desempenho
+
+       Campo                                 Descrição
+      Caso de uso        [UC012] Visualizar relatório de desempenho
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite visualizar relatórios detalhados sobre o desempenho
+                          da criança no processo de alfabetização.
+      Pré-condições     A criança deve possuir registros suficientes para geração do
+                                  relatório.
+      Pós-condições     O relatório é exibido ao usuário.
+
+===== PÁGINA FÍSICA 46; IMPRESSA 40 =====
+
+                                                                          40
+
+
+
+                                 1. O usuário acessa a área de relatórios.
+                                 2. O sistema busca os dados da criança.
+     Fluxo principal        3. O sistema organiza as informações de desempenho.
+                                 4. O sistema apresenta o relatório ao usuário.
+
+
+                                    a. Caso não existam dados suficientes, o sistema informa que
+    Fluxos alternativos     o relatório ainda não pode ser gerado.
+                                 b. Caso ocorra erro na busca dos dados, o sistema apresenta
+                       mensagem e permite nova tentativa.
+Fonte: Elaborado pelos autores (2026).
+
+
+Quadro 20 - Caso de uso: Recuperar senha
+
+       Campo                                 Descrição
+      Caso de uso        [UC013] Recuperar senha
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite que o usuário recupere o acesso à conta caso esqueça
+                            sua senha.
+      Pré-condições     O usuário deve possuir e-mail cadastrado no sistema.
+      Pós-condições     O usuário redefine sua senha e pode acessar novamente o
+                              sistema.
+                                 1. O usuário acessa a tela de login.
+                                 2. O usuário seleciona a opção de recuperação de senha.
+     Fluxo principal        3. O sistema solicita o e-mail cadastrado.
+                                 4. O usuário informa o e-mail.
+                                 5. O sistema envia instruções de recuperação.
+                                 6. O usuário redefine a senha.
+                                 7. O sistema confirma a alteração.
+                                    a. Caso o e-mail não esteja cadastrado, o sistema informa que
+    Fluxos alternativos     não foi possível localizar a conta.
+                                 b. Caso a nova senha não atenda aos critérios definidos, o
+                             sistema solicita alteração.
+Fonte: Elaborado pelos autores (2026).
+
+Quadro 21 - Sair do sistema
+
+       Campo                                 Descrição
+      Caso de uso        [UC014] Sair do sistema
+          Ator(es)           Pai/Responsável, Professor/Pedagogo
+        Descrição          Permite que o usuário encerre sua sessão no aplicativo.
+      Pré-condições     O usuário deve estar autenticado no sistema.
+      Pós-condições     A sessão do usuário é encerrada.
+                                 1. O usuário seleciona a opção de sair.
+                                 2. O sistema solicita confirmação.
+     Fluxo principal        3. O usuário confirma a saída.
+                                 4. O sistema encerra a sessão.
+                                 5. O usuário é direcionado para a tela de login.
+
+===== PÁGINA FÍSICA 47; IMPRESSA 41 =====
+
+                                                                          41
+
+
+
+                                    a. Caso o usuário cancele a operação, a sessão permanece
+    Fluxos alternativos      ativa.
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+===== PÁGINA FÍSICA 48; IMPRESSA 42 =====
+
+                                                                          42
+
+
+7 MODELAGEM DO BANCO DE DADOS
+
+    A modelagem do banco de dados representa uma etapa fundamental no
+desenvolvimento do sistema, sendo responsável pela definição da estrutura utilizada para
+armazenamento, organização e gerenciamento das informações da aplicação. Essa etapa tem
+como objetivo garantir que os dados relacionados ao funcionamento do sistema sejam
+estruturados de forma lógica, organizada e consistente, contribuindo para o desempenho,
+integridade e confiabilidade da solução proposta.
+     No contexto deste projeto, a modelagem foi desenvolvida considerando as
+necessidades identificadas durante a análise de requisitos, especialmente no que se refere ao
+acompanhamento personalizado da alfabetização infantil e à utilização de inteligência
+artificial para apoio ao processo educacional. Dessa forma, a estrutura do banco de dados foi
+planejada para permitir o gerenciamento das informações relacionadas aos usuários, crianças,
+atividades educativas, progresso de aprendizagem, relatórios de desempenho e recomendações
+individualizadas.
+     Além disso, a modelagem busca garantir a integração entre os diferentes componentes
+do sistema, permitindo que as funcionalidades da aplicação compartilhem informações de
+maneira estruturada e eficiente. Essa organização também contribui para futuras manutenções,
+atualizações e expansão da plataforma.
+   Para representar a estrutura proposta, serão apresentados o diagrama de classes, o
+diagrama entidade relacionamento e o modelo entidade relacionamento, possibilitando uma
+visão detalhada das entidades do sistema, seus atributos e os relacionamentos existentes entre
+elas.
+                               7.1 MODELAGEM DO BANCO DE DADOS
+    O diagrama de classes tem como objetivo representar a estrutura lógica do sistema,
+demonstrando as principais entidades do projeto, seus atributos e os relacionamentos
+existentes entre elas. Essa modelagem permite uma visão mais detalhada da organização do
+aplicativo, contribuindo para o entendimento das funcionalidades e da forma como os dados
+serão estruturados durante o desenvolvimento da solução.
+     No contexto deste projeto, o diagrama de classes foi desenvolvido considerando as
+necessidades identificadas durante a análise de requisitos e a proposta de acompanhamento
+personalizado da alfabetização infantil por meio de inteligência artificial. Dessa forma, a
+estrutura do sistema foi organizada de modo a possibilitar o gerenciamento das informações
+relacionadas aos usuários, crianças, atividades educacionais, progresso de aprendizagem e
+recomendações individualizadas.
+    A classe central do sistema é representada pela entidade Student, responsável por
+armazenar as principais informações da criança em fase de alfabetização, incluindo dados
+básicos, nível de alfabetização, progresso e status de avaliação. A partir dessa entidade, são
+estabelecidos relacionamentos com os demais componentes do sistema.
+    O diagrama também apresenta a entidade User, responsável pelo gerenciamento dos
+usuários da plataforma, como pais, responsáveis, professores e pedagogos. Além disso, são
+apresentadas as entidades relacionadas à organização escolar, como School e Turma,
+permitindo a vinculação da criança ao ambiente educacional correspondente.
+    Em relação ao acompanhamento do desenvolvimento infantil, destacam-se as
+entidades ProgressEntry e BimestreReport, responsáveis pelo registro do desempenho da
+criança e pela geração de relatórios de evolução ao longo do processo de alfabetização. Essas
+estruturas permitem que o sistema acompanhe o progresso individual da criança de forma
+contínua e organizada.
+    O sistema também contempla entidades voltadas à personalização da aprendizagem,
+como Recommendation e IndividualGuidance, responsáveis pela geração de recomendações e
+orientações individualizadas com base no desempenho identificado pela inteligência artificial.
+
+===== PÁGINA FÍSICA 49; IMPRESSA 43 =====
+
+                                                                          43
+
+
+
+     Além disso, o diagrama apresenta a entidade StudentTrail, relacionada às trilhas de
+aprendizagem personalizadas, bem como a entidade TrailTask, responsável pelas atividades
+que compõem cada trilha educacional. Essa estrutura possibilita a criação de percursos de
+aprendizagem adaptados às necessidades específicas de cada criança.
+      Outro ponto importante refere-se à entidade SpecialNeeds, responsável pelo
+armazenamento de informações relacionadas a necessidades específicas da criança,
+permitindo maior personalização e acessibilidade no processo de aprendizagem.
+      Por fim, o diagrama evidencia a integração entre os diferentes componentes do
+sistema, demonstrando como as informações serão organizadas e compartilhadas entre as
+funcionalidades da plataforma, contribuindo para a construção de uma solução estruturada,
+personalizada e alinhada às necessidades identificadas ao longo do projeto.
+
+Figura 22 - Diagrama de Classes
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+                           7.2 DIAGRAMA ENTIDADE RELACIONAMENTO
+    O Diagrama Entidade Relacionamento (DER) tem como objetivo representar a
+estrutura lógica do banco de dados do sistema, demonstrando as entidades existentes, seus
+
+===== PÁGINA FÍSICA 50; IMPRESSA 44 =====
+
+                                                                          44
+
+
+
+atributos e os relacionamentos estabelecidos entre elas. Essa representação permite visualizar
+de forma organizada como os dados serão armazenados e conectados dentro da aplicação.
+     No contexto deste projeto, o DER foi desenvolvido considerando as funcionalidades
+relacionadas ao acompanhamento da alfabetização infantil, ao gerenciamento das informações
+educacionais e à personalização do aprendizado por meio da inteligência artificial. Dessa
+forma, o modelo busca garantir organização, integridade e eficiência no armazenamento dos
+dados utilizados pelo sistema.
+    A entidade central do diagrama é representada pela tabela Students, responsável pelo
+armazenamento das principais informações relacionadas às crianças cadastradas na
+plataforma, incluindo dados pessoais, nível de alfabetização, progresso, observações e status
+de avaliação. A partir dessa entidade principal, são estabelecidos os relacionamentos com os
+demais componentes do banco de dados.
+    O diagrama também apresenta a entidade Users, responsável pelo gerenciamento dos
+usuários da plataforma, como pais, responsáveis, professores e pedagogos. Essa entidade se
+relaciona diretamente com a tabela de estudantes, permitindo o acompanhamento
+individualizado das crianças cadastradas.
+     Além disso, são apresentadas as entidades Schools e Turmas, utilizadas para
+representar a estrutura escolar vinculada ao processo educacional. Essas entidades permitem
+associar os estudantes às respectivas instituições e turmas, contribuindo para uma organização
+mais estruturada das informações acadêmicas.
+    Em relação ao acompanhamento do desenvolvimento da alfabetização, destacam-se as
+entidades Activities e ProgressEntries, responsáveis pelo registro das atividades realizadas
+pela criança e pelo armazenamento das informações de progresso e desempenho obtidas
+durante o uso da plataforma.
+    O diagrama também contempla entidades voltadas à geração de relatórios e
+recomendações personalizadas, como BimestreReports, Recommendations e
+IndividualGuidances, permitindo que o sistema registre análises de desempenho, orientações
+pedagógicas e recomendações individualizadas com base nos dados coletados.
+      Outro componente importante é representado pela entidade StudentTrails, responsável
+pelas trilhas de aprendizagem personalizadas da criança. Essa entidade se relaciona
+diretamente com a tabela TrailTasks, que armazena as atividades pertencentes a cada trilha
+educacional, possibilitando o acompanhamento contínuo do desenvolvimento do estudante.
+     Além disso, o modelo contempla a entidade SpecialNeeds, utilizada para armazenar
+informações relacionadas a necessidades específicas da criança, permitindo maior
+acessibilidade e personalização no processo de aprendizagem.
+      Por fim, o DER evidencia os relacionamentos entre as entidades do sistema, utilizando
+chaves primárias e estrangeiras para garantir a integridade referencial das informações. Essa
+estrutura contribui para a organização do banco de dados e para o funcionamento adequado
+das funcionalidades previstas na solução proposta.
+
+===== PÁGINA FÍSICA 51; IMPRESSA 45 =====
+
+                                                                          45
+
+
+
+Figura 23 - Diagrama Entidade Relacionamento
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+
+                                    7.3 DIAGRAMA DE SEQUÊNCIA
+    O diagrama de sequência tem como objetivo representar a ordem das interações
+realizadas entre o usuário, a interface do aplicativo e os componentes internos do sistema
+durante a execução de uma funcionalidade. Esse tipo de diagrama permite visualizar o fluxo
+de comunicação entre os elementos envolvidos, demonstrando como as informações são
+processadas e atualizadas ao longo do uso da aplicação.
+     No contexto deste projeto, o diagrama apresentado demonstra o fluxo relacionado à
+avaliação inicial da criança e à liberação das trilhas de aprendizagem. Inicialmente, o usuário
+preenche a avaliação inicial no aplicativo, por meio da tela AssessmentScreen. Após esse
+preenchimento, o sistema atualiza as informações da criança, considerando dados como
+avaliação, pontuação e nível identificado.
+    Em seguida, o componente ChildStore aciona as regras de trilhas por meio do
+TrailsRules, responsável por construir as trilhas de aprendizagem iniciais com base no nível
+da criança. Após a geração dessas trilhas, os dados da criança são atualizados e enviados ao
+ChildService, que realiza a comunicação com a API ou estrutura simulada do sistema para
+persistência das informações.
+      Após a confirmação da atualização, o aplicativo exibe ao usuário as trilhas liberadas.
+Dessa forma, a criança passa a ter acesso a atividades organizadas conforme seu nível de
+desenvolvimento. O diagrama também apresenta o fluxo de conclusão de uma tarefa da trilha,
+no qual o usuário finaliza uma atividade e o sistema registra essa conclusão.
+    A partir desse registro, o sistema normaliza as trilhas de aprendizagem, verifica a
+possibilidade de desbloqueio da próxima etapa e atualiza novamente o progresso da criança.
+
+===== PÁGINA FÍSICA 52; IMPRESSA 46 =====
+
+                                                                          46
+
+
+
+Por fim, o aplicativo apresenta um feedback de evolução ao usuário, demonstrando que o
+progresso foi atualizado com sucesso.
+      Dessa forma, o diagrama de sequência evidencia o funcionamento dinâmico do
+sistema, mostrando como a avaliação inicial, a geração de trilhas personalizadas e o
+acompanhamento do progresso da criança ocorrem de maneira integrada entre a interface, as
+regras de negócio, o serviço da aplicação e a camada de persistência de dados.
+
+
+Figura 24 - Diagrama de Sequência
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+    A partir da modelagem apresentada, é possível compreender a estrutura planejada para
+o armazenamento e organização dos dados do sistema. Os diagramas demonstram como as
+principais informações da aplicação se relacionam, incluindo usuários, crianças cadastradas,
+escolas, turmas, atividades, progresso, relatórios, recomendações, trilhas de aprendizagem e
+necessidades específicas.
+    A estrutura proposta permite que o sistema registre o desenvolvimento da criança de
+forma organizada, possibilitando o acompanhamento contínuo da alfabetização infantil. Além
+disso, a relação entre as entidades favorece a personalização do aprendizado, uma vez que os
+dados armazenados podem ser utilizados para gerar recomendações, orientações
+individualizadas e trilhas educacionais adaptadas ao nível de cada criança.
+      Dessa forma, a modelagem do banco de dados contribui diretamente para o
+funcionamento da solução proposta, garantindo maior organização, integridade das
+informações e suporte às funcionalidades previstas no aplicativo. Com essa base estruturada,
+torna-se possível avançar para as próximas etapas do projeto, como a prototipagem das telas e
+a proposta de desenvolvimento do sistema.
+
+===== PÁGINA FÍSICA 53; IMPRESSA 47 =====
+
+                                                                          47
+
+
+8 PROTOTIPAGEM DAS TELAS
+
+      Segundo a Dextra (2013), a prototipação de software consiste no desenvolvimento de
+modelos que representem a ideia, as funcionalidades e as regras de negócio do projeto. Esses
+modelos podem ser desenvolvidos de diferentes formas, desde wireframes voltados à estrutura
+lógica da aplicação até protótipos interativos focados na validação visual, navegabilidade,
+usabilidade e experiência do usuário.
+      Nesse contexto, o principal objetivo da prototipação consiste em validar requisitos e
+garantir melhor compreensão sobre as funcionalidades propostas para o sistema,
+possibilitando identificar melhorias antes da implementação efetiva do software (DEXTRA,
+2013). Além disso, os protótipos permitem demonstrar visualmente o funcionamento da
+solução junto aos usuários e demais envolvidos no projeto.
+     Com base nisso, foi desenvolvido um protótipo inicial para o aplicativo proposto,
+utilizando a abordagem de prototipação visual e interativa, com o objetivo de representar as
+principais funcionalidades do sistema de acompanhamento da alfabetização infantil. O
+protótipo foi elaborado visando validar a proposta de valor da solução, bem como facilitar o
+entendimento sobre a experiência do usuário e os recursos disponibilizados para pais,
+responsáveis, educadores e instituições de ensino.
+    A Figura 25 apresenta o protótipo desenvolvido para o painel do professor no sistema
+proposto, contemplando funcionalidades relacionadas ao gerenciamento do perfil do usuário,
+criação de orientações pedagógicas individualizadas, acompanhamento do desempenho dos
+alunos e geração de relatórios educacionais. Além disso, a interface permite a visualização do
+progresso da alfabetização por período letivo, identificação de alunos que demandam maior
+atenção e acompanhamento individualizado do desenvolvimento educacional, auxiliando
+professores no processo de tomada de deci são pedagógica.
+
+
+Figura 25 - Protótipo do painel do professor e acompanhamento pedagógico do sistemav
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+    A Figura 26 apresenta o protótipo desenvolvido para o módulo de acompanhamento
+pedagógico do sistema, reunindo funcionalidades voltadas à gestão do perfil do professor,
+criação de orientações individualizadas e monitoramento do progresso dos alunos. Além
+disso, a interface possibilita a visualização de indicadores de desempenho, evolução da
+alfabetização por período letivo e relatórios que auxiliam na identificação de alunos que
+
+===== PÁGINA FÍSICA 54; IMPRESSA 48 =====
+
+                                                                          48
+
+
+
+necessitam de maior atenção pedagógica, contribuindo para um acompanhamento mais
+direcionado e personalizado.
+
+Figura 26 -Protótipo do módulo de acompanhamento pedagógico do sistema
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+    A Figura 27 apresenta o protótipo desenvolvido para o módulo de gerenciamento
+pedagógico do sistema, contemplando funcionalidades relacionadas à criação de atividades
+personalizadas, acompanhamento do desempenho das turmas e visualização de indicadores
+gerais do processo de alfabetização. Além disso, a interface permite ao professor monitorar o
+progresso dos alunos, identificar necessidades de atenção pedagógica e acessar ações rápidas
+para apoio no acompanhamento educacional.
+
+Figura 27 - Protótipo do módulo de gerenciamento pedagógico e acompanhamento de turmas
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+    A Figura 28 apresenta o protótipo desenvolvido para o módulo de acompanhamento
+pedagógico do sistema, contemplando funcionalidades relacionadas ao perfil do usuário,
+orientações educacionais personalizadas e visualização de relatórios de desempenho. Além
+
+===== PÁGINA FÍSICA 55; IMPRESSA 49 =====
+
+                                                                          49
+
+
+
+disso, a interface permite ao professor acompanhar a evolução individual dos alunos,
+identificar necessidades especiais, monitorar níveis de atenção pedagógica e acessar recursos
+de apoio voltados ao processo de alfabetização e desenvolvimento educacional.
+
+Figura 28 - Protótipo do módulo de acompanhamento pedagógico e relatórios de desempenho
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+    A Figura 29 apresenta o protótipo desenvolvido para o módulo de gerenciamento de
+estudantes e acompanhamento pedagógico do sistema, contemplando funcionalidades
+relacionadas ao cadastro de novos alunos, definição de necessidades educacionais especiais e
+monitoramento individual do desempenho acadêmico. Além disso, a interface permite ao
+professor visualizar relatórios personalizados, acessar recomendações pedagógicas,
+acompanhar métricas de evolução dos estudantes e utilizar ações rápidas para suporte ao
+processo de alfabetização e inclusão educacional.
+
+
+Figura 29 - Protótipo do módulo de gerenciamento de estudantes e acompanhamento pedagógico
+
+
+
+
+
+Fonte: Elaborado pelos autores (2026).
+
+===== PÁGINA FÍSICA 56; IMPRESSA 50 =====
+
+                                                                          50
+
+
+9 PROPOSTA DE DESENVOLVIMENTO
+
+   Após a elaboração do plano de negócios, a elicitação e especificação de requisitos e a
+modelagem do sistema, foram levantadas as tecnologias para apoiar a implementação do
+software, assim como as metodologias para orientar esse processo. Nesse sentido, foram
+consideradas boas práticas em padrões, testes e garantia de qualidade de software para
+compor o plano de desenvolvimento descrito nesta seção.
+                             9.1 TECNOLOGIAS QUE SERÃO UTILIZADAS
+   As tecnologias a serem utilizadas durante o desenvolvimento do software foram
+selecionadas com base em fatores como: viabilidade técnica, manutenibilidade, portabilidade,
+acesso à documentação e grau de familiaridade da equipe. Tais fatores influenciam
+diretamente o desenvolvimento do software, uma vez que, escolhidas essas ferramentas, é
+provável que permaneçam atreladas à solução desde o início de seu desenvolvimento até a sua
+descontinuação.
+  Com base nos fatores apresentados, foi realizada uma análise sobre ferramentas,
+linguagens de programação e frameworks voltados ao desenvolvimento mobile, a fim de
+avaliar a viabilidade de cada um no contexto do projeto. Dessa forma, as tecnologias mais
+adequadas para o desenvolvimento do software Elevva foram selecionadas e são apresentadas
+na tabela 1, juntamente a seus fornecedores, descrições e versões de referência.
+
+Quadro 22 - Tecnologias utilizadas para o desenvolvimento do software
+
+                                               Versão
+ Nome         Fornecedor     Descrição                     Utilização        Custo
+                                                                  (ref.)
+
+                           Framework para
+                              desenvolvimento          Camada de
+ React Native   Meta                               0.79.x                      Gratuito
+                             mobile                         interface mobile
+                                multiplataforma
+
+                           Framework e
+                                                      Execução local,
+                                 toolchain para
+                                                                  bibliotecas
+                               desenvolvimento,  SDK
+ Expo        Expo                                          nativas e fluxo     Gratuito
+                                 build e execução    53
+                                                       de
+                           do app React
+                                                         desenvolvimento
+                               Native
+
+                           Linguagem de               Padronização e
+ TypeScript     Microsoft      tipagem estática     5.8.x    segurança de      Gratuito
+                                para JavaScript                tipos no frontend
+
+                           Framework
+              Comunidade   backend para        Estável  API principal do
+ FastAPI                                                                        Gratuito
+               Python       APIs REST de       atual     sistema
+                                      alta produtividade
+
+                                                             Serviços de
+               Python       Linguagem de
+                                                          negócio e
+ Python        Software      programação do    3.11+                       Gratuito
+                                                               integração com
+                Foundation    backend
+                                                  IA
+
+                                                      Execução da
+                                Servidor ASGI      Estável
+ Uvicorn       Encode                              API em           Gratuito
+                                para FastAPI        atual
+                                                         ambiente de
+
+===== PÁGINA FÍSICA 57; IMPRESSA 51 =====
+
+                                                                          51
+
+
+
+                                               Versão
+ Nome         Fornecedor     Descrição                     Utilização        Custo
+                                                                  (ref.)
+
+                                                         desenvolvimento
+                                                           e produção
+
+                          Mapeamento                  Persistência de
+ SQLAlchemy  Comunidade                        Estável
+                                  objeto-relacional            dados             Gratuito
+  / SQLModel   Python                                atual
+                       (ORM)                        relacionais
+
+                              Ferramenta de
+                                                            Controle
+                              versionamento de
+                                                     Estável  evolutivo do
+ Alembic      SQLAlchemy  esquema de banco                               Gratuito
+                                                         atual    esquema do
+                             de dados
+                                                       banco
+                                 (migrations)
+
+                           Banco de dados
+                                                                  Persistência
+ Neon                            relacional          Plano
+             Neon                                           principal dos      Gratuito
+ (PostgreSQL)                   serverless baseado  Free
+                                                        dados do sistema
+                      em PostgreSQL
+
+                               Serviço de
+                                                           Autenticação e
+                                 autenticação e      Plano
+ Clerk          Clerk                                        identidade de      Gratuito
+                                gestão de sessão    Free
+                                                               usuários
+                             de usuários
+
+                                 Cliente HTTP            Consumo da
+ Axios         Axios          para consumo de    1.x     API no            Gratuito
+                           APIs REST                    aplicativo
+
+                                                         Estado do
+                                 Biblioteca de                  aplicativo
+ Zustand       Comunidade   gerenciamento de   5.x       (autenticação,     Gratuito
+                                estado global                  estudante,
+                                                               sessão)
+
+ Jest + React
+                              Ferramentas de               Testes
+ Native        Meta /                              Estável
+                                     testes unitários e             automatizados     Gratuito
+ Testing         Callstack                             atual
+                             de componentes            do frontend
+ Library
+
+                           Framework de
+                                                             Testes da API e
+              Comunidade    testes               Estável
+ Pytest                                                    das regras de      Gratuito
+               Python        automatizados       atual
+                                                          negócio
+                                para Python
+
+                              Ferramentas de
+                                                         Qualidade e
+ ESLint +      OpenJS         análise estática e    Estável
+                                                           padronização do   Gratuito
+ Prettier        Foundation    formatação de       atual
+                                                             código-fonte
+                              código
+Fonte: Elaborado pelos autores (2026).
+9.1.1 Decisão sobre a estratégia de banco de dados
+   Para o núcleo de dados do Elevva, será adotado banco de dados relacional (PostgreSQL,
+provisionado via Neon) como solução principal de persistência. Essa escolha se justifica pelo
+
+===== PÁGINA FÍSICA 58; IMPRESSA 52 =====
+
+                                                                          52
+
+
+
+forte grau de relacionamento entre as entidades do domínio pedagógico como usuários,
+estudantes, atividades, trilhas, avaliações e registros de progresso, que demandam integridade
+referencial e suporte a consultas agregadas para a geração de relatórios.
+   Adicionalmente, o projeto prevê uma estratégia complementar para cenários de maior
+escala, com possível adoção de banco de dados não relacional para dados de alta volumetria e
+baixa criticidade transacional, tais como eventos de telemetria, logs de interação e cache de
+respostas de serviços de inteligência artificial. Essa abordagem mantém a consistência
+transacional nas operações críticas do sistema e reduz a complexidade inicial da solução.
+
+                          9.2 METODOLOGIA DE PADRÕES DE SOFTWARE
+   Segundo Sommerville (2011), a utilização de padrões de desenvolvimento de software
+oferece subsídios para que a equipe possa criar e documentar um processo de
+desenvolvimento estruturado e adaptável às suas necessidades. Para o autor, a padronização
+desses processos objetiva a documentação de conhecimentos adquiridos durante a
+implementação, a formalização do que se entende por qualidade de software e a facilitação do
+trabalho em equipe por meio do uso comum de boas práticas.
+    Portanto, com o objetivo de estruturar e facilitar o desenvolvimento do software proposto,
+foram escolhidos os padrões arquiteturais e de projeto descritos na Tabela 2.
+
+
+Quadro 23 -Metodologias e padrões utilizados para o desenvolvimento do software
+
+     Nome                       Descrição                            Utilização
+
+                   Padrão arquitetural para implementação de APIs
+ REST                                                        API FastAPI
+               Web com comunicação via HTTP
+
+                    Conjunto de princípios orientados ao projeto de
+ SOLID                                                     Backend e frontend
+                      software modular e de fácil manutenção
+
+                        Princípio que orienta a eliminação de duplicação   Serviços, hooks e
+ DRY
+                  de lógica no código-fonte                                 utilitários
+
+                   Separação do sistema em camadas
+ Clean Architecture
+                     (apresentação, aplicação, domínio e               Estrutura do backend
+ (adaptação leve)
+                        infraestrutura)
+
+ DDD tático        Modelagem orientada ao domínio com uso de
+                                                                   Entidades do sistema
+ (adaptado)         linguagem ubíqua entre equipe e negócio
+
+  API-first             Definição do contrato de API previamente à
+                                                                      Integração app/API
+ (pragmático)        integração entre frontend e backend
+
+Fonte: Elaborado pelos autores (2026).
+
+       Apresentados os padrões que serão utilizados durante o desenvolvimento do software
+Elevva, é necessário destacar alguns pontos:
+    O padrão REST será utilizado para o desenvolvimento da API do sistema; entretanto,
+algumas adaptações serão realizadas, visto que certas diretrizes do padrão não se adequam ao
+contexto mobile do projeto, onde payloads enxutos e respostas orientadas ao consumo em
+aplicativo são prioritários;
+    O DDD será aplicado de forma tática e incremental, priorizando o domínio
+educacional sem sobrecarga documental, conforme as necessidades do projeto;
+  A Clean Architecture será adotada como referência estrutural para o backend, sem
+imposição de rigidez excessiva, mantendo o equilíbrio entre organização e praticidade de
+desenvolvimento.
+
+===== PÁGINA FÍSICA 59; IMPRESSA 53 =====
+
+                                                                          53
+
+
+
+                          9.3 METODOLOGIA PARA TESTES DE SOFTWARE
+   Nesta seção, será descrita a metodologia adotada para conduzir os testes de software do
+sistema que, de acordo com Sommerville (2011), são realizados com o intuito de garantir a
+conformidade do software com os requisitos do usuário (validação), assim como detectar
+comportamentos indesejáveis ou inconsistentes apresentados por ele (verificação).
+   De modo geral, o processo de testes para a API será conduzido por meio de testes
+unitários e de integração automatizados, implementados com o framework Pytest. Cada
+recurso disponibilizado pela API será acompanhado de um ou mais casos de teste, que serão
+avaliados automaticamente, visando capturar falhas em seu funcionamento e garantir a
+conformidade das regras de negócio.
+   Os testes relacionados ao aplicativo mobile serão realizados com Jest e React Native
+Testing Library para componentes críticos, além de validação manual conduzida por meio de
+roteiros de teste que simulam o fluxo de uso pelo ponto de vista do usuário. Os fluxos críticos
+previstos para validação são:
+    1.  cadastro e autenticação;
+    2.  cadastro de estudante;
+    3.  realização de avaliação inicial;
+    4.  liberação e execução de trilhas de atividades;
+    5.  visualização de progresso e relatório.
+   Por fim, o sistema e suas representações tangíveis — como código-fonte, requisitos e
+diagramas serão inspecionados de forma contínua por meio de revisão de código, análise
+estática com ferramentas de lint e verificação de consistência de tipos e contratos de API,
+visando controlar falhas não rastreáveis pelos procedimentos de teste automatizados.
+
+                                    9.4 MÉTRICAS DE QUALIDADE
+   De acordo com Sommerville (2011), o conceito de qualidade no contexto de software
+deve ser entendido de forma diferente da interpretação utilizada pela indústria manufatureira,
+que se baseia na conformidade dos produtos quanto às características definidas em suas
+especificações. Para o autor, a qualidade de um software não pode ser medida de forma
+objetiva, em decorrência de fatores como as dificuldades para definir especificações de
+requisitos suficientemente detalhadas e gerenciar as expectativas de diferentes partes
+interessadas.
+   Por esse motivo, a abordagem para a garantia de qualidade do software será baseada no
+levantamento e na priorização dos fatores de qualidade relevantes para a solução,
+simultaneamente à utilização de métricas que permitam mensurar e acompanhar a evolução
+do software ao longo de seu desenvolvimento, conforme apresentado na Tabela 3.
+
+Quadro 24 - Priorização de métricas de qualidade
+
+ Fator de Qualidade    Motivação                            Possíveis medidas
+
+               O processo de manutenção do
+                                                  Número de módulos alterados por versão;
+                          software deve ser facilitado, visando
+                                                           complexidade ciclomática; cobertura de
+ Manutenibilidade       acompanhar as mudanças frequentes
+                                                                           testes por módulo. Adaptado de Pressman
+                         nas regras pedagógicas e nas telas do
+                                                              (2011)
+                          sistema
+
+               O fluxo de uso do sistema deve ser
+                                                Tempo médio para conclusão de uma
+                               intuitivo, considerando que o
+                                                                        tarefa pelo usuário; taxa de erros em fluxos
+ Usabilidade              público-alvo inclui famílias e
+                                                                             críticos; taxa de abandono por tela.
+                         educadores com diferentes graus de
+                                                        Adaptado de Guimarães (2019)
+                           familiaridade tecnológica
+
+ Segurança e        O sistema manipula dados de           Percentual de endpoints protegidos por
+ Privacidade               crianças, exigindo proteção reforçada   autenticação; número de incidentes de
+
+===== PÁGINA FÍSICA 60; IMPRESSA 54 =====
+
+                                                                          54
+
+
+
+
+ Fator de Qualidade    Motivação                            Possíveis medidas
+
+                         e conformidade com a Lei Geral de     acesso indevido; conformidade com
+                         Proteção de Dados (LGPD)              políticas de anonimização
+
+               O uso em dispositivos móveis exige
+                                                Tempo de resposta médio da API; tempo
+                           respostas rápidas e estabilidade,
+ Desempenho                                              de carregamento de tela; taxa de falhas por
+                          especialmente em conexões com
+                                                                 sessão
+                           largura de banda variável
+
+                    As recomendações e classificações
+                                                              Divergência entre avaliação e trilha
+ Confiabilidade          de nível devem ser consistentes com
+                                                                   sugerida; taxa de correção manual de
+ pedagógica             os resultados das avaliações
+                                                                      classificação por parte dos educadores
+                            realizadas
+Fonte: Elaborado pelos autores (2026).
+                    9.5 MODELO DE DADOS E ESTRATÉGIA DE PERSISTÊNCIA
+  A persistência de dados do sistema seguirá uma abordagem orientada por criticidade, com
+separação entre dados transacionais e dados de suporte operacional.
+
+   •  Camada relacional
+  O banco de dados relacional PostgreSQL, provisionado por meio do serviço Neon, será
+adotado como solução principal de persistência. As entidades centrais do sistema incluindo
+usuários, estudantes, atividades, registros de progresso, relatórios, recomendações, trilhas e
+tarefas serão armazenadas nessa camada, em razão da necessidade de integridade referencial,
+rastreabilidade histórica e suporte a consultas agregadas para a geração de relatórios
+pedagógicos.
+   •  Camada não relacional (complementar)
+   De forma complementar, prevê-se a possível adoção de banco de dados não relacional
+para o armazenamento de dados de alta volumetria e baixa criticidade transacional, tais como
+eventos de telemetria, logs de interação do usuário e cache de respostas de serviços externos
+de inteligência artificial. Entre as alternativas avaliadas, destacam-se Firebase (Firestore) e
+MongoDB Atlas, ambas disponíveis em planos gratuitos e adequadas para esses casos de uso.
+A adoção dessa camada ficará condicionada ao surgimento de requisitos concretos que a
+justifiquem ao longo do desenvolvimento.
+
+                                   9.6 PLANO DE IMPLEMENTAÇÃO
+    A implementação do software será organizada de forma incremental, em ciclos curtos
+com entregas parciais e verificáveis. Essa abordagem permite o controle contínuo da
+qualidade e a identificação precoce de desvios em relação aos requisitos definidos. As etapas
+macro do desenvolvimento são apresentadas na Tabela 4.
+
+
+Quadro 25 - Etapas macro de desenvolvimento
+
+ Etapa            Objetivo                                 Entregáveis
+
+                  Consolidação de arquitetura e contratos    Modelo de dados inicial, endpoints-base e
+ Etapa 1
+                 de API                                       estrutura de projeto
+
+                 Implementação do núcleo de               Cadastro, autenticação, CRUD de estudante e
+ Etapa 2
+                    autenticação e gestão de estudantes         estado global integrado
+
+                                                          Avaliação inicial, trilhas de atividades e
+ Etapa 3         Implementação do núcleo pedagógico
+                                                            progressão por tarefas
+
+===== PÁGINA FÍSICA 61; IMPRESSA 55 =====
+
+                                                                          55
+
+
+
+
+ Etapa            Objetivo                                 Entregáveis
+
+                                                             Testes automatizados, métricas de qualidade,
+ Etapa 4          Validação, qualidade e documentação
+                                                               revisão técnica e documentação final
+Fonte: Elaborado pelos autores (2026).
+
+                                       9.7 RISCOS E MITIGAÇÕES
+
+    O desenvolvimento do software está sujeito a riscos técnicos que podem comprometer
+os prazos ou a qualidade das entregas. A tabela 5 apresenta os principais riscos identificados,
+seus impactos estimados e as estratégias de mitigação previstas.
+
+Quadro 26 - Principais riscos técnicos e estratégias de mitigação
+
+ Risco                      Impacto                  Mitigação
+
+                                Indisponibilidade
+ Limites dos planos                               Adoção de arquitetura desacoplada, com suporte a
+                              temporária de serviços
+  gratuitos dos serviços                                dados simulados (mock) para continuidade do
+                               externos ao longo do
+  utilizados                                            desenvolvimento
+                             desenvolvimento
+
+ Complexidade de
+                              Atraso nas entregas das
+ integração entre o                                      Definição antecipada de contratos de API estáveis
+                               funcionalidades
+  aplicativo mobile e o                                   e implementação de testes de integração
+                                integradas
+ backend
+
+                             Perda de foco e
+ Expansão de escopo além                                 Priorização por requisitos críticos e congelamento
+                           comprometimento dos
+ do planejado                                        de escopo por ciclo de desenvolvimento
+                              prazos estabelecidos
+
+ Dependência de serviços      Instabilidade ou aumento
+                                                      Abstração por camada de serviço dedicada e
+ externos de inteligência      de custos no uso das
+                                                    implementação de cache de respostas
+  artificial                  APIs de IA
+Fonte: Elaborado pelos autores (2026).
+
+                               9.8 INFRAESTRUTURA E IMPLANTAÇÃO
+
+    A infraestrutura de implantação do sistema será definida com base na disponibilidade
+de planos gratuitos oferecidos pelas plataformas selecionadas, viabilizando a execução e
+demonstração do software sem custos operacionais durante o período de desenvolvimento. As
+opções mapeadas para esse fim são:
+     API FastAPI hospedada nas plataformas Render ou Railway, ambas disponíveis em
+planos gratuitos com limitações de uso banco de dados PostgreSQL provisionado pelo serviço
+Neon, em plano gratuito; aplicativo mobile executado por meio do Expo Go para validação
+em dispositivos reais, com possibilidade de geração de builds de teste locais.
+       Ressalta-se que a implantação produtiva completa não constitui o escopo principal
+deste trabalho, sendo priorizada a validação funcional e técnica do sistema desenvolvido. Essa
+delimitação evita a dispersão de esforço em atividades operacionais de infraestrutura e
+mantém o foco no desenvolvimento e na verificação dos requisitos definidos.
+
+===== PÁGINA FÍSICA 62; IMPRESSA 56 =====
+
+56
+
+===== PÁGINA FÍSICA 63; IMPRESSA 57 =====
+
+                                                                          57
+
+
+REFERÊNCIAS
+
+GOOGLE FOR EDUCATION. TECNOLOGIAS EDUCACIONAIS E TRANSFORMAÇÃO DIGITAL NA
+EDUCAÇÃO. ACESSO EM: 17 MAIO 2026.
+KHAN ACADEMY BRASIL. PLATAFORMA EDUCACIONAL DE APOIO À APRENDIZAGEM. ACESSO
+EM: 17 MAIO 2026.
+MEC – MINISTÉRIO DA EDUCAÇÃO. DIRETRIZES E INFORMAÇÕES SOBRE ALFABETIZAÇÃO E
+EDUCAÇÃO BÁSICA. ACESSO EM: 17 MAIO 2026.
+OPENAI. INTELIGÊNCIA ARTIFICIAL APLICADA À PERSONALIZAÇÃO DE EXPERIÊNCIAS DIGITAIS.
+ACESSO EM: 17 MAIO 2026.
+SEBRAE. MODELO DE NEGÓCIOS E EMPREENDEDORISMO PARA SOLUÇÕES DIGITAIS
+EDUCACIONAIS. ACESSO EM: 17 MAIO 2026.
+BACICH, L.; MORAN, J. METODOLOGIAS ATIVAS PARA UMA EDUCAÇÃO INOVADORA. PORTO
+ALEGRE: PENSO, 2018.
+BEHAR, P. A. MODELOS PEDAGÓGICOS EM EDUCAÇÃO A DISTÂNCIA. PORTO ALEGRE:
+ARTMED, 2009.
+BERTAGNOLLI, S. C.; SILVA, M. A. TECNOLOGIAS DIGITAIS APLICADAS À EDUCAÇÃO
+INFANTIL. SÃO PAULO: PEARSON, 2020.
+BRASIL. MINISTÉRIO DA EDUCAÇÃO. BASE NACIONAL COMUM CURRICULAR (BNCC).
+BRASÍLIA: MEC, 2018. DISPONÍVEL EM: HTTPS://BASENACIONALCOMUM.MEC.GOV.BR/. ACESSO
+EM: 17 MAIO 2026.
+CAMARGO, F.; DAROS, T. A SALA DE AULA INOVADORA: ESTRATÉGIAS PEDAGÓGICAS PARA
+FOMENTAR O APRENDIZADO ATIVO. PORTO ALEGRE: PENSO, 2018.
+FREIRE, P. PEDAGOGIA DA AUTONOMIA: SABERES NECESSÁRIOS À PRÁTICA EDUCATIVA. 25.
+ED. SÃO PAULO: PAZ E TERRA, 1996.
+KENSKI, V. M. EDUCAÇÃO E TECNOLOGIAS: O NOVO RITMO DA INFORMAÇÃO. CAMPINAS:
+PAPIRUS, 2012.
+LAUDON, K. C.; LAUDON, J. P. SISTEMAS DE INFORMAÇÃO GERENCIAIS. 11. ED. SÃO PAULO:
+PEARSON, 2014.
+MORAN, J. METODOLOGIAS ATIVAS PARA UMA APRENDIZAGEM MAIS PROFUNDA. IN:
+BACICH, L.; MORAN, J. METODOLOGIAS ATIVAS PARA UMA EDUCAÇÃO INOVADORA. PORTO
+ALEGRE: PENSO, 2018.
+PRESSMAN, R. S.; MAXIM, B. R. ENGENHARIA DE SOFTWARE: UMA ABORDAGEM
+PROFISSIONAL. 8. ED. PORTO ALEGRE: AMGH, 2016.
+SOMMERVILLE, I. ENGENHARIA DE SOFTWARE. 10. ED. SÃO PAULO: PEARSON, 2019.
+STALLINGS, W. ARQUITETURA E ORGANIZAÇÃO DE COMPUTADORES. 10. ED. SÃO PAULO:
+PEARSON, 2017.
+TANENBAUM, A. S.; WETHERALL, D. REDES DE COMPUTADORES. 5. ED. SÃO PAULO:
+PEARSON, 2011.
+TURING, A. M. COMPUTING MACHINERY AND INTELLIGENCE. MIND, OXFORD, V. 59, N. 236, P.
+433–460, 1950. DISPONÍVEL EM:
+HTTPS://ACADEMIC.OUP.COM/MIND/ARTICLE/LIX/236/433/986238. ACESSO EM: 17 MAIO 2026.
+VALENTE, J. A. TECNOLOGIAS DIGITAIS, EDUCAÇÃO E APRENDIZAGEM. CAMPINAS:
+NIED/UNICAMP, 2014.

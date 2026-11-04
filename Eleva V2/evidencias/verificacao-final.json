@@ -1,0 +1,79 @@
+{
+  "data_referencia": "2026-10-22",
+  "source_files_hashed": 179,
+  "source_files_changed": [],
+  "source_files_missing": [],
+  "broken_local_links": [],
+  "ids": {
+    "RF": [
+      "RF001",
+      "RF002",
+      "RF003",
+      "RF004",
+      "RF005",
+      "RF006",
+      "RF007",
+      "RF008",
+      "RF009",
+      "RF010"
+    ],
+    "RNF": [
+      "RNF001",
+      "RNF002",
+      "RNF003",
+      "RNF004",
+      "RNF005",
+      "RNF006",
+      "RNF007",
+      "RNF008"
+    ],
+    "UC": [
+      "UC001",
+      "UC002",
+      "UC003",
+      "UC004",
+      "UC005",
+      "UC006",
+      "UC007",
+      "UC008",
+      "UC009",
+      "UC010",
+      "UC011",
+      "UC012",
+      "UC013",
+      "UC014"
+    ]
+  },
+  "frds": [
+    "F01-contas.md",
+    "F02-criancas-vinculos.md",
+    "F03-avaliacao.md",
+    "F04-atividades-observacoes.md",
+    "F05-trilhas.md",
+    "F06-analise-ia.md",
+    "F07-conteudo-docente.md",
+    "F08-relatorios.md",
+    "F09-contexto-docente.md",
+    "F10-preferencias-acessibilidade.md",
+    "F11-feedback.md"
+  ],
+  "wireframe_screens": 24,
+  "wireframe_states": 9,
+  "token_contrast_pairs_checked": 36,
+  "product_typecheck": "passed",
+  "product_lint": "passed",
+  "product_jest": {
+    "suites_passed": 1,
+    "suites_failed": 2,
+    "tests_executed_passed": 1
+  },
+  "wireframe_browser_checks": {
+    "all_state_options_rendered": 9,
+    "mobile_width": 390,
+    "desktop_width": 1280,
+    "horizontal_overflow_in_examples": false
+  },
+  "ai_inference_executed": false,
+  "native_build_executed": false,
+  "git_status_final": " M alfabeta/App.tsx\n M alfabeta/src/navigation/RootNavigator.tsx\n M alfabeta/src/screens/Dashboard/DashboardScreen.tsx\n M alfabeta/src/screens/Profile/ProfileScreen.tsx\n M alfabeta/src/store/app.store.ts\n M alfabeta/src/theme/colors.ts\n M alfabeta/src/utils/constants.ts\n?? .playwright-mcp/\n?? \"Eleva V2/\"\n?? alfabeta/Eleva-para-Codex/\n?? alfabeta/PROPOSTA-DESENVOLVIMENTO-TCC.md\n"
+}
