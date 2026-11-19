@@ -30,7 +30,6 @@ import type { Lesson, LessonBody, LessonScreenData, ResponseValue } from './type
 import { emptyValue } from './types';
 import { ScreenThumbnail } from './ScreenThumbnail';
 import { literacyOptions } from '@/features/assessments/levels';
-import { LibrasAction } from '@/features/accessibility/libras-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const screenTypes = [
   { value: 'text', label: 'Texto' },
@@ -202,7 +201,6 @@ export function BuilderScreen({ route, navigation }: ScreenProps<'LessonBuilder'
             <Copy heading>Ateliê</Copy>
           </View>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-            <LibrasAction />
             <IconAction
               icon={Eye}
               label="Prévia"

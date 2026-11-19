@@ -55,6 +55,7 @@ export function LibrasProvider({ children }: React.PropsWithChildren) {
       text,
       consent: true,
       dark,
+      contrast: preferences.contrast,
       scale: preferences.font_scale,
     };
     if (Platform.OS === 'web')
@@ -62,6 +63,18 @@ export function LibrasProvider({ children }: React.PropsWithChildren) {
     else
       nativeFrame.current?.injectJavaScript(
         'window.elevvaSetFragment && window.elevvaSetFragment(' + JSON.stringify(data) + '); true;',
+      );
+  }
+  function translate() {
+    if (!frameURL) return;
+    if (Platform.OS === 'web')
+      frame.current?.contentWindow?.postMessage(
+        { type: 'elevva-libras-translate' },
+        new URL(frameURL).origin,
+      );
+    else
+      nativeFrame.current?.injectJavaScript(
+        'window.elevvaTranslateFragment && window.elevvaTranslateFragment(); true;',
       );
   }
   useEffect(() => {
@@ -111,12 +124,24 @@ export function LibrasProvider({ children }: React.PropsWithChildren) {
       >
         {frameURL ? (
           <>
-            <Action
-              secondary
-              icon={RotateCcw}
-              title="Escolher outro trecho"
-              onPress={() => setFrameURL('')}
-            />
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+              <View style={{ flex: 1, minWidth: 130 }}>
+                <Action
+                  secondary
+                  icon={RotateCcw}
+                  title="Outro trecho"
+                  accessibilityLabel="Escolher outro trecho"
+                  onPress={() => setFrameURL('')}
+                />
+              </View>
+              <View style={{ flex: 1, minWidth: 130 }}>
+                <Action icon={Hand} title="Traduzir trecho" onPress={translate} />
+              </View>
+            </View>
+            <Copy muted size="caption">
+              Aguarde o avatar aparecer e use Traduzir trecho. O serviço depende de conexão e pode
+              ficar indisponível.
+            </Copy>
             <View
               style={{
                 height: 480,

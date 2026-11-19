@@ -16,6 +16,8 @@ Os acessos fictícios ficam em `identity/ACESSOS-TESTE.local.md`, gerado localme
 
 ## Estado e revisão
 
+Atalhos fixos de IA e Libras: [implementação e prova técnica web](Eleva%20V2/25-atalhos-flutuantes.md), [capturas atuais](Eleva%20V2/evidencias/atalhos-galeria.html). Na web, um trecho público curto teve resposta real e reprodução no VLibras; isso não encerra revisão linguística ou validação Android.
+
 - [Mudanças implementadas e percursos testados](Eleva%20V2/24-implementacao-ux-integrada.md).
 - [Galeria de telas reais](Eleva%20V2/evidencias/ux-final-galeria.html).
 - [Verificações e limites](Eleva%20V2/evidencias/ux-final-verificacao.json).

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Platform, View, useWindowDimensions } from 'react-native';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+  useNavigationContainerRef,
+  type ParamListBase,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
@@ -41,7 +47,7 @@ import { tokens } from '@/shared/theme/ThemeProvider';
 import { WorkspaceProvider } from './Workspace';
 import { GenerateScreen } from '@/features/lessons/GenerateScreen';
 import { LibrasProvider } from '@/features/accessibility/GlobalLibras';
-import { LibrasAction } from '@/features/accessibility/libras-context';
+import { AssistantDock, ASSISTANT_DOCK_INSET, useSoftwareKeyboard } from './AssistantDock';
 import { DashboardScreen, SchoolsScreen, AIHub } from '@/features/workspace/Dashboards';
 import { ManagementScreen as ChildrenScreen } from '@/features/students/ManagementScreen';
 import { ProfileScreen } from '@/features/auth/ProfileScreen';
@@ -82,7 +88,6 @@ function LearningNavigator({ initial = 'Home' }: { initial?: keyof Routes }) {
         },
         headerShadowVisible: false,
         headerBackTitle: 'Voltar',
-        headerRight: () => <LibrasAction />,
         headerLeft:
           Platform.OS === 'web'
             ? (props) =>
@@ -222,6 +227,12 @@ function LearningNavigator({ initial = 'Home' }: { initial?: keyof Routes }) {
 }
 function Root() {
   const { colors, dark, scope, preferences } = useTheme();
+  const insets = useSafeAreaInsets();
+  const navigationRef = useNavigationContainerRef<ParamListBase>();
+  const keyboardOpen = useSoftwareKeyboard();
+  const [tabBarHeight, setTabBarHeight] = useState(72);
+  const [activeTab, setActiveTab] = useState('Inicio');
+  const [activeScreen, setActiveScreen] = useState('Home');
   const dimensions = useWindowDimensions();
   const sidebar =
     Platform.OS === 'web' &&
@@ -237,6 +248,11 @@ function Root() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    setExecuting(false);
+    setActiveTab('Inicio');
+    setActiveScreen('Home');
+  }, [account]);
   useEffect(() => {
     if (Platform.OS === 'web' && !account) document.title = 'Eleva';
   }, [account]);
@@ -408,8 +424,10 @@ function Root() {
           profileChanged={load}
         >
           <NavigationContainer
+            ref={navigationRef}
             theme={navTheme}
             onStateChange={(state) => {
+              setActiveTab(state?.routes[state.index || 0]?.name || 'Inicio');
               let active: any = state;
               let name = '';
               while (active?.routes) {
@@ -418,11 +436,15 @@ function Root() {
                 active = route.state;
               }
               setExecuting(name === 'Execute' || name === 'LessonPlayer');
+              setActiveScreen(name);
             }}
           >
             <Tabs.Navigator
-              tabBar={(props) => <TabNavigation {...props} />}
-              sceneContainerStyle={{ marginLeft: sidebar && !executing ? 240 : 0 }}
+              tabBar={(props) => <TabNavigation {...props} onHeightChange={setTabBarHeight} />}
+              sceneContainerStyle={{
+                marginLeft: sidebar && !executing ? 240 : 0,
+                paddingBottom: keyboardOpen ? 0 : ASSISTANT_DOCK_INSET,
+              }}
               screenOptions={{ headerShown: false }}
             >
               <Tabs.Screen name="Inicio" options={{ title: 'Início' }}>
@@ -441,6 +463,18 @@ function Root() {
                 {() => <LearningNavigator initial="Profile" />}
               </Tabs.Screen>
             </Tabs.Navigator>
+            {!keyboardOpen && (
+              <AssistantDock
+                bottomInset={executing || sidebar ? insets.bottom : tabBarHeight}
+                rightInset={insets.right}
+                showAI={!executing}
+                aiSelected={activeScreen === 'AIHub'}
+                openAI={() => {
+                  if (navigationRef.isReady() && activeScreen !== 'AIHub')
+                    navigationRef.navigate(activeTab, { screen: 'AIHub' });
+                }}
+              />
+            )}
           </NavigationContainer>
         </WorkspaceProvider>
       )}

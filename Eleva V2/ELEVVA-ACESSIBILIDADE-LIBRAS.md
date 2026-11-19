@@ -1,5 +1,7 @@
 # Elevva — acessibilidade e decisão de Libras
 
+**Adendo posterior vigente — 19/11/2026:** [atalho global e prova positiva limitada](25-atalhos-flutuantes.md). Pela interface do Eleva, o trecho público `Bom dia` retornou HTTP200/glosa`BOM DIA` e foi reproduzido pelo avatar web. Isso supera a ausência de prova positiva do corte anterior abaixo, sem apagar sua falha. Não comprova qualidade linguística, tradução universal ou Android. Vídeos revisados permanecem ausentes. [Capturas atuais](evidencias/atalhos-galeria.html).
+
 **Verificação posterior — 19/11/2026:** no navegador, widget/player web carregaram e uma tradução foi solicitada; o serviço cancelou por demora/ausência de dados, com entrada do dicionário retornando404. Nenhuma tradução concluída foi comprovada; não há validação nativa ou vídeo revisado. Em amostras da aplicação, foram exercitados contraste independente, fonte150%/320px sem transbordamento horizontal, diálogo único com foco contido/Escape/retorno e Ouvir/Parar/Repetir com vozes PT-BR. Isso não declara conformidade WCAG nem inteligibilidade avaliada por usuário. [Evidências e limites atuais](24-implementacao-ux-integrada.md).
 
 **Corte:19/11/2026.** Apoio complementar em validação. Lumi orienta visualmente; não interpreta Libras. Integração não equivale a tradução concluída ou conformidade.

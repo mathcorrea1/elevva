@@ -1,0 +1,143 @@
+{
+  "date": "2026-11-19",
+  "base_commit": "4d27907",
+  "scope": "Authenticated floating shortcuts and isolated public VLibras web flow; synthetic accounts only",
+  "frontend": {
+    "passed": 33,
+    "suites": 19,
+    "type_check": "passed",
+    "eslint": "passed",
+    "public_script_syntax": "passed"
+  },
+  "backend": {
+    "changed": false,
+    "previous_cut_tests_passed": 70,
+    "rerun_in_this_increment": false
+  },
+  "browser": {
+    "origin": "http://localhost:8081",
+    "main_tabs_checked": [
+      "Inicio",
+      "Estudantes",
+      "Trilhas",
+      "Relatorios",
+      "Perfil"
+    ],
+    "both_shortcuts_present": true,
+    "above_tab_navigation": true,
+    "one_named_libras_dialog": true,
+    "keyboard_enter_opens": true,
+    "escape_closes_and_restores_focus": true,
+    "guardian_does_not_receive_teacher_authoring": true,
+    "no_authenticated_shortcuts_on_login_or_after_logout": true,
+    "unsaved_builder_title_retained_after_ai_navigation_and_libras_dialog": true,
+    "lesson": {
+      "libras_available": true,
+      "ai_hidden": true,
+      "confirmation_overlap": false,
+      "paused_without_additional_submission": true
+    },
+    "narrow_viewport": {
+      "width": 320,
+      "height": 740,
+      "extra_font_scale": 1.5,
+      "dark_high_contrast": true,
+      "document_horizontal_overflow": false,
+      "dock_above_two_row_tab_bar": true
+    },
+    "desktop_viewport": [
+      1280,
+      900
+    ]
+  },
+  "vlibras": {
+    "through_app_ui": true,
+    "input": "Bom dia",
+    "explicit_consent": true,
+    "response_http_status": 200,
+    "returned_gloss": "BOM DIA",
+    "avatar_canvas_frames_changed": true,
+    "text_source": "Explicit public fragment in separate-origin document; private app DOM not captured",
+    "public_launcher_reference": "window.VLibrasWidget.initBtn",
+    "translation_trigger": "Standard click on the consented public text fragment",
+    "official_documentation": [
+      "https://vlibras.gov.br/doc/widget/installation/webpageintegration.html",
+      "https://vlibras.gov.br/doc/widget/functionalities/text-translation.html"
+    ],
+    "earlier_longer_text_failure_preserved": true,
+    "linguistic_accuracy_reviewed": false,
+    "universal_translation_claimed": false,
+    "android_translation_validated": false,
+    "reviewed_videos": 0
+  },
+  "platform_limits": {
+    "native_keyboard_behavior_verified": false,
+    "physical_android_verified": false,
+    "apk_built": false,
+    "ios_verified": false,
+    "groq_live_verified": false,
+    "wcag_conformance_claimed": false
+  },
+  "captures": [
+    {
+      "file": "atalhos-contraste-320.png",
+      "pixels": [
+        320,
+        740
+      ],
+      "sha256": "c93ab90849c39404ed21de6cb43b81bde454a15fcc326a64471fe30072c8b069"
+    },
+    {
+      "file": "atalhos-executor.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "fda340f0342330b7709e4700d68e3f607088fbf8b005498feb4b2858f093bce7"
+    },
+    {
+      "file": "atalhos-ia-desktop.png",
+      "pixels": [
+        1280,
+        900
+      ],
+      "sha256": "9fb3e658992750f9bd13c06991ddc1263cac9b358cfd6f9aea9b52d7f561c6ba"
+    },
+    {
+      "file": "atalhos-ia-mobile.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "412b7665d8476a16fb7dcee158aee5a8eb4557cd8d5f2091213d831a1161f24f"
+    },
+    {
+      "file": "atalhos-inicio-mobile.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "16540ef303af3b07d9bd22403e68280a65664c5c2438e7b95987a630ce0ffb56"
+    },
+    {
+      "file": "atalhos-libras-web.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "128a195ad756d0f07d5ac26a13354b7a19e24fb5d1e9d04d6509ee7b89e69fbf"
+    }
+  ],
+  "exports": {
+    "web": {
+      "passed": true,
+      "bundle": "AppEntry-9c9cf2a3587e6e0495f3a513fa3d7be3.js"
+    },
+    "android_hermes": {
+      "passed": true,
+      "bundle": "AppEntry-abe9d3190feabda79e3d5e48ea6abe2e.hbc"
+    },
+    "is_apk": false,
+    "public_bridge_copied_to_web_export": true
+  }
+}

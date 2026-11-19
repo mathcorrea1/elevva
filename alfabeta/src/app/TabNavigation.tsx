@@ -4,7 +4,13 @@ import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { useTheme, tokens } from '@/shared/theme/ThemeProvider';
 import { House, Route, Users, UserRound, ChartColumn, School } from 'lucide-react-native';
-export function TabNavigation({ state, descriptors, navigation, insets }: BottomTabBarProps) {
+export function TabNavigation({
+  state,
+  descriptors,
+  navigation,
+  insets,
+  onHeightChange,
+}: BottomTabBarProps & { onHeightChange?: (height: number) => void }) {
   const { colors, preferences } = useTheme();
   const { width, fontScale } = useWindowDimensions();
   const sidebar =
@@ -39,6 +45,7 @@ export function TabNavigation({ state, descriptors, navigation, insets }: Bottom
   }
   return (
     <View
+      onLayout={(event) => onHeightChange?.(sidebar ? 0 : event.nativeEvent.layout.height)}
       accessibilityRole="tablist"
       accessibilityLabel="Destinos principais"
       style={

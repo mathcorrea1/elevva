@@ -25,8 +25,20 @@
       return;
     }
     document.getElementById('fragment').textContent = text;
-    document.body.style.background = value.dark ? '#15273B' : '#FFFFFF';
-    document.body.style.color = value.dark ? '#F2F7FF' : '#142239';
+    document.body.style.background = value.contrast
+      ? value.dark
+        ? '#000000'
+        : '#FFFFFF'
+      : value.dark
+        ? '#15273B'
+        : '#FFFFFF';
+    document.body.style.color = value.contrast
+      ? value.dark
+        ? '#FFFFFF'
+        : '#000000'
+      : value.dark
+        ? '#F2F7FF'
+        : '#142239';
     document.body.style.fontSize = 16 * Math.min(1.5, Math.max(1, Number(value.scale) || 1)) + 'px';
     if (loaded) return;
     loaded = true;
@@ -41,20 +53,43 @@
           status('VLibras indisponível. Confira a rede ou tente novamente.');
           return;
         }
-        status('Abra o botão do VLibras e selecione o trecho para traduzir.');
+        // Public documented launcher reference; do not call private translation APIs.
+        const launcher = window.VLibrasWidget && window.VLibrasWidget.initBtn;
+        if (launcher && launcher.getBoundingClientRect().width) launcher.click();
+        status('Aguarde o avatar aparecer. Depois use Traduzir trecho.');
       }, 1000);
     };
     script.onerror = () =>
       status('Não foi possível carregar o VLibras. O texto continua disponível.');
     document.body.appendChild(script);
   };
+  window.elevvaTranslateFragment = () => {
+    if (!loaded || !document.getElementById('fragment').textContent.trim()) return;
+    const launcher = window.VLibrasWidget && window.VLibrasWidget.initBtn;
+    if (!launcher) {
+      status('O player ainda está carregando. Aguarde e tente novamente.');
+      return;
+    }
+    if (launcher.getBoundingClientRect().width) {
+      launcher.click();
+      status('Aguarde o avatar aparecer e use Traduzir trecho novamente.');
+      return;
+    }
+    // Same text-selection click supported by the widget, restricted to the consented fragment.
+    document.getElementById('fragment').click();
+    status('Tradução solicitada. Confira o player; se não responder, tente novamente.');
+  };
   window.addEventListener('message', (event) => {
     if (
       event.source !== window.parent ||
       event.origin === 'null' ||
-      event.data?.type !== 'elevva-libras-fragment'
+      !['elevva-libras-fragment', 'elevva-libras-translate'].includes(event.data?.type)
     )
       return;
+    if (event.data.type === 'elevva-libras-translate') {
+      if (event.origin === parentOrigin) window.elevvaTranslateFragment();
+      return;
+    }
     parentOrigin = event.origin;
     window.elevvaSetFragment(event.data);
   });

@@ -1,5 +1,7 @@
 # Abrir e testar o Eleva
 
+**Atalhos fixos atualizados:** Libras e IA estão no canto inferior direito da área autenticada; IA abre a área existente. No executor infantil permanece só Libras. [Capturas atuais](Eleva%20V2/evidencias/atalhos-galeria.html) · [prova e limites do VLibras web](Eleva%20V2/25-atalhos-flutuantes.md). Login continua sem esses atalhos.
+
 **Experiência integrada — 19/11/2026:** [mudanças e percursos executados](Eleva%20V2/24-implementacao-ux-integrada.md), [telas reais](Eleva%20V2/evidencias/ux-final-galeria.html) e [verificações atuais](Eleva%20V2/evidencias/ux-final-verificacao.json). Início docente prioriza criação manual; IA é módulo opcional da escola. Há rascunho de avaliação persistido por adulto, navegação uniforme e relatório coletivo corrigido. Serviços remotos, Groq live, revisão pedagógica/Libras e APK instalado continuam pendentes.
 
 ## Aulas, compartilhamento e estudantes — entrega atual
