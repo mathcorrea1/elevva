@@ -35,4 +35,4 @@ Seu colega pode revisar e fechar as seções independentes hoje. Os pontos acima
 
 Remoto configurado: `https://github.com/mathcorrea1/elevva`. A pasta `Eleva V2/` reúne o mapa, prompt, diagnóstico e checklist. Um commit local só ficará visível para seu colega depois de enviado ao remoto. Se o repositório exigir autenticação, a equipe precisa conceder acesso ou fornecer o pacote documental; link por si só não concede permissão.
 
-O PDF mais recente citado pelo usuário foi enviado separadamente ao colega. No workspace inspecionado permanece disponível apenas `Eleva-TCC-original.pdf`; não foi alegada leitura da versão externa atualizada.
+Durante a preparação do commit chegou `alfabeta/Eleva-para-Codex/ModeloEntregaFinal-1.pdf`, de62 páginas. Ele é distinto do `Eleva-TCC-original.pdf`, de63 páginas, e deve ser usado como base editorial conforme a indicação da equipe. A conferência estrutural encontrou ainda Prototipagem, Proposta de desenvolvimento e Clerk. Não equivale à revisão integral das correções da banca. As referências de página do mapa18 são do original e exigem conferência na nova versão.

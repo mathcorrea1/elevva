@@ -19,7 +19,7 @@ Estas orientações, recebidas em19/11/2026, prevalecem sobre instruções anter
 7. Incluir **“Conclusão”**, cerca de uma página: resposta ao objetivo, contribuição concreta para a dor, pontos fortes sustentados por evidência e limites. Não introduzir resultados novos ou generalizar o experimento sintético.
 8. Opcional: **“Trabalhos Futuros”**, cerca de uma página, com pendências e expansão priorizadas. Registrar obrigações originais ainda parciais como limitações atuais, não apagá-las ao mover conteúdo para o futuro.
 
-Se o último PDF atualizado enviado pela equipe divergir do original do repositório, usar esse PDF atualizado como base editorial e os documentos/código como fontes de atualização técnica. Informar qual arquivo foi efetivamente recebido/lido e preservar a pesquisa e as correções já presentes. O pacote do repositório contém o original de63 páginas, não substitui um PDF mais recente que tenha sido enviado separadamente.
+Usar o último PDF atualizado enviado pela equipe como base editorial e os documentos/código como fontes de atualização técnica. Informar qual arquivo foi efetivamente recebido/lido e preservar a pesquisa e as correções já presentes. O repositório recebeu `alfabeta/Eleva-para-Codex/ModeloEntregaFinal-1.pdf`, de62 páginas, distinto do original `Eleva-TCC-original.pdf`, de63 páginas. O mapa18 usa paginação antiga: conferir as remissões no arquivo novo, sem sobrescrevê-lo. Se a equipe tiver fornecido outra versão ainda mais recente, dar-lhe precedência editorial explícita.
 
 ## Fontes e estado de referência
 
