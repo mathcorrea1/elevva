@@ -6,6 +6,8 @@
 
 **Prompt3 — escopo até meados de dezembro:** [decisões fechadas, compromissos técnicos, dependências externas e instruções de consolidação para o Claude](21-prompt-3-fechamento-escopo.md). Complementa os dois prompts anteriores; não comprova execução futura. Referência de trabalho15/12/2026, sem data de banca presumida.
 
+**Prompt4 — consolidar o documento integral:** [instrução final para o Claude produzir redação completa e providências separadas](22-prompt-4-finalizacao-documento.md). Mantém as decisões de escopo e os resultados comprovados; não converte teste/revisão ainda não realizados em conclusão. [Ações concretas de desenvolvimento e da equipe](23-providencias-execucao-final.md).
+
 [Pacote para encaminhar ao colega](evidencias/entrega-tcc-2026-11-19.zip): prompt, mapa de alterações, diagnóstico, limites de Libras, recibo e TCC original com figuras. Sem app, bancos, acessos ou segredos; ZIP gerado localmente e ignorado pelo git, documentação-fonte preservada nesta pasta.
 
 **Entrega atual de aulas:** [construtor, cinco mecânicas, compartilhamento, estudantes e verificações](17-construtor-aulas-e-compartilhamento.md). [Galeria atual da interface real](evidencias/aulas-v4-galeria.html). O fluxo anterior de catálogo/mapa/relatórios está no [registro 16](16-trilhas-aulas-investigacao.md). Esses adendos descrevem a implementação incremental; não encerram D03/D15 ou comprovam APK/IA live.

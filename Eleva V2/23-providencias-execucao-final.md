@@ -1,0 +1,21 @@
+# Providências concretas após o fechamento da redação
+
+Referência:19/11/2026. Meta de trabalho: meados de dezembro, usando15/12 como referência, sem data de banca presumida. O prompt4 fecha as decisões e a redação; os itens abaixo exigem execução ou participação humana. Não constituem uma nova lista de escolhas de produto em aberto.
+
+| Ordem | Entrega | Desenvolvimento com Codex | Autor/equipe | Prova para atualizar o TCC |
+|---|---|---|---|---|
+|1| IA real nos dois usos | Integrar/testar chamadas de autoria e análise, harmonizar cinco níveis e produzir recibos contrastantes; corrigir respostas inválidas/cota/timeout | Criar conta Groq de teste e configurar `GROQ_API_KEY` somente no backend; conferir condições do uso pretendido | Chamadas reais, entradas sintéticas distintas, saída personalizada validada, modelo/origem/data e revisão. Até lá: adaptador/testes, não IA live |
+|2| PostgreSQL e ambiente alcançável | Migrations/seed e isolamento/retry/concorrência no banco autorizado; endpoints para celular | Criar ambiente Neon de teste, disponibilizar configuração segura e autorizar ambiente de API/identidade quando identificado | Reabertura, dados preservados e contas isoladas nesse ambiente; SQL offline não basta |
+|3| APK Android | Preparar build compatível com stack atual; instalar/testar fluxo, sessão, mídia, fonte e TalkBack | Disponibilizar aparelho/Android e ambiente permitido para JDK/SDK/adb; conferir rede da banca | APK instalado, versão, aparelho, resultados e limites registrados |
+|4| Percurso integrado e acabamento | Revisar cadastro/vínculos→avaliação→aula/trilha→retomada→revisão→histórico/relatório/PDF; foco/teclado/reflow/temas/leitura | Testar com os cenários sintéticos e devolver problemas observados | Recibos e capturas dos fluxos reais; nenhum dado gerado por estatística paralela |
+|5| Instrumento/conteúdo revisado | Preparar pacote de avaliação: itens, formatos, respostas/variantes, critérios, versões e exemplos para revisão; registrar parecer quando existir | Conseguir professor/pedagogo qualificado e alinhamento do orientador; entregar parecer real com escopo/versão/data | Revisão identificada e autorizada; código/IA não assinam validade pedagógica |
+|6| Libras demonstrável | Concluir ensaio de tradução web, foco/isolamento; integrar mídia real ao player e testar plataformas | Buscar profissionais/revisor fluente em Libras e pessoa surda quando viável; obter arquivos/licenças/revisão | Tradução concluída/cobertura registrada e arquivos revisados. Sem isso, relatar integração parcial e limite específico |
+|7| Recuperação por e-mail | Testar solicitação/reset/sessão inválida e entrega por adaptador | Configurar e-mail/SMTP de teste de forma segura | Percurso real e ambiente identificado; caixa de captura local não equivale a entrega externa |
+|8| Conferência acadêmica | Apoiar extração de evidências e consistência técnica dos modelos/textos | Colega aplica revisão; autores conferem lista da banca1, referências, modelos, prints, orientador e PDF final | Checklist da banca e aprovação/revisão efetivamente recebidas; não presumidas |
+|9| Ensaio de apresentação | Seed reproduzível, contingência de rede/IA com origem explícita, revisão de estabilidade | Ensaiar duração, projeção e celular; testar acesso do colega ao repositório | Roteiro demonstrável e capturas finais, sem esconder falha ou chamar pré-gerado de live |
+
+As ordens1–4 podem avançar em paralelo à busca de revisores/mídia. A ausência de parecer não bloqueia desenvolvimento e provas sintéticas, mas impede afirmar aprovação/eficácia. Não iniciar coleta com menores para produzir um resultado rápido: eventual uso real exige os procedimentos e autorizações adequados da instituição e dos responsáveis.
+
+Testes observados com adultos voluntários podem complementar usabilidade se a equipe viabilizar método e participantes conforme as regras institucionais. Não são condição para inventar um capítulo de impacto: sem estudo, a discussão apresenta contribuições técnicas e impacto potencial, com seus limites.
+
+Até haver novas evidências, o corte válido permanece67 testes backend e25 frontend/15 suítes, type-check/lint e exportações, com IA live/APK/revisões não comprovados. A equipe atualizará somente os trechos afetados conforme cada entrega ocorrer.
