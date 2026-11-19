@@ -1,5 +1,7 @@
 # Rastreabilidade — estado da implementação
 
+**Corte vigente — 19/11/2026:** matriz completa dos10RF/8RNF/14UC e complementos em [18, seção5](18-atualizacao-tcc.md#5-rastreabilidade-acadêmica-preservada). Supera os status históricos onde divergir: cinco mecânicas/revisões já existem; PDF é gerado/testado no backend; equipe/gestão e atribuição de trilha em lote foram implementadas; IA de autoria tem percurso técnico e testes com provedor substituído. **RF005/RF006 seguem parciais**, sem chave/live/rubrica. Libras contextual permanece sem tradução concluída/nativo validado. Verificações:67 testes backend,25 frontend/15 suítes, type-check/lint e exportações web/Android aprovados; não são APK, prova pedagógica ou conformidade. [Diagnóstico](ELEVVA-DIAGNOSTICO.md) · [recibo](evidencias/evolucao-v5-verificacao.json).
+
 **Adendo vigente — aulas por telas:** [registro 17](17-construtor-aulas-e-compartilhamento.md). RF004 ganhou cinco mecânicas, rascunho/posição e revisão escrita; RF009 ganhou construtor, versões referenciadas e compartilhamento. A matriz adicional abaixo distingue novos pedidos de produto dos RF originais. Prioridades acadêmicas não mudaram. Descrições de etapas anteriores permanecem históricas e não significam que só há escolha única.
 
 | Pedido atual / relação acadêmica | Estado e evidência | Aceite demonstrado / limite |

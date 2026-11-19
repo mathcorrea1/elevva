@@ -6,6 +6,7 @@ export type ImageRef = {
   alt: string;
 };
 export type TrailDefinition = {
+  literacy_level?: string | null;
   id: string;
   author_id: string;
   title: string;
@@ -18,7 +19,7 @@ export type TrailDefinition = {
   archived_at?: string | null;
   lessons: LessonDefinition[];
 };
-export type TrailSummary = Omit<TrailDefinition,'lessons'> & {lesson_count:number};
+export type TrailSummary = Omit<TrailDefinition, 'lessons'> & { lesson_count: number };
 export type LessonDefinition = {
   key: string;
   title: string;

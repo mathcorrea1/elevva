@@ -11,6 +11,7 @@ from app.features.catalog.router import capture_revision
 from .contracts import LessonCommand,LessonEdit,Share,BulkAssign
 from .service import revision_for,lesson_access,body_for,dto_lesson,assign_revision,validate_media
 from pydantic import ValidationError
+from app.features.levels import LiteracyLevel
 from app.core.validation import describe
 router=APIRouter()
 
@@ -18,13 +19,14 @@ def teacher(adult):
     if adult.profession!='teacher':raise HTTPException(403,'Biblioteca e autoria exigem contexto docente; dados de estudantes continuam exigindo vínculo.')
 
 @router.get('/lessons')
-def library(scope:str='mine',q:str=Query('',max_length=120),offset:int=Query(0,ge=0),limit:int=Query(20,ge=1,le=50),adult=Depends(identity),db:Session=Depends(session,scope='function')):
+def library(scope:str='mine',q:str=Query('',max_length=120),offset:int=Query(0,ge=0),limit:int=Query(20,ge=1,le=50),level:LiteracyLevel|None=None,adult=Depends(identity),db:Session=Depends(session,scope='function')):
     teacher(adult)
     if scope not in ('mine','shared','received','public'):raise HTTPException(422)
     query=select(m.Content).where(m.Content.kind=='lesson',m.Content.archived_at.is_(None))
     if scope in ('shared','received'):
         shared_query=select(m.ContentShare).join(m.Content,m.Content.id==m.ContentShare.content_id).where(m.Content.kind=='lesson',m.Content.archived_at.is_(None),m.ContentShare.recipient_id==adult.id,m.ContentShare.status==('pending' if scope=='received' else 'accepted'))
         if q:shared_query=shared_query.where(m.Content.title.ilike('%'+q.strip()+'%'))
+        if level:shared_query=shared_query.join(m.ContentRevision,m.ContentRevision.id==m.ContentShare.revision_id).where(m.ContentRevision.snapshot['body']['literacy_level'].as_string()==level)
         total=db.scalar(select(func.count()).select_from(shared_query.subquery()));shares=db.scalars(shared_query.order_by(m.ContentShare.created_at,m.ContentShare.id).offset(offset).limit(limit))
         items=[]
         for share in shares:
@@ -37,6 +39,7 @@ def library(scope:str='mine',q:str=Query('',max_length=120),offset:int=Query(0,g
     else:
         query=query.join(m.ContentShare,m.ContentShare.content_id==m.Content.id).where(m.ContentShare.recipient_id==adult.id,m.ContentShare.status==('pending' if scope=='received' else 'accepted'))
     if q:query=query.where(m.Content.title.ilike('%'+q.strip()+'%'))
+    if level:query=query.where(m.Content.body['literacy_level'].as_string()==level)
     total=db.scalar(select(func.count()).select_from(query.subquery()))
     rows=list(db.scalars(query.order_by(m.Content.title,m.Content.id).offset(offset).limit(limit)).unique())
     items=[]
@@ -161,17 +164,8 @@ def distribute(lid:str,body:BulkAssign,adult=Depends(identity),db:Session=Depend
     if not revision or revision.content_id!=lid:raise HTTPException(404)
     lesson_access(db,adult,row,revision)
     def action():
-        ids=set(body.student_ids);room_ids=set(body.classroom_ids)
-        for school_id in body.school_ids:
-            school=db.get(m.School,school_id)
-            if not school or school.owner_id!=adult.id:raise HTTPException(404)
-            room_ids.update(db.scalars(select(m.Classroom.id).where(m.Classroom.school_id==school_id,m.Classroom.teacher_id==adult.id)))
-        for cid in room_ids:
-            room=db.get(m.Classroom,cid)
-            if not room or room.teacher_id!=adult.id:raise HTTPException(404)
-            ids.update(db.scalars(select(m.Enrollment.student_id).join(m.Grant,m.Grant.student_id==m.Enrollment.student_id).where(m.Enrollment.classroom_id==cid,m.Grant.adult_id==adult.id,m.Grant.active==True)))
-        if not ids or len(ids)>100:raise HTTPException(422,'Selecione de 1 a 100 estudantes autorizados por envio. Turmas não concedem acesso a estudantes sem vínculo.')
-        for sid in sorted(ids):grant(db,adult,sid)
+        from app.features.classrooms.recipients import recipients
+        ids=recipients(db,adult,body.student_ids,body.classroom_ids,body.school_ids)
         batch=m.LessonAssignmentBatch(adult_id=adult.id,revision_id=revision.id);db.add(batch);db.flush()
         tasks=[assign_revision(db,adult,sid,revision,batch.id) for sid in sorted(ids)]
         return {'batch_id':batch.id,'assigned':len(tasks),'tasks':[{'id':t.id,'student_id':t.student_id,'title':t.snapshot['title'],'locked':False,'completed_at':None,'runner':'screens'} for t in tasks]}

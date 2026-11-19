@@ -18,7 +18,10 @@ export class ApiRepository implements Repository {
       throw new Error('Configure EXPO_PUBLIC_API_URL com endereço remoto acessível ao Android.');
     const current = sessionGeneration();
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), path.endsWith('/analyses') ? 55000 : 15000);
+    const timer = setTimeout(
+      () => controller.abort(),
+      path.endsWith('/analyses') || path === '/ai/lesson-generations' ? 55000 : 15000,
+    );
     try {
       const headers = await betterAuthSession.headers();
       const response = await fetch(base + path, {

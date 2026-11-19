@@ -313,6 +313,43 @@ class AIGate(Base):
     last_started_at: Mapped[str | None] = mapped_column(String(40), nullable=True)
 
 
+class SchoolAccess(Base):
+    __tablename__ = 'school_access'
+    __table_args__ = (UniqueConstraint('school_id','adult_id'),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    school_id: Mapped[str] = mapped_column(ForeignKey('schools.id'), index=True)
+    adult_id: Mapped[str] = mapped_column(ForeignKey('adults.id'))
+    role: Mapped[str] = mapped_column(String(20), default='teacher')
+    active: Mapped[bool] = mapped_column(default=True)
+
+
+class ClassroomStaff(Base):
+    __tablename__ = 'classroom_staff'
+    __table_args__ = (UniqueConstraint('classroom_id','adult_id'),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    classroom_id: Mapped[str] = mapped_column(ForeignKey('classrooms.id'), index=True)
+    adult_id: Mapped[str] = mapped_column(ForeignKey('adults.id'))
+    active: Mapped[bool] = mapped_column(default=True)
+
+
+class LessonGeneration(Base):
+    __tablename__ = 'lesson_generations'
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    adult_id: Mapped[str] = mapped_column(ForeignKey('adults.id'), index=True)
+    command_key: Mapped[str] = mapped_column(String(64), unique=True)
+    input_hash: Mapped[str] = mapped_column(String(64), index=True)
+    request_data: Mapped[dict] = mapped_column(JSON)
+    prompt_version: Mapped[str] = mapped_column(String(64))
+    model: Mapped[str] = mapped_column(String(100))
+    status: Mapped[str] = mapped_column(String(30), default='pending')
+    origin: Mapped[str] = mapped_column(String(20), default='live')
+    result: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    usage: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    request_id: Mapped[str | None] = mapped_column(String(150), nullable=True)
+    content_id: Mapped[str | None] = mapped_column(ForeignKey('content.id'), nullable=True)
+    created_at: Mapped[str] = mapped_column(String(40), default=now)
+
+
 class LevelConfirmation(Base):
     __tablename__ = 'level_confirmations'
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)

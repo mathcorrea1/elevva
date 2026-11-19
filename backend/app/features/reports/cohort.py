@@ -6,18 +6,18 @@ from sqlalchemy.dialects.postgresql import JSONB
 from fastapi import HTTPException
 from app.features import models as m
 from app.core.json_queries import values,key
+from app.features.classrooms.access import school_access, room_access, rooms_query
 
 
 def visible_query(db,adult,school_id=None,classroom_id=None):
     query=select(m.Student).join(m.Grant,m.Grant.student_id==m.Student.id).where(m.Grant.adult_id==adult.id,m.Grant.active==True)
     if adult.profession=='teacher':
         if not school_id:return query.where(false_condition())
-        school=db.get(m.School,school_id)
-        if not school or school.owner_id!=adult.id:raise HTTPException(404)
+        school_access(db,adult,school_id)
         if classroom_id:
-            room=db.get(m.Classroom,classroom_id)
-            if not room or room.school_id!=school_id or room.teacher_id!=adult.id:raise HTTPException(404)
-        rooms=select(m.Classroom.id).where(m.Classroom.school_id==school_id,m.Classroom.teacher_id==adult.id)
+            room=room_access(db,adult,classroom_id)
+            if room.school_id!=school_id:raise HTTPException(404)
+        rooms=rooms_query(adult).with_only_columns(m.Classroom.id).where(m.Classroom.school_id==school_id)
         if classroom_id:rooms=rooms.where(m.Classroom.id==classroom_id)
         query=query.where(select(m.Enrollment.id).where(m.Enrollment.student_id==m.Student.id,m.Enrollment.classroom_id.in_(rooms)).exists())
     elif school_id or classroom_id:raise HTTPException(403,'Responsável consulta somente seus estudantes vinculados, sem comparação de turma.')

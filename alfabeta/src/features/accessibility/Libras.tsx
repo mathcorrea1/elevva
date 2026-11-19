@@ -4,7 +4,6 @@ import { useVideoPlayer, VideoView } from 'expo-video';
 import { Card, Copy, Action } from '@/shared/ui';
 import { librasManifest } from './libras-manifest';
 import type { LibrasVideo } from './libras-manifest';
-import { useTheme } from '@/shared/theme/ThemeProvider';
 function ReviewedVideo({ video }: { video: LibrasVideo }) {
   const player = useVideoPlayer(video.url);
   return (
@@ -24,7 +23,6 @@ function ReviewedVideo({ video }: { video: LibrasVideo }) {
   );
 }
 export function Libras() {
-  const { preferences } = useTheme();
   return (
     <Card>
       <Copy heading>Apoio em Libras</Copy>
@@ -39,25 +37,23 @@ export function Libras() {
       {Platform.OS === 'web' && (
         <>
           <Copy muted>
-            VLibras está disponível na ajuda pública, em outra página. Nenhum dado do estudante é
-            enviado ao widget. A tradução automática tem limites.
+            O acesso global a Libras fica no cabeçalho. Escolha e revise o trecho antes de usar o
+            serviço externo.
           </Copy>
           <Action
             secondary
-            title="Abrir ajuda pública com VLibras"
+            title="Conhecer o VLibras oficial"
             onPress={() => {
               if (Platform.OS === 'web')
                 window.open(
-                  '/ajuda-libras.html?' +
-                    new URLSearchParams({
-                      theme: preferences.theme,
-                      contrast: preferences.contrast ? '1' : '0',
-                      scale: String(preferences.font_scale),
-                    }),
+                  'https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/vlibras/vlibras',
                   '_blank',
                   'noopener,noreferrer',
                 );
-              else void Linking.openURL('/ajuda-libras.html');
+              else
+                void Linking.openURL(
+                  'https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/vlibras/vlibras',
+                );
             }}
           />
         </>

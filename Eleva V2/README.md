@@ -1,5 +1,11 @@
 # Eleva V2 — documentação e implementação
 
+**Passagem para atualizar o TCC — 19/11/2026:** [o que revisar em cada capítulo, escopo previsto e situação real](18-atualizacao-tcc.md) · [prompt pronto para encaminhar](19-prompt-atualizacao-tcc.md) · [diagnóstico atual](ELEVVA-DIAGNOSTICO.md) · [Libras: decisão, cobertura e limites](ELEVVA-ACESSIBILIDADE-LIBRAS.md). Adendos atuais prevalecem sobre descrições históricas da implementação, preservando prioridades acadêmicas. IA live, rubrica/revisão, Libras concluída e APK continuam pendentes. [Verificações atuais](evidencias/evolucao-v5-verificacao.json).
+
+**Orientações do professor incorporadas:** retirar prototipagem, renomear Desenvolvimento, incluir Resultado e discussão e Conclusão; Trabalhos Futuros opcional. [O que conferir depois do Claude e complemento para a conversa já aberta](20-checklist-finalizacao-tcc.md). Alinhar verbos não transforma pendência em funcionalidade concluída; correções da banca1 exigem lista/ata efetivamente fornecida.
+
+[Pacote para encaminhar ao colega](evidencias/entrega-tcc-2026-11-19.zip): prompt, mapa de alterações, diagnóstico, limites de Libras, recibo e TCC original com figuras. Sem app, bancos, acessos ou segredos; ZIP gerado localmente e ignorado pelo git, documentação-fonte preservada nesta pasta.
+
 **Entrega atual de aulas:** [construtor, cinco mecânicas, compartilhamento, estudantes e verificações](17-construtor-aulas-e-compartilhamento.md). [Galeria atual da interface real](evidencias/aulas-v4-galeria.html). O fluxo anterior de catálogo/mapa/relatórios está no [registro 16](16-trilhas-aulas-investigacao.md). Esses adendos descrevem a implementação incremental; não encerram D03/D15 ou comprovam APK/IA live.
 
 **Revisão de jornadas de 29/10:** [implementação, provas e limites atuais](15-revisao-ux-jornadas.md), [capturas dos dois painéis/trilha/relatórios/perfil](evidencias/ux-jornadas-galeria.html). Esta revisão substitui a navegação antiga dos documentos 06/13; mantém prioridades acadêmicas e pendências pedagógicas/contratuais.

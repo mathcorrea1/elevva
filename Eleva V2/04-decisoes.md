@@ -1,5 +1,7 @@
 # Decisões, conflitos e pendências
 
+**Adendo vigente — 19/11/2026:** Better Auth substitui Clerk; caminho2/N:M/features/backend modular receberam autorização técnica posterior. Banca prioriza produto/demonstração sem exigir nuvem complexa para avançar. IA de autoria complementa RF005/RF006; modelo Groq `openai/gpt-oss-120b` permanece. [18](18-atualizacao-tcc.md) consolida mudanças no TCC e [diagnóstico](ELEVVA-DIAGNOSTICO.md) separa código/teste/integração/pendências. Schema legado da análise precisa harmonizar cinco níveis. D03/D05/D13/D15, live e APK não foram encerrados. Libras web é parcial, Android opt-in experimental e vídeos revisados ausentes. Autoria usa limite6.000 tokens, análise1.500. As tabelas históricas abaixo não reautorizam Clerk, treino próprio ou obrigação de nuvem.
+
 **Confirmado** significa pedido ou informação expressa do usuário. **Proposto** é recomendação desta análise; não é aprovação presumida. **Bloqueante** refere-se à entrega indicada, não a todo o planejamento.
 
 Revisão0.2: usuário prioriza API pronta e custo zero; não quer treinamento do zero nem servidor no computador da empresa. [Justificativa consolidada](10-revisao-api-e-acompanhamento.md). Esta revisão substitui D06/D12 anteriores; sem provisionamento ou chamada de IA realizada.

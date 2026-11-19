@@ -10,6 +10,9 @@ from app.core.config import settings
 from app.core.database import engine, SessionLocal
 from app.features.router import router
 from app.features.ai import router as ai_router
+from app.features.lessons.generation import router as generation_router
+from app.features.reports.export import router as export_router
+from app.features.classrooms.staff import router as staff_router
 from app.features import models as m
 import json, logging, time, uuid
 request_logger=logging.getLogger('eleva.requests')
@@ -23,6 +26,7 @@ async def lifespan(app):
     # A restart never leaves a provider request shown as running forever.
     with SessionLocal() as db:
         db.query(m.Analysis).filter(m.Analysis.status == 'pending').update({'status': 'interrupted'})
+        db.query(m.LessonGeneration).filter(m.LessonGeneration.status == 'pending').update({'status': 'interrupted'})
         db.query(m.AIGate).update({'busy': False})
         db.commit()
     yield
@@ -34,6 +38,9 @@ app.add_middleware(CORSMiddleware, allow_origins=settings().cors_origins.split('
                    allow_headers=['Authorization', 'Content-Type', 'Idempotency-Key'])
 app.include_router(router)
 app.include_router(ai_router)
+app.include_router(generation_router)
+app.include_router(export_router)
+app.include_router(staff_router)
 
 @app.exception_handler(RequestValidationError)
 async def invalid_fields(request,error):

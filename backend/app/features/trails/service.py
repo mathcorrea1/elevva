@@ -62,7 +62,7 @@ def build(db,body:TrailCommand,adult):
         if body.status=='published' and any(c.status!='published' for c in contents):raise HTTPException(409,'Publicação exige conteúdos publicados após revisão. Exemplos não são aprovação pedagógica.')
         if body.status=='synthetic' and any(c.status not in ('synthetic','published') for c in contents):raise HTTPException(422,'Demonstração usa somente conteúdo sintético ou publicado.')
         lessons.append({**lesson.model_dump(exclude={'items','content_ids'}),'contents':[{'id':c.id,'version':c.version,'title':c.title,**c.body} for c in contents]})
-    return {'cover':body.cover.model_dump() if body.cover else None,'scenario':body.scenario,'availability':body.availability,'lessons':lessons}
+    return {'cover':body.cover.model_dump() if body.cover else None,'scenario':body.scenario,'availability':body.availability,'literacy_level':body.literacy_level,'lessons':lessons}
 
 def snapshot(row):return {'id':row.id,'title':row.title,'description':row.description,'version':row.version,'status':row.status,**row.body}
 

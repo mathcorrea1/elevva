@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, FlatList } from 'react-native';
-import { Plus, Share2, Pencil, Copy as CopyIcon, BookOpen } from 'lucide-react-native';
+import { Plus, Share2, Pencil, Copy as CopyIcon, BookOpen, Sparkles } from 'lucide-react-native';
 import { Action, Card, Copy, Field, Notice } from '@/shared/ui';
 import { Eyebrow, Badge, Pills, Disclosure } from '@/shared/ui/learning';
 import { Sheet } from '@/shared/ui/Sheet';
@@ -14,13 +14,21 @@ import type { ScreenProps } from '@/app/routes';
 import type { Lesson } from './types';
 import { AssignSheet } from './AssignSheet';
 import { PreviewSheet } from './PreviewSheet';
+import { LevelFilter } from '@/features/assessments/LevelFilter';
 export function LessonLibraryScreen({ route, navigation }: ScreenProps<'LessonLibrary'>) {
   const { colors } = useTheme();
   const save = useCommand();
   const [scope, setScope] = useState('mine');
   const [search, setSearch] = useState('');
+  const [level, setLevel] = useState('');
   const query = useDebounced(search);
-  const lessons = usePaged<Lesson>('/lessons?scope=' + scope + '&q=' + encodeURIComponent(query));
+  const lessons = usePaged<Lesson>(
+    '/lessons?scope=' +
+      scope +
+      '&q=' +
+      encodeURIComponent(query) +
+      (level ? '&level=' + level : ''),
+  );
   const [selected, setSelected] = useState<Lesson | null>(null);
   const [assign, setAssign] = useState<Lesson | null>(null);
   const [sharing, setSharing] = useState(false);
@@ -56,12 +64,19 @@ export function LessonLibraryScreen({ route, navigation }: ScreenProps<'LessonLi
             Aulas
           </Copy>
           <Action
-            icon={Plus}
-            title="Criar aula"
-            onPress={() => navigation.navigate('LessonBuilder')}
+            icon={Sparkles}
+            title="Criar com IA"
+            onPress={() => navigation.navigate('LessonAI')}
           />
         </View>
+        <Action
+          secondary
+          icon={Plus}
+          title="Criar aula manualmente"
+          onPress={() => navigation.navigate('LessonBuilder')}
+        />
         <Field label="Buscar aulas" value={search} onChangeText={setSearch} maxLength={120} />
+        <LevelFilter value={level} onChange={setLevel} />
         <Pills
           value={scope}
           options={[

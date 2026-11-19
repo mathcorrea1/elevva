@@ -38,6 +38,9 @@ import { OnboardingGate } from '@/features/onboarding/OnboardingGate';
 import { withStudentAccess } from '@/features/learning/StudentAccess';
 import { tokens } from '@/shared/theme/ThemeProvider';
 import { WorkspaceProvider } from './Workspace';
+import { GenerateScreen } from '@/features/lessons/GenerateScreen';
+import { LibrasProvider } from '@/features/accessibility/GlobalLibras';
+import { LibrasAction } from '@/features/accessibility/libras-context';
 import { DashboardScreen, SchoolsScreen, AIHub } from '@/features/workspace/Dashboards';
 import { ManagementScreen as ChildrenScreen } from '@/features/students/ManagementScreen';
 import { ProfileScreen } from '@/features/auth/ProfileScreen';
@@ -76,6 +79,7 @@ function LearningNavigator({ initial = 'Home' }: { initial?: keyof Routes }) {
         },
         headerShadowVisible: false,
         headerBackTitle: 'Voltar',
+        headerRight: () => <LibrasAction />,
         headerLeft:
           Platform.OS === 'web'
             ? (props) =>
@@ -154,6 +158,11 @@ function LearningNavigator({ initial = 'Home' }: { initial?: keyof Routes }) {
         options={{ title: 'Relatório coletivo' }}
       />
       <StackNav.Screen name="AIHub" component={AIHub} options={{ title: 'Apoio com IA' }} />
+      <StackNav.Screen
+        name="LessonAI"
+        component={GenerateScreen}
+        options={{ title: 'Criar com IA' }}
+      />
       <StackNav.Screen name="Home" component={DashboardScreen} options={{ title: 'Eleva' }} />
       <StackNav.Screen
         name="Student"
@@ -446,17 +455,19 @@ export function ElevaRoot() {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
-        <AccessibleErrorBoundary>
-          <ResetPasswordGate>
-            {fontsLoaded || fontError ? (
-              <OnboardingGate>
-                <Root />
-              </OnboardingGate>
-            ) : (
-              <Loading />
-            )}
-          </ResetPasswordGate>
-        </AccessibleErrorBoundary>
+        <LibrasProvider>
+          <AccessibleErrorBoundary>
+            <ResetPasswordGate>
+              {fontsLoaded || fontError ? (
+                <OnboardingGate>
+                  <Root />
+                </OnboardingGate>
+              ) : (
+                <Loading />
+              )}
+            </ResetPasswordGate>
+          </AccessibleErrorBoundary>
+        </LibrasProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );

@@ -7,6 +7,7 @@ from app.core.database import session
 from app.features import contracts as c
 from app.features import models as m
 from app.features.learning import dto, grant, command, report
+from .access import schools_query, rooms_query, school_access, room_access, manager_schools
 
 
 router = APIRouter()
@@ -20,10 +21,10 @@ def context(school_id: str | None = None, classroom_id: str | None = None, searc
     if adult.profession != 'teacher':
         raise HTTPException(403)
     dates = period(start, end)
-    schools = list(db.scalars(select(m.School).where(m.School.owner_id == adult.id).order_by(m.School.name)))
+    schools = list(db.scalars(schools_query(adult).order_by(m.School.name)))
     if school_id and school_id not in {s.id for s in schools}:
         raise HTTPException(404)
-    rooms = list(db.scalars(select(m.Classroom).where(m.Classroom.teacher_id == adult.id,
+    rooms = list(db.scalars(rooms_query(adult).where(
                     m.Classroom.school_id.in_([school_id] if school_id else [s.id for s in schools])).order_by(m.Classroom.name)))
     if classroom_id and classroom_id not in {r.id for r in rooms}:
         raise HTTPException(404, 'Turma indisponível neste contexto.')
@@ -46,14 +47,15 @@ def context(school_id: str | None = None, classroom_id: str | None = None, searc
         visible=db.scalars(query.order_by(m.Student.name,m.Student.id).offset(offset).limit(limit)).all()
         for student in visible:
             data = report(db, student.id, *dates)
-            students.append({**dto(student), 'role': 'teacher',
+            students.append({**dto(student), 'role': grant(db,adult,student.id).role,
                 'next_step': 'assessment' if not db.scalar(select(m.Assessment.id).where(m.Assessment.student_id == student.id).limit(1)) else 'activity',
                 'completed_tasks': data['completed_tasks'], 'assigned_tasks': data['assigned_tasks'],
                 'assessments': data['assessments'], 'observations': data['observations'],
                 'pending_tasks': len(db.scalars(select(m.Assignment.id).where(m.Assignment.student_id == student.id, m.Assignment.completed_at.is_(None))).all()),
                 'pending_followups': len(db.scalars(select(m.AttentionFlag.id).where(m.AttentionFlag.student_id == student.id, m.AttentionFlag.resolved_at.is_(None))).all())})
     # Counts refer to all authorized students in the context, before the text search.
-    return {'schools': [dto(s) for s in schools], 'classrooms': [dto(r) for r in rooms],
+    managers=set(db.scalars(manager_schools(adult)))
+    return {'schools': [{**dto(s),'access_role':'owner' if s.owner_id==adult.id else 'manager' if s.id in managers else 'teacher'} for s in schools], 'classrooms': [dto(r) for r in rooms],
             'students': students, 'summary': summary,'pagination':pagination, 'period': {'start': dates[0], 'end': dates[1]},
             'note': 'Somente estudantes com vínculo ativo. Matrícula não concede acesso.'}
 
@@ -66,7 +68,8 @@ def period(start, end):
 
 @router.get('/schools')
 def schools(adult=Depends(identity), db: Session = Depends(session, scope='function')):
-    return [dto(r) for r in db.scalars(select(m.School).where(m.School.owner_id == adult.id))]
+    manageable=set(db.scalars(manager_schools(adult)))
+    return [{**dto(r),'can_manage':r.id in manageable,'access_role':'owner' if r.owner_id==adult.id else 'manager' if r.id in manageable else 'teacher'} for r in db.scalars(schools_query(adult))]
 
 
 @router.post('/schools')
@@ -83,14 +86,13 @@ def create_school(body: c.SchoolCommand, adult=Depends(identity), db: Session = 
 
 @router.get('/classrooms')
 def classrooms(adult=Depends(identity), db: Session = Depends(session, scope='function')):
-    return [dto(r) for r in db.scalars(select(m.Classroom).where(m.Classroom.teacher_id == adult.id))]
+    return [dto(r) for r in db.scalars(rooms_query(adult))]
 
 
 @router.post('/classrooms')
 def create_classroom(body: c.ClassroomCommand, adult=Depends(identity), db: Session = Depends(session, scope='function'), key: str = Header('', alias='Idempotency-Key')):
-    school = db.get(m.School, body.school_id)
-    if not school or school.owner_id != adult.id or adult.profession != 'teacher':
-        raise HTTPException(404)
+    school = school_access(db,adult,body.school_id,True)
+    if adult.profession != 'teacher':raise HTTPException(403)
     def action():
         row = m.Classroom(school_id=school.id, teacher_id=adult.id, name=body.name)
         db.add(row)
@@ -101,9 +103,7 @@ def create_classroom(body: c.ClassroomCommand, adult=Depends(identity), db: Sess
 
 @router.post('/classrooms/{cid}/enrollments')
 def enroll(cid: str, body: c.EnrollmentCommand, adult=Depends(identity), db: Session = Depends(session, scope='function'), key: str = Header('', alias='Idempotency-Key')):
-    room = db.get(m.Classroom, cid)
-    if not room or room.teacher_id != adult.id:
-        raise HTTPException(404)
+    room = room_access(db,adult,cid)
     grant(db, adult, body.student_id)
     def action():
         row = db.scalar(select(m.Enrollment).where(m.Enrollment.classroom_id == cid, m.Enrollment.student_id == body.student_id))
@@ -117,9 +117,7 @@ def enroll(cid: str, body: c.EnrollmentCommand, adult=Depends(identity), db: Ses
 
 @router.get('/classrooms/{cid}/report')
 def collective(cid: str, start: date | None = None, end: date | None = None, offset:int=Query(0,ge=0),limit:int=Query(20,ge=1,le=50),adult=Depends(identity), db: Session = Depends(session, scope='function')):
-    room = db.get(m.Classroom, cid)
-    if not room or room.teacher_id != adult.id:
-        raise HTTPException(404)
+    room = room_access(db,adult,cid)
     query=select(m.Enrollment.student_id).join(m.Grant, m.Grant.student_id == m.Enrollment.student_id).where(m.Enrollment.classroom_id == cid, m.Grant.adult_id == adult.id, m.Grant.active == True)
     total=db.scalar(select(func.count()).select_from(query.subquery()))
     visible=list(db.scalars(query.order_by(m.Enrollment.student_id).offset(offset).limit(limit)))

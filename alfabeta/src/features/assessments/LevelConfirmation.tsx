@@ -2,12 +2,8 @@ import React, { useState } from 'react';
 import type { Student, LearningEvent } from '@/shared/contracts';
 import { Card, Copy, Field, Action, Notice } from '@/shared/ui';
 import { useCommand, useResource } from '@/shared/data/hooks';
-const levels = {
-  'pre-silabico': 'Pré-silábico',
-  silabico: 'Silábico',
-  'silabico-alfabetico': 'Silábico-alfabético',
-  alfabetico: 'Alfabético',
-};
+import { literacyOptions } from './levels';
+import { useWorkspace } from '@/app/Workspace';
 export function LevelConfirmation({
   student,
   events,
@@ -18,12 +14,14 @@ export function LevelConfirmation({
   changed: () => Promise<void>;
 }) {
   const profile = useResource<Student>('/students/' + student.id);
+  const { profession } = useWorkspace();
   const save = useCommand();
   const [open, setOpen] = useState(false);
   const [level, setLevel] = useState<string | null>(null);
   const [evidence, setEvidence] = useState<string[]>([]);
   const [justification, setJustification] = useState('');
-  if (student.role !== 'teacher') return null;
+  if (student.role !== 'teacher' && !(student.role === 'owner' && profession === 'teacher'))
+    return null;
   return (
     <Card>
       <Action
@@ -34,7 +32,7 @@ export function LevelConfirmation({
       {open && (
         <>
           <Notice text="Este registro é responsabilidade do docente autorizado. Não é uma conclusão da IA nem validação de uma rubrica. Use apenas demonstrações fictícias até revisão pedagógica e liberação de dados reais." />
-          {Object.entries(levels).map(([id, label]) => (
+          {literacyOptions.map(({ value: id, label }) => (
             <Action
               key={id}
               secondary={level !== id}

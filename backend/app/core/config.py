@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     ai_min_start_interval_seconds: int = 60
     ai_max_snapshot_characters: int = 6000
     ai_max_completion_tokens: int = Field(default=1500, ge=128, le=3000)
+    ai_lesson_max_completion_tokens: int = Field(default=6000, ge=1000, le=10000)
     pedagogical_reviewer_subjects: str = ''
 
     def validate_environment(self):

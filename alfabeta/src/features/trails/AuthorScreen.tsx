@@ -11,6 +11,7 @@ import type { ScreenProps } from '@/app/routes';
 import type { ImageRef, TrailDefinition } from './types';
 import { ImageSelector } from './ImageSelector';
 import type { Lesson, Paged } from '@/features/lessons/types';
+import { literacyOptions } from '@/features/assessments/levels';
 type DraftItem = {
   id: string;
   prompt: string;
@@ -70,6 +71,7 @@ export function AuthorScreen({ route, navigation }: ScreenProps<'TrailAuthor'>) 
   const save = useCommand();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [literacyLevel, setLiteracyLevel] = useState<string | null>(null);
   const [cover, setCover] = useState<ImageRef | null>({ builtin: 'garden', alt: '' });
   const [scenario, setScenario] = useState<'garden' | 'sky'>('garden');
   const [availability, setAvailability] = useState<'sequential' | 'free'>('sequential');
@@ -86,6 +88,7 @@ export function AuthorScreen({ route, navigation }: ScreenProps<'TrailAuthor'>) 
     setLoaded(t.id + ':' + t.version);
     setTitle(t.title);
     setDescription(t.description);
+    setLiteracyLevel(t.literacy_level || null);
     setCover(t.cover);
     setScenario(t.scenario);
     setAvailability(t.availability);
@@ -151,6 +154,7 @@ export function AuthorScreen({ route, navigation }: ScreenProps<'TrailAuthor'>) 
     );
   async function submit() {
     const body = {
+      literacy_level: literacyLevel,
       title,
       description,
       cover,
@@ -191,6 +195,12 @@ export function AuthorScreen({ route, navigation }: ScreenProps<'TrailAuthor'>) 
           <Notice text="Nome, ordem, habilidades e critérios são escolhas do autor. Demonstrações não equivalem a currículo ou instrumento validado." />
           <Card>
             <Field label="Nome da trilha" value={title} onChangeText={setTitle} maxLength={120} />
+            <Copy>Nível do público-alvo</Copy>
+            <Pills
+              value={literacyLevel || ''}
+              options={[{ value: '', label: 'Não definido' }, ...literacyOptions]}
+              onChange={(v) => setLiteracyLevel(v || null)}
+            />
             <Field
               label="Descrição breve"
               value={description}

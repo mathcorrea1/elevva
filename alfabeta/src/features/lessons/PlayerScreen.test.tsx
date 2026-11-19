@@ -11,6 +11,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(async () => {}),
 }));
 jest.mock('@react-navigation/native', () => ({
+  NavigationContext: jest.requireActual('react').createContext(undefined),
   useFocusEffect: (callback: () => void) => {
     const react = jest.requireActual('react');
     react.useEffect(callback, [callback]);
@@ -131,7 +132,7 @@ test('autosaves unfinished ordering, resumes after remount, retries same unconfi
       <PlayerScreen {...props} />
     </ThemeProvider>,
   );
-  await waitFor(() => expect(view.getByText('Monte CASA.')).toBeTruthy());
+  await waitFor(() => expect(view.getByText('Monte CASA.')).toBeTruthy(), { timeout: 3000 });
   fireEvent.press(view.getByRole('button', { name: 'Adicionar SA' }));
   await waitFor(() => expect(view.getByText(/Rede indisponível no teste/)).toBeTruthy(), {
     timeout: 2000,

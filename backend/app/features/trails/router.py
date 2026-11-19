@@ -8,18 +8,33 @@ from app.features import models as m
 from app.features.learning import command,check_version,dto,grant
 from app.features.contracts import Version
 from app.features.activities.journey import journey
-from .contracts import TrailCommand,TrailEdit,Enroll
+from .contracts import TrailCommand,TrailEdit,Enroll,BulkTrail
 from .service import visible,build,snapshot,enroll,catalog_query
+from app.features.levels import LiteracyLevel
 router=APIRouter()
+
+@router.post('/trails/{tid}/assign')
+def assign_trail(tid:str,body:BulkTrail,adult=Depends(identity),db:Session=Depends(session,scope='function'),key:str=Header('',alias='Idempotency-Key')):
+    if adult.profession!='teacher':raise HTTPException(403)
+    row=db.scalar(catalog_query(db,adult).where(m.TrailDefinition.id==tid))
+    if not row or row.archived_at or row.version!=body.version:raise HTTPException(404)
+    if row.status!='published' and not(row.status=='synthetic' and settings().eleva_env in ('test','development')):raise HTTPException(409,'Trilha ainda não disponível para atribuição.')
+    def action():
+        from app.features.classrooms.recipients import recipients
+        ids=recipients(db,adult,body.student_ids,body.classroom_ids,body.school_ids)
+        paths=[enroll(db,sid,row,adult) for sid in ids]
+        return {'assigned':len(paths),'enrollment_ids':[p.id for p in paths],'trail_id':row.id,'version':row.version}
+    return command(db,adult,key,'assign-trail:'+tid,body.model_dump(),action)
 
 @router.get('/trails')
 def catalog(adult=Depends(identity),db:Session=Depends(session,scope='function')):
     return [{**snapshot(t),'author_id':t.author_id,'archived_at':t.archived_at} for t in db.scalars(catalog_query(db,adult).order_by(m.TrailDefinition.created_at))]
 
 @router.get('/trails-page')
-def catalog_page(q:str=Query('',max_length=120),offset:int=Query(0,ge=0),limit:int=Query(12,ge=1,le=50),adult=Depends(identity),db:Session=Depends(session,scope='function')):
+def catalog_page(q:str=Query('',max_length=120),offset:int=Query(0,ge=0),limit:int=Query(12,ge=1,le=50),level:LiteracyLevel|None=None,adult=Depends(identity),db:Session=Depends(session,scope='function')):
     query=catalog_query(db,adult).where(m.TrailDefinition.archived_at.is_(None))
     if q:query=query.where(m.TrailDefinition.title.ilike('%'+q.strip()+'%'))
+    if level:query=query.where(m.TrailDefinition.body['literacy_level'].as_string()==level)
     total=db.scalar(select(func.count()).select_from(query.subquery()))
     rows=db.scalars(query.order_by(m.TrailDefinition.created_at,m.TrailDefinition.id).offset(offset).limit(limit))
     return {'items':[{'id':t.id,'title':t.title,'description':t.description,'version':t.version,'status':t.status,'author_id':t.author_id,'cover':t.body.get('cover'),'scenario':t.body.get('scenario','garden'),'lesson_count':len(t.body['lessons'])} for t in rows],

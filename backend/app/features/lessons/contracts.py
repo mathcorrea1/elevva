@@ -2,6 +2,7 @@ from typing import Literal,Any
 from pydantic import Field,model_validator
 from app.features.contracts import Input
 from app.features.trails.contracts import ImageRef
+from app.features.levels import LiteracyLevel
 Key=str
 class Option(Input):
     id:str=Field(pattern=r'^[a-zA-Z0-9-]{1,40}$')
@@ -72,6 +73,7 @@ class LessonCommand(Input):
     description:str=Field(min_length=2,max_length=600)
     objective:str=Field(min_length=2,max_length=1000)
     difficulty:Literal['not_defined','initial','practice','extension']='not_defined'
+    literacy_level:LiteracyLevel|None=None
     skills:list[str]=Field(default_factory=list,max_length=20)
     audience:str=Field(default='',max_length=500)
     adaptations:str=Field(default='',max_length=1000)

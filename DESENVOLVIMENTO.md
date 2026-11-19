@@ -1,5 +1,7 @@
 # Abrir e testar o Eleva
 
+**Atualização para o TCC — 19/11/2026:** [mapa de mudanças por capítulo](Eleva%20V2/18-atualizacao-tcc.md), [prompt encaminhável](Eleva%20V2/19-prompt-atualizacao-tcc.md) e [diagnóstico atual](Eleva%20V2/ELEVVA-DIAGNOSTICO.md). Início docente agora destaca Criar com IA; configuração sem chave informa indisponibilidade e mantém criação manual. Groq live e APK continuam pendentes. [Verificações atuais](Eleva%20V2/evidencias/evolucao-v5-verificacao.json).
+
 ## Aulas, compartilhamento e estudantes — entrega atual
 
 Execute **`.\iniciar-eleva.ps1`** no PowerShell, na raiz do projeto. Abra **http://localhost:8081** e use os [acessos locais de revisão](identity/ACESSOS-TESTE.local.md). A = responsável Ana; P = professora Marina; B/Q são o outro grupo. Os percursos abaixo funcionam no ambiente local de desenvolvimento.

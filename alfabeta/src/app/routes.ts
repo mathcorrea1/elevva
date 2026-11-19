@@ -20,6 +20,7 @@ export type Routes = {
   Lesson: { student: Student; enrollmentId: string; lessonId: string };
   TrailAuthor: { trailId?: string } | undefined;
   LessonBuilder: { lessonId?: string } | undefined;
+  LessonAI: undefined;
   LessonLibrary: { studentId?: string } | undefined;
   AssignedLessons: { student: Student };
   LessonPlayer: { student: Student; assignment: Assignment; retry?: boolean };

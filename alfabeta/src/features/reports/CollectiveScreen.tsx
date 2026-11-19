@@ -6,10 +6,11 @@ import { useWorkspace } from '@/app/Workspace';
 import { Page, Card, Copy, Notice, Action } from '@/shared/ui';
 import { Eyebrow, Stat, MenuRow } from '@/shared/ui/learning';
 import { LoadState } from '@/shared/ui/ResourceState';
-import { TimelineChart } from './TimelineChart';
+import { TrendChart as TimelineChart } from './TrendChart';
 import { PeriodFilter, periodQuery } from './PeriodFilter';
 import type { Report, Student } from '@/shared/contracts';
 import type { ScreenProps } from '@/app/routes';
+import { ExportPDF } from './ExportPDF';
 export function CollectiveScreen({ route, navigation }: ScreenProps<'Collective'>) {
   const { value } = useWorkspace();
   const [start, setStart] = useState(value.start);
@@ -37,6 +38,10 @@ export function CollectiveScreen({ route, navigation }: ScreenProps<'Collective'
         Relatório coletivo
       </Copy>
       <Copy>{route.params.title}</Copy>
+      <ExportPDF
+        path={'/classrooms/' + route.params.classroomId + '/report-pdf'}
+        period={periodQuery(start, end)}
+      />
       <PeriodFilter
         start={start}
         end={end}

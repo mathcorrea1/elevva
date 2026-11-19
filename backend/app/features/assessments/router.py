@@ -57,7 +57,7 @@ def observation(sid: str, body: c.ObservationCommand, adult=Depends(identity), d
 def confirm_level(sid: str, body: c.LevelCommand, adult=Depends(identity), db: Session = Depends(session, scope='function'),
                   key: str = Header('', alias='Idempotency-Key')):
     g = grant(db, adult, sid)
-    if g.role != 'teacher':
+    if g.role != 'teacher' and not (g.role == 'owner' and adult.profession == 'teacher'):
         raise HTTPException(403, 'Confirmação exige vínculo docente explícito')
     def action():
         allowed = {e['id'] for e in history(db, sid)}

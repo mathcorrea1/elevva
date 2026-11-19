@@ -1,0 +1,111 @@
+{
+  "recorded_on": "2026-11-19",
+  "timezone": "America/Sao_Paulo",
+  "scope": "local development; synthetic data; no real minors; no remote changes",
+  "base_commit": "583a438",
+  "checks": {
+    "backend": {
+      "command": "backend/.venv/Scripts/python.exe -m pytest -q",
+      "passed": 67,
+      "duration_seconds": 14.42,
+      "warning": "Starlette TestClient/httpx deprecation; no failure",
+      "identity": "isolated test identity",
+      "database": "disposable SQLite",
+      "ai_provider": "replaced in tests; no live service call"
+    },
+    "frontend": {
+      "command": "npm test -- --runInBand --watch=false",
+      "cwd": "alfabeta",
+      "passed": 25,
+      "suites_passed": 15,
+      "duration_seconds": 12.804
+    },
+    "typescript": {
+      "command": "npm run type-check",
+      "status": "passed"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "status": "passed"
+    },
+    "ai_configuration": {
+      "command": "python -m scripts.prove_authoring --check-config",
+      "status": "pending_missing_GROQ_API_KEY",
+      "live_call_executed": false
+    }
+  },
+  "builds": {
+    "web": {
+      "command": "npm run build:web",
+      "status": "passed",
+      "bundles": [
+        {
+          "file": "_expo/static/js/web/AppEntry-5c697d7dfee45d94872683fc35c4ff0c.js",
+          "bytes": 3675247,
+          "sha256": "f91d875b3ec1f0445a66d0004ac731a53631080c2da10955569c3fd18b3a026d"
+        },
+        {
+          "file": "libras-frame.js",
+          "bytes": 2467,
+          "sha256": "25ae031a2e162b976bd17c0638c38377d98e619c03e2322cbdeedc61203e9b7f"
+        },
+        {
+          "file": "public-appearance.js",
+          "bytes": 1720,
+          "sha256": "ff1b27f5343c8000861590da357a0bb93b24db74fb577e47795b97b290aa16b5"
+        }
+      ]
+    },
+    "android": {
+      "command": "npm run build:android:export",
+      "status": "passed",
+      "bundles": [
+        {
+          "file": "_expo/static/js/android/AppEntry-08b513825d670a6d82589f23c68d0d8a.hbc",
+          "bytes": 5994751,
+          "sha256": "3a503b181d8ec28d19e1a817306d2ce959c725c7c60dfe00652d97b6ac1dc3cd"
+        }
+      ],
+      "is_apk": false
+    }
+  },
+  "migrations": {
+    "head": "d09128ba3402",
+    "previous_head": "80c95fbd1e56",
+    "new": [
+      "c81007ab1201",
+      "d09128ba3402"
+    ],
+    "local_known_sqlite": "applied in previous part of this increment",
+    "fresh_sqlite_chain": "passed in previous part of this increment; not repeated today",
+    "postgresql_sql": "backend/migrations/postgresql-current.sql",
+    "postgresql_mode": "offline SQL compilation only; no connection or execution"
+  },
+  "manual_checks": {
+    "previous_checks_only": "See dated receipts for v4 browser/account/execution flows; not all repeated on recording date",
+    "libras": "partial fragment isolation/widget/player loading observed in previous part of increment; completed avatar translation and linguistic validity not proven",
+    "provisional_libras_screenshot": "evolucao-v5-libras-web.png excluded as proof",
+    "pdf": "authenticated endpoint emits actual PDF and excludes restricted care in automated tests; final UI download/share not verified"
+  },
+  "pending": {
+    "groq_live": true,
+    "five_level_legacy_analysis_schema_harmonization": true,
+    "pedagogical_review_D03": true,
+    "child_real_data_terms_D15": true,
+    "libras_reviewed_media": true,
+    "libras_completed_translation": true,
+    "libras_android_webview_validation": true,
+    "apk_built_installed_talkback": true,
+    "ios_validation": true,
+    "postgresql_live": true,
+    "remote_hosting": true,
+    "smtp_recovery_end_to_end": true,
+    "complete_wcag_evaluation": true,
+    "pdf_ua_evaluation": true
+  },
+  "notes": [
+    "Exporting Android JavaScript/Hermes does not build or install an APK.",
+    "No new manual browser/accessibility or live AI success is inferred from automated tests.",
+    "Source original TCC preserved; new handoff documents are separate."
+  ]
+}

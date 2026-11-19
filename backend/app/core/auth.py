@@ -1,11 +1,29 @@
 import time
 import jwt
 import httpx
+import atexit
 from fastapi import Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.core.database import session
 from app.features.models import Adult
+
+# Reuse transport/TLS setup, never identities or responses. Every request is still introspected.
+_identity_transport = httpx.HTTPTransport(retries=0)
+atexit.register(_identity_transport.close)
+
+class BorrowedIdentityTransport(httpx.BaseTransport):
+    def handle_request(self, request):
+        return _identity_transport.handle_request(request)
+
+    def close(self):
+        # Request-scoped clients own cookies; the process owns the shared transport.
+        pass
+
+def introspect(url, headers):
+    # A fresh cookie jar per call prevents any session cookie crossing accounts on a pooled client.
+    with httpx.Client(transport=BorrowedIdentityTransport(), timeout=8, trust_env=False) as client:
+        return client.get(url,headers=headers,params={'disableCookieCache':'true'})
 
 
 def identity(request: Request, db: Session = Depends(session, scope='function')) -> Adult:
@@ -30,8 +48,7 @@ def identity(request: Request, db: Session = Depends(session, scope='function'))
         raise HTTPException(401, 'Entre novamente')
     try:
         # Server-side introspection also catches logout/revocation; no JWT cache accepting revoked sessions.
-        response = httpx.get(config.auth_base_url.rstrip('/') + '/api/auth/get-session',
-                             headers=headers, params={'disableCookieCache': 'true'}, timeout=8)
+        response = introspect(config.auth_base_url.rstrip('/') + '/api/auth/get-session',headers)
         if response.status_code != 200:
             raise HTTPException(401, 'Sessão inválida')
         result = response.json()

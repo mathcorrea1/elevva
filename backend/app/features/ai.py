@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 from app.core.auth import identity
 from app.core.config import settings
 from app.core.database import session
-from .models import Analysis, Content, Assignment, Student, AIGate, now
+from .models import Analysis, Content, Assignment, Student, AIGate, LessonGeneration, now
 from .contracts import Analyze, Review
 from .learning import grant, history, dto
 
@@ -92,13 +92,13 @@ def snapshot_for(db, sid, synthetic):
             'sources': [{'id': 'synthetic-corpus-v1', 'text': 'Exemplo inteiramente fictício para teste de integração, sem validade pedagógica.'}] if synthetic else references}
 
 
-async def _provider_request(snapshot, instruction):
+async def _provider_request(snapshot, instruction, schema=None, schema_name='eleva_analysis', max_tokens=None):
     cfg = settings()
     async with asyncio.timeout(cfg.ai_timeout_seconds), httpx.AsyncClient(timeout=cfg.ai_timeout_seconds) as client:
         response = await client.post('https://api.groq.com/openai/v1/chat/completions',
             headers={'Authorization': 'Bearer ' + cfg.groq_api_key}, json={
-                'model': cfg.groq_model, 'temperature': 0, 'reasoning_effort': 'low', 'max_completion_tokens': cfg.ai_max_completion_tokens,
-                'response_format': {'type': 'json_schema', 'json_schema': {'name': 'eleva_analysis', 'strict': True, 'schema': Result.model_json_schema()}},
+                'model': cfg.groq_model, 'temperature': 0, 'reasoning_effort': 'low', 'max_completion_tokens': max_tokens or cfg.ai_max_completion_tokens,
+                'response_format': {'type': 'json_schema', 'json_schema': {'name': schema_name, 'strict': True, 'schema': schema or Result.model_json_schema()}},
                 'messages': [{'role': 'system', 'content': instruction},
                              {'role': 'user', 'content': json.dumps(snapshot, ensure_ascii=False)}]})
         if response.status_code == 429:
@@ -171,6 +171,8 @@ def analyze(sid: str, body: Analyze, adult=Depends(identity), db: Session = Depe
     day = datetime.now(timezone.utc).date().isoformat()
     project_count = db.scalar(select(func.count()).select_from(Analysis).where(Analysis.created_at >= day, Analysis.origin == 'live'))
     user_count = db.scalar(select(func.count()).select_from(Analysis).where(Analysis.created_at >= day, Analysis.adult_id == adult.id, Analysis.origin == 'live'))
+    project_count += db.scalar(select(func.count()).select_from(LessonGeneration).where(LessonGeneration.created_at >= day, LessonGeneration.origin == 'live'))
+    user_count += db.scalar(select(func.count()).select_from(LessonGeneration).where(LessonGeneration.created_at >= day, LessonGeneration.adult_id == adult.id, LessonGeneration.origin == 'live'))
     if project_count >= cfg.ai_project_daily_limit or user_count >= cfg.ai_user_daily_limit:
         raise HTTPException(429, 'Limite diário local atingido; consulte os registros e o último resultado')
     if len(json.dumps(snapshot, ensure_ascii=False)) > cfg.ai_max_snapshot_characters:

@@ -30,6 +30,7 @@ class Lesson(Input):
         return self
 
 class TrailCommand(Input):
+    literacy_level: str | None = Field(default=None, pattern=r'^(pre-silabico|silabico-sem-valor|silabico-com-valor|silabico-alfabetico|alfabetico)$')
     title: str = Field(min_length=2,max_length=120)
     description: str = Field(min_length=2,max_length=600)
     cover: ImageRef | None = None
@@ -44,6 +45,12 @@ class TrailEdit(TrailCommand):
 class Enroll(Input):
     trail_id: str
     version: int = Field(ge=1)
+
+class BulkTrail(Input):
+    version: int = Field(ge=1)
+    student_ids:list[str]=Field(default_factory=list,max_length=100)
+    classroom_ids:list[str]=Field(default_factory=list,max_length=20)
+    school_ids:list[str]=Field(default_factory=list,max_length=5)
 
 class Upload(Input):
     base64: str = Field(min_length=8,max_length=2800000)

@@ -98,6 +98,7 @@ type ThemeContext = {
   reducedMotion: boolean;
   update: (patch: Partial<Preferences>) => void;
   scope: (id: string | null, remote?: Partial<Preferences>) => void;
+  preferenceOwner?: string;
 };
 const Context = createContext<ThemeContext | null>(null);
 export function ThemeProvider({ children }: PropsWithChildren) {
@@ -162,6 +163,7 @@ export function ThemeProvider({ children }: PropsWithChildren) {
         reducedMotion: reducedMotion || preferences.reduce_motion,
         update,
         scope,
+        preferenceOwner: owner,
       }}
     >
       {children}

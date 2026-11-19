@@ -78,6 +78,8 @@ export function categoryLabel(level: string) {
       {
         'pre-silabico': 'Pré-silábico',
         silabico: 'Silábico',
+        'silabico-sem-valor': 'Silábico sem valor sonoro',
+        'silabico-com-valor': 'Silábico com valor sonoro',
         'silabico-alfabetico': 'Silábico-alfabético',
         alfabetico: 'Alfabético',
         unassessed: 'Sem avaliação registrada',

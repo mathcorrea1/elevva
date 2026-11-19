@@ -40,6 +40,7 @@ export type LessonScreenData = {
   item_id?: string;
 };
 export type LessonBody = {
+  literacy_level?: string | null;
   description: string;
   objective: string;
   difficulty: 'not_defined' | 'initial' | 'practice' | 'extension';

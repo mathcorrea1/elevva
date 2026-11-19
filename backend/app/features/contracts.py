@@ -1,6 +1,7 @@
 from typing import Literal,Any
 from datetime import date
 from pydantic import BaseModel, ConfigDict, Field, field_validator,model_validator
+from .levels import ConfirmedLevel
 
 
 class Input(BaseModel):
@@ -140,7 +141,7 @@ class EnrollmentCommand(Input):
 
 
 class LevelCommand(Version):
-    level: Literal['pre-silabico', 'silabico', 'silabico-alfabetico', 'alfabetico']
+    level: ConfirmedLevel
     evidence_ids: list[str] = Field(min_length=1, max_length=20)
     justification: str = Field(min_length=10, max_length=1500)
 

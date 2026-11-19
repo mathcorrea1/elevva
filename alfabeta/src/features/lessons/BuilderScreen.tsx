@@ -29,6 +29,8 @@ import { newQuestion } from './defaults';
 import type { Lesson, LessonBody, LessonScreenData, ResponseValue } from './types';
 import { emptyValue } from './types';
 import { ScreenThumbnail } from './ScreenThumbnail';
+import { literacyOptions } from '@/features/assessments/levels';
+import { LibrasAction } from '@/features/accessibility/libras-context';
 const screenTypes = [
   { value: 'text', label: 'Texto' },
   { value: 'image', label: 'Imagem' },
@@ -177,6 +179,7 @@ export function BuilderScreen({ route, navigation }: ScreenProps<'LessonBuilder'
             <Copy heading>Ateliê</Copy>
           </View>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+            <LibrasAction />
             <IconAction
               icon={Eye}
               label="Prévia"
@@ -271,6 +274,12 @@ export function BuilderScreen({ route, navigation }: ScreenProps<'LessonBuilder'
                   setModified(true);
                 }}
                 maxLength={120}
+              />
+              <Copy>Nível do público-alvo</Copy>
+              <Pills
+                value={body.literacy_level || ''}
+                options={[{ value: '', label: 'Não definido' }, ...literacyOptions]}
+                onChange={(v) => patch({ literacy_level: v || null })}
               />
               <Field
                 label="Descrição breve"

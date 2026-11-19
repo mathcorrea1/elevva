@@ -1,23 +1,17 @@
+import { TeacherHome } from './TeacherHome';
+import { SchoolTeam } from './SchoolTeam';
 import { useState, useEffect } from 'react';
 import { useDebounced } from '@/shared/data/paged';
 import type { PageResult } from '@/shared/data/paged';
 import { View, Text, Keyboard } from 'react-native';
-import {
-  BookOpen,
-  FileChartColumn,
-  School,
-  ClipboardList,
-  Sparkles,
-  Users,
-  Route,
-  MessageCircle,
-} from 'lucide-react-native';
+import { BookOpen, FileChartColumn, School, Sparkles, Users, Route } from 'lucide-react-native';
 import { Page, Card, Copy, Action, Field, Notice } from '@/shared/ui';
-import { Eyebrow, Mascot, MenuRow, SectionTitle, Stat } from '@/shared/ui/learning';
+import { Eyebrow, Mascot, MenuRow, SectionTitle } from '@/shared/ui/learning';
 import { useTheme, tokens } from '@/shared/theme/ThemeProvider';
 import { useResource } from '@/shared/data/hooks';
 import { LoadState } from '@/shared/ui/ResourceState';
-import type { Student, Report } from '@/shared/contracts';
+import type { Student } from '@/shared/contracts';
+import { levelLabel } from '@/features/assessments/levels';
 import type { ScreenProps } from '@/app/routes';
 import { useWorkspace } from '@/app/Workspace';
 import { ContextPicker, contextQuery, type School as SchoolType, type Room } from './ContextPicker';
@@ -93,7 +87,6 @@ function ChildSummary({
   report: () => void;
   trail: () => void;
 }) {
-  const data = useResource<Report>('/students/' + student.id + '/report');
   return (
     <Card>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
@@ -107,13 +100,12 @@ function ChildSummary({
           </Copy>
         </View>
       </View>
-      <LoadState resource={data} />
-      {data.data && (
-        <Copy muted>
-          {data.data.completed_tasks} tarefas salvas · {data.data.observations} observações do
-          adulto
-        </Copy>
-      )}
+      <Copy muted>
+        {levelLabel(student.confirmed_level)}
+        {typeof student.completed_tasks === 'number'
+          ? ' · ' + student.completed_tasks + ' tarefas concluídas'
+          : ''}
+      </Copy>
       <Action
         title={
           student.next_step === 'assessment' ? 'Registrar avaliação inicial' : 'Continuar jornada'
@@ -247,144 +239,12 @@ function GuardianDashboard({ navigation }: ScreenProps<'Home'>) {
     </View>
   );
 }
-function TeacherDashboard({ navigation }: ScreenProps<'Home'>) {
-  const { value, update } = useWorkspace();
-  const { colors, preferences } = useTheme();
-  const data = useResource<TeachingContext>('/teaching/context' + contextQuery(value));
-  return (
-    <View style={{ flex: 1 }}>
-      <Page>
-        <Greeting />
-        <MenuRow
-          icon={Users}
-          title="Estudantes e cadastros"
-          detail="Buscar, adicionar e gerenciar acompanhamentos"
-          onPress={() => navigation.navigate('Children')}
-        />
-        <ContextPicker />
-        <LoadState resource={data} />
-        <View style={{ backgroundColor: colors.hero, borderRadius: 26, padding: 24, gap: 12 }}>
-          <Text
-            style={{
-              fontFamily: tokens.fontHeading,
-              fontSize: 22 * preferences.font_scale,
-              lineHeight: 30 * preferences.font_scale,
-              color: colors.onHero,
-            }}
-          >
-            Seu olhar faz a diferença.
-          </Text>
-          <Text
-            style={{
-              fontFamily: tokens.fontFamily,
-              fontSize: 13 * preferences.font_scale,
-              lineHeight: 21 * preferences.font_scale,
-              color: colors.heroMuted,
-            }}
-          >
-            Cada registro ajuda a acompanhar as descobertas da turma.
-          </Text>
-        </View>
-        {value.classroomId && data.data ? (
-          <>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
-              <Stat value={data.data.summary.students} label="Estudantes autorizados" />
-              <Stat
-                value={data.data.summary.pending_assessments}
-                label="Avaliações iniciais pendentes"
-              />
-              <Stat
-                value={data.data.summary.pending_tasks}
-                label="Tarefas a concluir no histórico"
-              />
-              <Stat value={data.data.summary.pending_followups} label="Acompanhamentos abertos" />
-            </View>
-            <Copy muted>
-              {data.data.summary.completed_tasks} tarefas concluídas no período. Acompanhamentos
-              são marcações feitas por adultos.
-            </Copy>
-            <MenuRow
-              icon={FileChartColumn}
-              title="Relatório da turma"
-              detail="Registros do contexto selecionado"
-              onPress={() =>
-                navigation.navigate('Collective', {
-                  classroomId: value.classroomId,
-                  title:
-                    data.data?.classrooms.find((r) => r.id === value.classroomId)?.name || 'Turma',
-                })
-              }
-            />
-            <SectionTitle
-              title="Acompanhamentos"
-              detail="Avaliação pendente e próximas tarefas, sem classificação automática."
-            />
-            {data.data.students.map((s) => (
-              <MenuRow
-                key={s.id}
-                icon={s.next_step === 'assessment' ? ClipboardList : Users}
-                title={s.name}
-                detail={
-                  s.next_step === 'assessment'
-                    ? 'Registrar avaliação inicial'
-                    : s.completed_tasks +
-                      ' tarefas concluídas no período' +
-                      (s.pending_followups ? ' · acompanhamento aberto' : '')
-                }
-                onPress={() => {
-                  update({ studentId: s.id });
-                  navigation.navigate('Student', { student: s });
-                }}
-              />
-            ))}
-            {data.data.pagination.next_offset !== null && (
-              <Action
-                secondary
-                title="Ver todos os estudantes desta turma"
-                onPress={() => navigation.navigate('Children')}
-              />
-            )}
-            {data.data.students.length === 0 && (
-              <Notice text="Esta turma ainda não tem estudantes com vínculo ativo. Gerencie matrículas em Escolas." />
-            )}
-          </>
-        ) : (
-          <Card>
-            <School color={colors.primary} size={32} />
-            <Copy heading>Qual turma vamos acompanhar?</Copy>
-            <Copy muted>Selecione sua escola e sua turma para ver estudantes e pendências.</Copy>
-            <Action
-              title="Explorar escolas"
-              onPress={() => navigation.getParent()?.navigate('Escolas')}
-            />
-          </Card>
-        )}
-        <SectionTitle title="Seu espaço de criação" />
-        <MenuRow
-          icon={BookOpen}
-          title="Minhas aulas"
-          detail="Criar telas, atividades e compartilhar aulas"
-          onPress={() => navigation.navigate('LessonLibrary')}
-        />
-        <MenuRow
-          icon={BookOpen}
-          title="Biblioteca e autoria"
-          detail="Atividades, instrumentos e orientações"
-          onPress={() => navigation.navigate('Library')}
-        />
-        <MenuRow
-          icon={MessageCircle}
-          title="Registrar acompanhamento"
-          detail="Escolha um estudante em Escolas"
-          onPress={() => navigation.getParent()?.navigate('Escolas')}
-        />
-      </Page>
-      <AIFloat open={() => navigation.navigate('AIHub')} />
-    </View>
-  );
+function TeacherDashboard(props: ScreenProps<'Home'>) {
+  return <TeacherHome {...props} />;
 }
 export function SchoolsScreen({ navigation }: ScreenProps<'Schools'>) {
   const { value, update } = useWorkspace();
+  const memberships = useResource<SchoolType[]>('/schools');
   const [search, setSearch] = useState('');
   const query = useDebounced(search);
   const [offset, setOffset] = useState(0);
@@ -405,6 +265,10 @@ export function SchoolsScreen({ navigation }: ScreenProps<'Schools'>) {
         Cada turma,{'\n'}um universo.
       </Copy>
       <ContextPicker />
+      {!!value.schoolId &&
+        memberships.data?.some((s) => s.id === value.schoolId && s.can_manage) && (
+          <SchoolTeam key={value.schoolId} schoolId={value.schoolId} />
+        )}
       <LoadState resource={context} />
       {!value.schoolId && (
         <>

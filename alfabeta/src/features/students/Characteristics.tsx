@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { View } from 'react-native';
 import { Action, Copy, Field } from '@/shared/ui';
-import { Disclosure } from '@/shared/ui/learning';
+import { Pills } from '@/shared/ui/learning';
 export type Characteristics = {
   reported_conditions: string[];
   disabilities: string[];
@@ -17,7 +18,7 @@ export const emptyCharacteristics: Characteristics = {
   additional: '',
   source: '',
 };
-const categories: {
+export const categories: {
   key: keyof Pick<
     Characteristics,
     'reported_conditions' | 'disabilities' | 'communication' | 'pedagogical_supports'
@@ -83,39 +84,48 @@ export function CharacteristicsForm({
   onChange: (v: Characteristics) => void;
   readOnly?: boolean;
 }) {
+  const [category, setCategory] = useState('pedagogical_supports');
   return (
     <View style={{ gap: 14 }}>
-      <Copy muted>
-        Preenchimento opcional. Nenhuma seleção significa “não informado”. Informações restritas só
-        são compartilhadas por concessão explícita do gestor.
+      <Copy size="caption" muted>
+        Opcional · acesso restrito. Selecione apenas o que ajuda no acompanhamento.
       </Copy>
-      {categories.map((c) => (
-        <Disclosure
-          key={c.key}
-          title={c.title + (value[c.key].length ? ' · ' + value[c.key].length : ' · não informado')}
-        >
-          <Copy muted>{c.note}</Copy>
-          {c.options
-            .filter(([id]) => !readOnly || value[c.key].includes(id))
-            .map(([id, label]) => (
-              <Action
-                key={id}
-                secondary
-                disabled={readOnly}
-                title={(value[c.key].includes(id) ? '✓ ' : '') + label}
-                selected={value[c.key].includes(id)}
-                onPress={() =>
-                  onChange({
-                    ...value,
-                    [c.key]: value[c.key].includes(id)
-                      ? value[c.key].filter((v) => v !== id)
-                      : [...value[c.key], id],
-                  })
-                }
-              />
-            ))}
-        </Disclosure>
-      ))}
+      <Pills
+        value={category}
+        onChange={setCategory}
+        options={categories.map((c) => ({ value: c.key, label: c.title }))}
+      />
+      {categories
+        .filter((c) => c.key === category)
+        .map((c) => (
+          <View key={c.key} style={{ gap: 10 }}>
+            <Copy size="caption" muted>
+              {c.note}
+            </Copy>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              {c.options
+                .filter(([id]) => !readOnly || value[c.key].includes(id))
+                .map(([id, label]) => (
+                  <Action
+                    key={id}
+                    secondary
+                    disabled={readOnly}
+                    title={(value[c.key].includes(id) ? '✓ ' : '') + label}
+                    selected={value[c.key].includes(id)}
+                    onPress={() =>
+                      onChange({
+                        ...value,
+                        [c.key]: value[c.key].includes(id)
+                          ? value[c.key].filter((v) => v !== id)
+                          : [...value[c.key], id],
+                      })
+                    }
+                  />
+                ))}
+            </View>
+            {readOnly && !value[c.key].length && <Copy muted>Não informado.</Copy>}
+          </View>
+        ))}
       <Field
         label="Observações adicionais restritas (opcional)"
         value={value.additional}

@@ -71,12 +71,19 @@ function Start-ElevaService([string]$name, [int]$port, [string]$url, [string]$ma
   throw "$name ainda nao respondeu. Consulte $log.err.log"
 }
 Write-Host 'Preparando Eleva local. Nenhuma nuvem ou banco remoto sera alterado.'
+Write-Host '[1/5] Carregando Python, fazendo backup e preparando o banco local. Aguarde a conclusao.'
 Run-Checked (Join-Path $workspace 'backend') $pythonExe @('-m','scripts.prepare_local')
+Write-Host '[2/5] Preparando e iniciando o servico de acesso.'
 Run-Checked (Join-Path $workspace 'identity') 'npm.cmd' @('run','migrate:local')
 $identityScript = '"' + (Join-Path $workspace 'identity\server.mjs') + '"'
 Start-ElevaService 'identity' 3001 'http://localhost:3001/__eleva/health' 'eleva-identity' (Join-Path $workspace 'identity') $nodeExe @('--env-file-if-exists=.env',$identityScript)
+Write-Host '[3/5] Iniciando a API local.'
 Start-ElevaService 'api' 8100 'http://localhost:8100/health/ready' 'eleva-api' (Join-Path $workspace 'backend') $pythonExe @('-m','uvicorn','app.main:app','--host','127.0.0.1','--port','8100','--reload','--reload-dir','app')
-if (-not $SemSeed) { Run-Checked (Join-Path $workspace 'backend') $pythonExe @('-m','scripts.seed_review','--local-development') }
+if (-not $SemSeed) {
+  Write-Host '[4/5] Conferindo os dados ficticios de demonstracao, preservando as edicoes existentes.'
+  Run-Checked (Join-Path $workspace 'backend') $pythonExe @('-m','scripts.seed_review','--local-development')
+} else { Write-Host '[4/5] Carga de demonstracao ignorada por -SemSeed.' }
+Write-Host '[5/5] Iniciando a interface web. A primeira compilacao pode demorar.'
 $expoCli = '"' + (Join-Path $workspace 'alfabeta\node_modules\expo\bin\cli') + '"'
 Start-ElevaService 'web' 8081 'http://localhost:8081/eleva-runtime.json' 'eleva-web' (Join-Path $workspace 'alfabeta') $nodeExe @($expoCli,'start','--web','--port','8081','--localhost')
 Write-Host ''

@@ -1,4 +1,3 @@
--- Generated offline for review. Not executed on PostgreSQL. Domain schema only; Better Auth migrations are separate.
 BEGIN;
 
 CREATE TABLE alembic_version (
@@ -539,5 +538,65 @@ CREATE INDEX ix_observations_student_created ON observations (student_id, create
 CREATE INDEX ix_students_name_id ON students (name, id);
 
 UPDATE alembic_version SET version_num='80c95fbd1e56' WHERE alembic_version.version_num = 'b18703af9002';
+
+-- Running upgrade 80c95fbd1e56 -> c81007ab1201
+
+CREATE TABLE lesson_generations (
+    id VARCHAR(36) NOT NULL,
+    adult_id VARCHAR(128) NOT NULL,
+    command_key VARCHAR(64) NOT NULL,
+    input_hash VARCHAR(64) NOT NULL,
+    request_data JSON NOT NULL,
+    prompt_version VARCHAR(64) NOT NULL,
+    model VARCHAR(100) NOT NULL,
+    status VARCHAR(30) NOT NULL,
+    origin VARCHAR(20) NOT NULL,
+    result JSON,
+    usage JSON,
+    request_id VARCHAR(150),
+    content_id VARCHAR(36),
+    created_at VARCHAR(40) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY(adult_id) REFERENCES adults (id),
+    UNIQUE (command_key),
+    FOREIGN KEY(content_id) REFERENCES content (id)
+);
+
+CREATE INDEX ix_lesson_generations_adult_id ON lesson_generations (adult_id);
+
+CREATE INDEX ix_lesson_generations_input_hash ON lesson_generations (input_hash);
+
+UPDATE alembic_version SET version_num='c81007ab1201' WHERE alembic_version.version_num = '80c95fbd1e56';
+
+-- Running upgrade c81007ab1201 -> d09128ba3402
+
+CREATE TABLE school_access (
+    id VARCHAR(36) NOT NULL,
+    school_id VARCHAR(36) NOT NULL,
+    adult_id VARCHAR(128) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    active BOOLEAN NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (school_id, adult_id),
+    FOREIGN KEY(school_id) REFERENCES schools (id),
+    FOREIGN KEY(adult_id) REFERENCES adults (id)
+);
+
+CREATE INDEX ix_school_access_school_id ON school_access (school_id);
+
+CREATE TABLE classroom_staff (
+    id VARCHAR(36) NOT NULL,
+    classroom_id VARCHAR(36) NOT NULL,
+    adult_id VARCHAR(128) NOT NULL,
+    active BOOLEAN NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (classroom_id, adult_id),
+    FOREIGN KEY(classroom_id) REFERENCES classrooms (id),
+    FOREIGN KEY(adult_id) REFERENCES adults (id)
+);
+
+CREATE INDEX ix_classroom_staff_classroom_id ON classroom_staff (classroom_id);
+
+UPDATE alembic_version SET version_num='d09128ba3402' WHERE alembic_version.version_num = 'c81007ab1201';
 
 COMMIT;

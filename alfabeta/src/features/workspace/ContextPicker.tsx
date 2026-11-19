@@ -7,7 +7,12 @@ import { useWorkspace } from '@/app/Workspace';
 import { useResource } from '@/shared/data/hooks';
 import { LoadState } from '@/shared/ui/ResourceState';
 import { validOptionalDate } from '@/shared/dates';
-export type School = { id: string; name: string };
+export type School = {
+  id: string;
+  name: string;
+  can_manage?: boolean;
+  access_role?: 'owner' | 'manager' | 'teacher';
+};
 export type Room = { id: string; name: string; school_id: string };
 export function ContextPicker() {
   const { value, update } = useWorkspace();

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Header, Query,HTTPException
 from pydantic import Field
-from sqlalchemy import select, func
+from sqlalchemy import select, func, case
 from sqlalchemy.orm import Session
 from app.core.auth import identity
 from app.core.database import session
@@ -8,6 +8,7 @@ from app.features import models as m
 from app.features.contracts import CreateStudent
 from app.features.learning import command, dto
 from .care import Characteristics, Presentation
+from app.features.classrooms.access import room_access
 
 router=APIRouter()
 class Registration(CreateStudent):
@@ -19,21 +20,22 @@ class Registration(CreateStudent):
 def page(q:str=Query('',max_length=120),classroom_id:str|None=None,offset:int=Query(0,ge=0),limit:int=Query(20,ge=1,le=50),adult=Depends(identity),db:Session=Depends(session,scope='function')):
     query=select(m.Student,m.Grant).join(m.Grant,m.Grant.student_id==m.Student.id).where(m.Grant.adult_id==adult.id,m.Grant.active==True)
     if classroom_id:
-        room=db.get(m.Classroom,classroom_id)
-        if not room or room.teacher_id!=adult.id or adult.profession!='teacher':raise HTTPException(404)
+        room_access(db,adult,classroom_id)
+        if adult.profession!='teacher':raise HTTPException(404)
         query=query.where(select(m.Enrollment.id).where(m.Enrollment.student_id==m.Student.id,m.Enrollment.classroom_id==classroom_id).exists())
     if q:query=query.where(m.Student.name.ilike('%'+q.strip()+'%'))
     total=db.scalar(select(func.count()).select_from(query.subquery()))
     rows=db.execute(query.order_by(m.Student.name,m.Student.id).offset(offset).limit(limit)).all()
-    return {'items':[{**dto(s),'role':g.role,'next_step':'activity' if db.scalar(select(m.Assessment.id).where(m.Assessment.student_id==s.id).limit(1)) else 'assessment'} for s,g in rows],
+    counts={sid:{'completed_tasks':done,'pending_tasks':total-done} for sid,total,done in db.execute(select(m.Assignment.student_id,func.count(),func.sum(case((m.Assignment.completed_at.is_not(None),1),else_=0))).where(m.Assignment.student_id.in_([s.id for s,_ in rows])).group_by(m.Assignment.student_id))}
+    return {'items':[{**dto(s),**counts.get(s.id,{'completed_tasks':0,'pending_tasks':0}),'role':g.role,'next_step':'activity' if db.scalar(select(m.Assessment.id).where(m.Assessment.student_id==s.id).limit(1)) else 'assessment'} for s,g in rows],
             'total':total,'offset':offset,'next_offset':offset+limit if offset+limit<total else None}
 
 @router.post('/students/register',status_code=201)
 def register(body:Registration,adult=Depends(identity),db:Session=Depends(session,scope='function'),key:str=Header('',alias='Idempotency-Key')):
     def action():
         if body.classroom_id:
-            room=db.get(m.Classroom,body.classroom_id)
-            if not room or room.teacher_id!=adult.id or adult.profession!='teacher':raise HTTPException(404,'Turma indisponível para esta conta.')
+            room_access(db,adult,body.classroom_id)
+            if adult.profession!='teacher':raise HTTPException(404,'Turma indisponível para esta conta.')
         row=m.Student(**body.model_dump(exclude={'characteristics','presentation','classroom_id'}));db.add(row);db.flush()
         db.add(m.Grant(student_id=row.id,adult_id=adult.id,role='owner'))
         db.add(m.StudentCare(student_id=row.id,author_id=adult.id,characteristics=body.characteristics.model_dump(),presentation=body.presentation.model_dump()))

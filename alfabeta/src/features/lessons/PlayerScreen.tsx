@@ -19,8 +19,10 @@ import type { LessonAttempt, ResponseValue, LessonScreenData } from './types';
 import { responseReady, emptyValue } from './types';
 import { Activity } from './Activity';
 import { YouTube } from './YouTube';
+import { useLibrasContent } from '@/features/accessibility/libras-context';
 
 export function ContentScreen({ screen }: { screen: LessonScreenData }) {
+  useLibrasContent([screen.text, screen.instruction].filter(Boolean).join('\n\n'));
   return (
     <View style={{ gap: 18 }}>
       {screen.image && <Illustration image={screen.image} height={210} />}

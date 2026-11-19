@@ -7,6 +7,8 @@ export type Student = {
   version: number;
   birth_date?: string | null;
   next_step?: 'assessment' | 'activity';
+  completed_tasks?: number;
+  pending_tasks?: number;
 };
 export type Content = {
   id: string;
@@ -29,7 +31,14 @@ export type Assignment = {
   locked: boolean;
   completed_at: string | null;
 };
-export type Item = { id: string; prompt: string; choices: string[]; reading_allowed: boolean;required?:boolean;skill?:string };
+export type Item = {
+  id: string;
+  prompt: string;
+  choices: string[];
+  reading_allowed: boolean;
+  required?: boolean;
+  skill?: string;
+};
 export type Attempt = {
   id: string;
   version: number;
@@ -42,8 +51,8 @@ export type Report = {
   series: { day: string; activities: number; assessments: number; observations: number }[];
   completed_stages: number;
   total_stages: number;
-  completed_trails:number;
-  total_trails:number;
+  completed_trails: number;
+  total_trails: number;
   achievements: { id: string; title: string; description: string }[];
   student_id: string;
   completed_tasks: number;
@@ -91,10 +100,10 @@ export type LearningEvent = {
   level?: string;
   justification?: string;
   evidence?: { item: string; response: string }[];
-  details?:{skill?:string;support?:string;needs_support?:boolean};
+  details?: { skill?: string; support?: string; needs_support?: boolean };
 };
 export type Analysis = {
-  snapshot?:{evidence:{id:string;type:string;content_omitted?:string}[]};
+  snapshot?: { evidence: { id: string; type: string; content_omitted?: string }[] };
   id: string;
   status: string;
   model: string;

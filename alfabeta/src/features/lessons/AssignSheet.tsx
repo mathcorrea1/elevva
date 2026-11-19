@@ -12,10 +12,12 @@ export function AssignSheet({
   lesson,
   close,
   studentId,
+  trail = false,
 }: {
-  lesson: Lesson | null;
+  lesson: (Pick<Lesson, 'id' | 'title' | 'version'> & { revision_id?: string }) | null;
   close: () => void;
   studentId?: string;
+  trail?: boolean;
 }) {
   const [kind, setKind] = useState('students');
   const [search, setSearch] = useState('');
@@ -36,17 +38,23 @@ export function AssignSheet({
   return (
     <Sheet
       visible={!!lesson}
-      title="Disponibilizar aula"
+      title={trail ? 'Disponibilizar trilha' : 'Disponibilizar aula'}
       close={close}
       footer={
         <Action
-          title={save.busy ? 'Disponibilizando…' : 'Atribuir aula aos selecionados'}
+          title={
+            save.busy
+              ? 'Disponibilizando…'
+              : trail
+                ? 'Atribuir trilha aos selecionados'
+                : 'Atribuir aula aos selecionados'
+          }
           disabled={!count || save.busy}
           onPress={() =>
             void save.run(
-              '/lessons/' + lesson?.id + '/assign',
+              (trail ? '/trails/' : '/lessons/') + lesson?.id + '/assign',
               {
-                revision_id: lesson?.revision_id,
+                ...(trail ? { version: lesson?.version } : { revision_id: lesson?.revision_id }),
                 student_ids: selectedStudents,
                 classroom_ids: selectedClasses,
                 school_ids: selectedSchools,

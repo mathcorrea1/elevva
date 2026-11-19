@@ -6,6 +6,7 @@ import { useTheme, tokens } from '@/shared/theme/ThemeProvider';
 import { Copy } from '@/shared/ui';
 import { Mascot } from '@/shared/ui/learning';
 import { QuickAccessibility } from '@/features/accessibility/QuickAccessibility';
+import { LibrasAction } from '@/features/accessibility/libras-context';
 
 export function PublicEntry({ children }: PropsWithChildren) {
   const { colors, preferences } = useTheme();
@@ -50,6 +51,7 @@ export function PublicEntry({ children }: PropsWithChildren) {
             >
               APRENDER TRANSFORMA
             </Text>
+            <LibrasAction />
           </View>
           <View
             style={{

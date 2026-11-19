@@ -100,8 +100,9 @@ def overview(school_id:str|None=None,classroom_id:str|None=None,start:date|None=
 def investigation(sid:str,classroom_id:str|None=None,start:date|None=None,end:date|None=None,cohort_offset:int=Query(0,ge=0),adult=Depends(identity),db:Session=Depends(session,scope='function')):
     grant(db,adult,sid);start,end=period(start,end);peers=[];cohort_total=0
     if classroom_id:
-        room=db.get(m.Classroom,classroom_id)
-        if adult.profession!='teacher' or not room or room.teacher_id!=adult.id:raise HTTPException(404)
+        from app.features.classrooms.access import room_access
+        room=room_access(db,adult,classroom_id)
+        if adult.profession!='teacher':raise HTTPException(404)
         query=visible_query(db,adult,room.school_id,classroom_id)
         if not db.scalar(query.where(m.Student.id==sid)):raise HTTPException(404)
         cohort_total=db.scalar(select(func.count()).select_from(query.subquery()))

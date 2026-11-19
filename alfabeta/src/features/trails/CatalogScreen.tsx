@@ -12,6 +12,8 @@ import type { ScreenProps } from '@/app/routes';
 import type { Student } from '@/shared/contracts';
 import { Illustration } from './Illustration';
 import type { TrailSummary, Enrollment } from './types';
+import { AssignSheet } from '@/features/lessons/AssignSheet';
+import { LevelFilter } from '@/features/assessments/LevelFilter';
 
 export function CatalogScreen({
   navigation,
@@ -23,11 +25,15 @@ export function CatalogScreen({
   const { profession, value, update } = useWorkspace();
   const me = useResource<{ id: string }>('/me');
   const [search, setSearch] = useState('');
+  const [level, setLevel] = useState('');
   const query = useDebounced(search);
-  const catalog = usePaged<TrailSummary>('/trails-page?q=' + encodeURIComponent(query));
+  const catalog = usePaged<TrailSummary>(
+    '/trails-page?q=' + encodeURIComponent(query) + (level ? '&level=' + level : ''),
+  );
   const save = useCommand();
   const [picker, setPicker] = useState(false);
   const [newVersion, setNewVersion] = useState<TrailSummary | null>(null);
+  const [groupTrail, setGroupTrail] = useState<TrailSummary | null>(null);
   const [studentSearch, setStudentSearch] = useState('');
   const studentQuery = useDebounced(studentSearch);
   const students = usePaged<Student>(
@@ -85,6 +91,7 @@ export function CatalogScreen({
         </>
       )}
       <Field label="Buscar trilhas" value={search} onChangeText={setSearch} maxLength={120} />
+      <LevelFilter value={level} onChange={setLevel} />
       {catalog.loading && <Copy>Buscando trilhas…</Copy>}
       {!!catalog.error && <Notice error text={catalog.error} />}
       <LoadState resource={enrollments} />
@@ -154,6 +161,14 @@ export function CatalogScreen({
                   onPress={() => navigation.navigate('TrailAuthor', { trailId: trail.id })}
                 />
               )}
+              {profession === 'teacher' && (
+                <Action
+                  secondary
+                  icon={Users}
+                  title="Disponibilizar para turma ou estudantes"
+                  onPress={() => setGroupTrail(trail)}
+                />
+              )}
             </Card>
           );
         })}
@@ -201,6 +216,17 @@ export function CatalogScreen({
         </>
       )}
       <SaveState command={save} />
+      {groupTrail && (
+        <AssignSheet
+          key={groupTrail.id}
+          trail
+          lesson={groupTrail}
+          close={() => {
+            setGroupTrail(null);
+            void enrollments.reload();
+          }}
+        />
+      )}
       <Sheet visible={!!newVersion} title="Iniciar nova versão?" close={() => setNewVersion(null)}>
         <Copy>
           O percurso anterior e as respostas serão preservados. A nova versão começa sem conclusões

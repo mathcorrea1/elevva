@@ -21,9 +21,10 @@ import type { Journey } from '@/shared/contracts';
 import type { ComparableGroup, EvidenceRow } from './overviewTypes';
 import { supportLabel } from './overviewTypes';
 import { EvidenceGroups } from './EvidenceGroups';
-import { TimelineChart } from './TimelineChart';
+import { TrendChart as TimelineChart } from './TrendChart';
 import { PeriodFilter, periodQuery } from './PeriodFilter';
 import { AnswerReview } from '@/features/lessons/AnswerReview';
+import { ExportPDF } from './ExportPDF';
 export function InvestigationScreen({ route, navigation }: ScreenProps<'Report'>) {
   const { student, classroomId } = route.params;
   const { value, profession } = useWorkspace();
@@ -56,6 +57,7 @@ export function InvestigationScreen({ route, navigation }: ScreenProps<'Report'>
         A jornada de{'\n'}
         {student.name}
       </Copy>
+      <ExportPDF path={'/students/' + student.id + '/report-pdf'} period={base} />
       <PeriodFilter
         start={start}
         end={end}

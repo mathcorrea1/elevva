@@ -8,8 +8,19 @@ import type { Lesson, ResponseValue } from './types';
 import { emptyValue } from './types';
 import { ContentScreen } from './PlayerScreen';
 import { Activity } from './Activity';
-export function PreviewSheet({ lesson, close }: { lesson: Lesson; close: () => void }) {
-  const data = useResource<Lesson>('/lessons/' + lesson.id + '?revision_id=' + lesson.revision_id);
+export function PreviewSheet({
+  lesson,
+  close,
+  local = false,
+}: {
+  lesson: Lesson;
+  close: () => void;
+  local?: boolean;
+}) {
+  const resource = useResource<Lesson>(
+    local ? null : '/lessons/' + lesson.id + '?revision_id=' + lesson.revision_id,
+  );
+  const data = { ...resource, data: local ? lesson : resource.data };
   const [index, setIndex] = useState(0);
   const [value, setValue] = useState<ResponseValue>(null);
   const s = data.data?.body.screens[index];

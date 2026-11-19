@@ -6,6 +6,7 @@ import { BookOpen } from 'lucide-react-native';
 import { useTheme, tokens } from '@/shared/theme/ThemeProvider';
 import { Action, Copy } from '@/shared/ui';
 import { Mascot, Badge } from '@/shared/ui/learning';
+import { LibrasAction } from '@/features/accessibility/libras-context';
 
 const listeners = new Set<() => void>();
 export const replayOnboarding = () => listeners.forEach((show) => show());
@@ -57,6 +58,7 @@ function Onboarding({ done }: { done: () => void }) {
           >
             eleva
           </Text>
+          <LibrasAction />
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Pular apresentação"

@@ -19,7 +19,7 @@ import { LoadState } from '@/shared/ui/ResourceState';
 import { useWorkspace } from '@/app/Workspace';
 import { ContextPicker, contextQuery } from '@/features/workspace/ContextPicker';
 import { PeriodFilter } from './PeriodFilter';
-import { TimelineChart } from './TimelineChart';
+import { TrendChart as TimelineChart } from './TrendChart';
 import { EvidenceGroups } from './EvidenceGroups';
 import type { Overview } from './overviewTypes';
 import { categoryLabel } from './overviewTypes';
@@ -113,22 +113,6 @@ export function OverviewScreen({ navigation }: ScreenProps<'Reports'>) {
         onChangeText={setSearch}
         maxLength={120}
       />
-      {data.data && (
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-          <Action
-            secondary
-            title="Página anterior de estudantes"
-            disabled={!offset}
-            onPress={() => setOffset(Math.max(0, offset - data.data!.pagination.limit))}
-          />
-          <Action
-            secondary
-            title="Próxima página de estudantes"
-            disabled={data.data.pagination.next_offset === null}
-            onPress={() => setOffset(data.data!.pagination.next_offset!)}
-          />
-        </View>
-      )}
       {teacher && !value.schoolId && (
         <Notice text="Selecione sua escola para abrir o panorama. Você pode reunir as turmas autorizadas da escola ou escolher uma turma específica." />
       )}
@@ -201,6 +185,22 @@ export function OverviewScreen({ navigation }: ScreenProps<'Reports'>) {
               label="Trilhas concluídas no período"
             />
           </View>
+          {data.data && (
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              <Action
+                secondary
+                title="Página anterior de estudantes"
+                disabled={!offset}
+                onPress={() => setOffset(Math.max(0, offset - data.data!.pagination.limit))}
+              />
+              <Action
+                secondary
+                title="Próxima página de estudantes"
+                disabled={data.data.pagination.next_offset === null}
+                onPress={() => setOffset(data.data!.pagination.next_offset!)}
+              />
+            </View>
+          )}
           <SectionTitle
             title="O que merece um próximo olhar?"
             detail="Pendências de registro, revisão e sinalizações manuais. Sem diagnóstico ou ranking."
@@ -274,6 +274,8 @@ export function OverviewScreen({ navigation }: ScreenProps<'Reports'>) {
             'unconfirmed',
             'pre-silabico',
             'silabico',
+            'silabico-sem-valor',
+            'silabico-com-valor',
             'silabico-alfabetico',
             'alfabetico',
           ]
@@ -372,6 +374,8 @@ export function OverviewScreen({ navigation }: ScreenProps<'Reports'>) {
               'unconfirmed',
               'pre-silabico',
               'silabico',
+              'silabico-sem-valor',
+              'silabico-com-valor',
               'silabico-alfabetico',
               'alfabetico',
             ].map((level) => ({ value: level, label: categoryLabel(level) })),
