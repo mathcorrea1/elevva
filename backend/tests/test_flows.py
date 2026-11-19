@@ -115,7 +115,7 @@ def test_ai_two_snapshots_validation_and_review(client, monkeypatch):
         a = snapshot['evidence'][0]
         assessment = next(e for e in snapshot['evidence'] if e['type'] == 'assessment')
         response = assessment['items'][0]['response']
-        return 'completed', {'state': 'suggestion', 'suggested_level': 'silabico' if response == 'A' else 'pre-silabico',
+        return 'completed', {'state': 'suggestion', 'suggested_level': 'silabico-sem-valor' if response == 'A' else 'pre-silabico',
             'summary': 'Teste sintético com resposta ' + response, 'evidence_ids': [a['id']],
             'limitations': ['Sem validade pedagógica'], 'recommendations': []}, {'total_tokens': 5}, 'fake-id'
     monkeypatch.setattr(ai, 'provider', fake)

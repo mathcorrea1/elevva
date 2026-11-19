@@ -1,5 +1,7 @@
 # Elevva — diagnóstico e checkpoint
 
+**Atualização vigente posterior — 19/11/2026:** [implementação24](24-implementacao-ux-integrada.md), [galeria](evidencias/ux-final-galeria.html) e [recibo](evidencias/ux-final-verificacao.json). Cinco contas de revisão incluindo gestor; início prioriza autoria manual; entrada sem painel de configurações; rascunho de avaliação persistido; contrato de cinco níveis harmonizado; coletivo corrigido e baixado em PDF. Testes atuais:70 backend e29 frontend/17 suítes. Serviços remotos, live Groq, APK instalado e revisões humanas continuam abertos. Descrições abaixo refletem o corte anterior onde divergirem.
+
 **Corte:19/11/2026.** O desenvolvimento continua. Prioridade imediata: revisão acadêmica com [mapa de atualização do TCC](18-atualizacao-tcc.md) e [prompt encaminhável](19-prompt-atualizacao-tcc.md). Não confundir especificação, código, teste e integração real.
 
 ## Base e preservação

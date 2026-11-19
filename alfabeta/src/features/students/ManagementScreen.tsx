@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, Pressable, FlatList, Platform } from 'react-native';
-import { Plus, MoreHorizontal, ChevronRight } from 'lucide-react-native';
+import { Plus, MoreHorizontal, ChevronRight, School } from 'lucide-react-native';
 import { Copy, Action, Card, Field, Notice } from '@/shared/ui';
 import { Eyebrow } from '@/shared/ui/learning';
 import { Sheet } from '@/shared/ui/Sheet';
@@ -140,6 +140,13 @@ export function ManagementScreen({ navigation }: ScreenProps<'Children'>) {
           <Copy heading headingLevel={1} size="display">
             Estudantes
           </Copy>
+          {profession === 'teacher' && (
+            <IconAction
+              label="Escolas e turmas"
+              icon={School}
+              onPress={() => navigation.navigate('Schools')}
+            />
+          )}
           <Action
             icon={Plus}
             title="Adicionar"
@@ -303,6 +310,7 @@ export function ManagementScreen({ navigation }: ScreenProps<'Children'>) {
           <>
             {editing ? (
               <StudentProfile
+                startEditing
                 student={selected}
                 changed={async () => {
                   setSelected(null);

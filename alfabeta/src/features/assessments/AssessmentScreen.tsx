@@ -1,45 +1,133 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { NavigationAction } from '@react-navigation/native';
+import { ClipboardCheck, Save } from 'lucide-react-native';
 import { Page, Card, Copy, Action, Field, Notice } from '@/shared/ui';
 import { useCommand, useResource } from '@/shared/data/hooks';
 import type { Content } from '@/shared/contracts';
-import type { ScreenProps as Props } from '@/app/routes';
-import { SaveState } from '@/shared/ui/ResourceState';
-import { Eyebrow } from '@/shared/ui/learning';
+import type { ScreenProps } from '@/app/routes';
+import { SaveState, LoadState } from '@/shared/ui/ResourceState';
+import { ScreenTitle } from '@/shared/ui/presentation';
+import { Sheet } from '@/shared/ui/Sheet';
 
-export function AssessmentScreen({ route, navigation }: Props<'Assessment'>) {
+type Evidence = { item: string; response: string; support: string };
+type DraftBody = {
+  instrument_id: string | null;
+  item: string;
+  response: string;
+  support: string;
+  evidence: Evidence[];
+  notes: string;
+};
+type Draft = { version: number; body: DraftBody | null; updated_at: string | null };
+const empty: DraftBody = {
+  instrument_id: null,
+  item: '',
+  response: '',
+  support: '',
+  evidence: [],
+  notes: '',
+};
+export function AssessmentScreen({ route, navigation }: ScreenProps<'Assessment'>) {
   const { student } = route.params;
   const save = useCommand();
+  const draftSave = useCommand();
   const catalog = useResource<Content[]>('/content');
-  const [instrument, setInstrument] = useState<Content | null>(null);
-  const [item, setItem] = useState('');
-  const [response, setResponse] = useState('');
-  const [support, setSupport] = useState('');
-  const [evidence, setEvidence] = useState<{ item: string; response: string; support: string }[]>(
-    [],
-  );
-  const [notes, setNotes] = useState('');
+  const draft = useResource<Draft>('/students/' + student.id + '/assessment-draft');
+  const [form, setForm] = useState<DraftBody>(empty);
+  const [version, setVersion] = useState(0);
+  const [lastSaved, setLastSaved] = useState(JSON.stringify(empty));
   const [saved, setSaved] = useState(false);
+  const [exit, setExit] = useState<NavigationAction | null>(null);
+  const loaded = useRef(false);
+  const [ready, setReady] = useState(false);
+  const leaving = useRef(false);
+  const fingerprint = JSON.stringify(form);
+  const dirty = fingerprint !== lastSaved;
+  const instrument = catalog.data?.find((c) => c.id === form.instrument_id);
+  const unavailableInstrument =
+    !!form.instrument_id && !!catalog.data && (!instrument || instrument.status !== 'published');
+  useEffect(() => {
+    if (!loaded.current && draft.data) {
+      loaded.current = true;
+      const restored = draft.data.body || empty;
+      setForm(restored);
+      setVersion(draft.data.version);
+      setLastSaved(JSON.stringify(restored));
+      setReady(true);
+    }
+  }, [draft.data]);
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (event) => {
+        if (!dirty || leaving.current) return;
+        event.preventDefault();
+        setExit(event.data.action);
+      }),
+    [navigation, dirty],
+  );
+  const patch = (value: Partial<DraftBody>) => {
+    setForm((old) => ({ ...old, ...value }));
+    setSaved(false);
+  };
+  function leave() {
+    if (!exit) return;
+    leaving.current = true;
+    navigation.dispatch(exit);
+  }
+  async function persist(after?: () => void) {
+    const snapshot = form;
+    await draftSave.run<Draft>(
+      '/students/' + student.id + '/assessment-draft',
+      { ...snapshot, version },
+      (value) => {
+        setVersion(value.version);
+        setLastSaved(JSON.stringify(snapshot));
+        after?.();
+      },
+      'PUT',
+    );
+  }
+  const busy = save.busy || draftSave.busy;
   return (
     <Page>
-      <Eyebrow>CONHECER PARA ACOMPANHAR</Eyebrow>
-      <Copy heading headingLevel={1} size="display">
-        O ponto de partida
+      <ScreenTitle
+        title="Ponto de partida"
+        subtitle={student.name}
+        action={
+          <Action
+            secondary
+            icon={Save}
+            title={draftSave.busy ? 'Salvando…' : 'Salvar rascunho'}
+            disabled={busy || draft.loading || !ready}
+            onPress={() => void persist()}
+          />
+        }
+      />
+      <Copy muted size="caption">
+        {dirty
+          ? 'Alterações ainda não salvas.'
+          : version
+            ? 'Rascunho salvo na sua conta. Você pode continuar depois.'
+            : 'Registre o que foi apresentado e observado. Este registro não calcula um nível.'}
       </Copy>
-      <Copy>{student.name}</Copy>
-      <Notice text="Registre o que foi apresentado e observado. Os critérios pedagógicos ainda aguardam revisão; este registro descritivo não calcula um nível." />
-      {catalog.data
-        ?.filter((c) => c.kind === 'instrument' && c.status === 'published')
+      <LoadState resource={draft} />
+      <SaveState command={draftSave} />
+      {!!unavailableInstrument && (
+        <Notice
+          error
+          text="O instrumento deste rascunho não está disponível para aplicação. O registro foi preservado; consulte o autor antes de finalizar."
+        />
+      )}
+      <LoadState resource={catalog} />
+      {(catalog.data || [])
+        .filter((c) => c.kind === 'instrument' && c.status === 'published')
         .map((c) => (
           <Action
             key={c.id}
-            secondary={instrument?.id !== c.id}
+            secondary={form.instrument_id !== c.id}
             title={'Usar instrumento revisado: ' + c.title}
-            disabled={!!evidence.length}
-            onPress={() => {
-              setInstrument(c);
-              setItem('');
-              setResponse('');
-            }}
+            disabled={busy || !!form.evidence.length}
+            onPress={() => patch({ instrument_id: c.id, item: '', response: '' })}
           />
         ))}
       {instrument ? (
@@ -50,96 +138,150 @@ export function AssessmentScreen({ route, navigation }: Props<'Assessment'>) {
               <Copy>{i.prompt}</Copy>
               {i.choices.map((option) => (
                 <Action
-                  secondary={item !== i.id || response !== option}
                   key={option}
+                  secondary={form.item !== i.id || form.response !== option}
                   title={option}
-                  onPress={() => {
-                    setItem(i.id);
-                    setResponse(option);
-                  }}
+                  disabled={busy}
+                  onPress={() => patch({ item: i.id, response: option })}
                 />
               ))}
             </Card>
           ))}
         </>
       ) : (
-        <>
+        <Card>
+          <Copy heading>Uma evidência por vez</Copy>
           <Field
             label="Proposta apresentada / item"
-            value={item}
-            onChangeText={setItem}
+            value={form.item}
+            onChangeText={(item) => patch({ item })}
             maxLength={100}
+            editable={!busy && ready && !draft.loading}
           />
           <Field
             label="Resposta observada"
-            value={response}
-            onChangeText={setResponse}
+            value={form.response}
+            onChangeText={(response) => patch({ response })}
             multiline
             maxLength={500}
+            editable={!busy && ready && !draft.loading}
           />
-        </>
+        </Card>
       )}
-      <Field label="Apoio oferecido" value={support} onChangeText={setSupport} maxLength={300} />
+      <Field
+        label="Apoio oferecido (opcional)"
+        value={form.support}
+        onChangeText={(support) => patch({ support })}
+        maxLength={300}
+        editable={!busy && ready && !draft.loading}
+      />
       <Action
         secondary
         title="Adicionar evidência"
-        disabled={!item.trim() || !response.trim() || evidence.length >= 20}
-        onPress={() => {
-          setEvidence((v) => [
-            ...(instrument ? v.filter((e) => e.item !== item) : v),
-            { item, response, support },
-          ]);
-          setItem('');
-          setResponse('');
-          setSupport('');
-        }}
+        disabled={
+          busy ||
+          !ready ||
+          draft.loading ||
+          !form.item.trim() ||
+          !form.response.trim() ||
+          form.evidence.length >= 20
+        }
+        onPress={() =>
+          patch({
+            evidence: [
+              ...(instrument ? form.evidence.filter((e) => e.item !== form.item) : form.evidence),
+              { item: form.item, response: form.response, support: form.support },
+            ],
+            item: '',
+            response: '',
+            support: '',
+          })
+        }
       />
-      {evidence.map((e, i) => (
+      {!!form.evidence.length && (
+        <Copy heading>{form.evidence.length} evidência(s) registrada(s)</Copy>
+      )}
+      {form.evidence.map((e, i) => (
         <Card key={i}>
           <Copy>
             {i + 1}. {e.item}: {e.response}
           </Copy>
           <Action
-            secondary
+            quiet
+            destructive
             title={'Remover evidência ' + (i + 1)}
-            onPress={() => setEvidence((v) => v.filter((_, n) => n !== i))}
+            disabled={busy}
+            onPress={() => patch({ evidence: form.evidence.filter((_, n) => n !== i) })}
           />
         </Card>
       ))}
       <Field
         label="Notas adicionais (opcional)"
-        value={notes}
-        onChangeText={setNotes}
+        value={form.notes}
+        onChangeText={(notes) => patch({ notes })}
         multiline
         maxLength={1500}
+        editable={!busy && ready && !draft.loading}
       />
       <Action
-        title="Salvar avaliação"
-        disabled={!evidence.length || save.busy}
+        icon={ClipboardCheck}
+        title={save.busy ? 'Registrando…' : 'Finalizar avaliação'}
+        disabled={busy || !form.evidence.length || unavailableInstrument || draft.loading || !ready}
         onPress={() =>
           void save.run(
             '/students/' + student.id + '/assessments',
             {
-              instrument: instrument?.id || 'coleta-descritiva-v1-pendente-D03',
-              evidence,
-              notes,
+              instrument: form.instrument_id || 'coleta-descritiva-v1-pendente-D03',
+              evidence: form.evidence,
+              notes: form.notes,
               synthetic: false,
             },
             () => {
-              setEvidence([]);
-              setNotes('');
+              setForm(empty);
+              setVersion(0);
+              setLastSaved(JSON.stringify(empty));
               setSaved(true);
             },
           )
         }
       />
       <SaveState command={save} />
-      {saved && evidence.length === 0 && (
-        <Action
-          title="Ir para as atividades"
-          onPress={() => navigation.replace('Trail', { student })}
-        />
+      {saved && (
+        <Card>
+          <Copy heading>Avaliação registrada</Copy>
+          <Copy muted>
+            As evidências já fazem parte do histórico. O nível continua sendo uma confirmação
+            pedagógica separada.
+          </Copy>
+          <Action
+            title="Ir para as atividades"
+            onPress={() => navigation.replace('Trail', { student })}
+          />
+        </Card>
       )}
+      <Sheet
+        visible={!!exit}
+        title="Guardar seu ponto de partida?"
+        close={() => {
+          if (!busy) setExit(null);
+        }}
+      >
+        <Copy>Salve o rascunho para continuar depois, inclusive ao reabrir o aplicativo.</Copy>
+        <Action
+          title="Salvar rascunho e sair"
+          disabled={busy}
+          onPress={() => void persist(leave)}
+        />
+        <Action secondary title="Continuar preenchendo" onPress={() => setExit(null)} />
+        <Action
+          quiet
+          destructive
+          title="Sair sem salvar estas alterações"
+          disabled={busy}
+          onPress={leave}
+        />
+        <SaveState command={draftSave} />
+      </Sheet>
     </Page>
   );
 }

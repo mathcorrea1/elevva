@@ -43,7 +43,7 @@ def student_detail(sid: str, adult=Depends(identity), db: Session = Depends(sess
 @router.get('/students/{sid}/grants')
 def grants(sid: str, adult=Depends(identity), db: Session = Depends(session, scope='function')):
     grant(db, adult, sid, manage=True)
-    return [dto(g) for g in db.scalars(select(m.Grant).where(m.Grant.student_id == sid))]
+    return [{**dto(g), 'display_name': db.get(m.Adult, g.adult_id).display_name} for g in db.scalars(select(m.Grant).where(m.Grant.student_id == sid))]
 
 
 @router.patch('/students/{sid}/profile')

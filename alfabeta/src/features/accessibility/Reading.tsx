@@ -80,14 +80,12 @@ export function Reading({
     <Stack>
       <Action
         secondary
-        title={read ? 'Repetir instrução' : 'Ouvir instrução'}
-        onPress={() => void speak()}
-      />
-      <Action
-        secondary
-        title="Parar leitura"
-        disabled={!playing}
+        title={playing ? 'Parar leitura' : read ? 'Repetir instrução' : 'Ouvir instrução'}
         onPress={() => {
+          if (!playing) {
+            void speak();
+            return;
+          }
           playback.current++;
           void Speech.stop();
           setPlaying(false);

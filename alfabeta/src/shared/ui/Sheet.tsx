@@ -104,6 +104,7 @@ export function Sheet({
   return (
     <Modal
       transparent
+      accessibilityLabel={Platform.OS === 'web' ? title : undefined}
       visible={visible}
       animationType={reducedMotion ? 'none' : 'slide'}
       onRequestClose={close}
@@ -122,9 +123,7 @@ export function Sheet({
         <View
           ref={panel}
           accessibilityViewIsModal
-          role={Platform.OS === 'web' ? 'dialog' : undefined}
-          aria-modal={true}
-          accessibilityLabel={title}
+          accessibilityLabel={Platform.OS === 'web' ? undefined : title}
           style={{
             width: '100%',
             maxWidth: 620,

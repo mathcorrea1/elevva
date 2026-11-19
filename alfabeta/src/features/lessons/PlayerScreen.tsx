@@ -249,7 +249,7 @@ function Player({ route, navigation }: ScreenProps<'LessonPlayer'>) {
     navigation.setOptions({
       gestureEnabled: false,
       headerLeft: () => (
-        <Action secondary quiet title="Pausar aula" onPress={() => setPause(true)} />
+        <IconAction icon={ArrowLeft} label="Voltar às aulas" onPress={() => setPause(true)} />
       ),
     });
     return () => {

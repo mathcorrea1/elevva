@@ -178,18 +178,21 @@ export function Field({ label, ...props }: TextInputProps & { label: string }) {
           props.onBlur?.(e);
         }}
         placeholderTextColor={colors.secondary}
-        style={{
-          color: colors.text,
-          fontFamily: tokens.fontFamily,
-          backgroundColor: colors.mutedSurface,
-          fontSize: 15 * preferences.font_scale,
-          padding: 16,
-          minHeight: 54,
-          borderRadius: 14,
-          borderWidth: 1.5,
-          borderColor: focused ? colors.focus : colors.border,
-          textAlignVertical: 'top',
-        }}
+        style={[
+          {
+            color: colors.text,
+            fontFamily: tokens.fontFamily,
+            backgroundColor: colors.mutedSurface,
+            fontSize: 15 * preferences.font_scale,
+            padding: 16,
+            minHeight: 54,
+            borderRadius: 14,
+            borderWidth: 1.5,
+            borderColor: focused ? colors.focus : colors.border,
+            textAlignVertical: 'top',
+          },
+          props.style,
+        ]}
       />
     </View>
   );

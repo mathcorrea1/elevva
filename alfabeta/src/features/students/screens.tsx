@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
 import {
   BookOpen,
   FileText,
@@ -9,30 +8,26 @@ import {
   MessageSquare,
   Users,
   Route,
+  HeartHandshake,
+  Pencil,
 } from 'lucide-react-native';
-import { useTheme, tokens } from '@/shared/theme/ThemeProvider';
 import { useFocusEffect } from '@react-navigation/native';
 import { Page, Card, Copy, Action, Field, Notice } from '@/shared/ui';
 import type { Student, Report } from '@/shared/contracts';
 import { useResource, useCommand } from '@/shared/data/hooks';
-import { StudentProfile } from '@/features/students/StudentProfile';
+import { StudentProfile } from './StudentProfile';
 import { AttentionCard } from './AttentionCard';
 import { levelLabel } from '@/features/assessments/levels';
 import type { ScreenProps as Props } from '@/app/routes';
 import { LoadState, SaveState } from '@/shared/ui/ResourceState';
 import { Sheet } from '@/shared/ui/Sheet';
-import {
-  Mascot,
-  Eyebrow,
-  Badge,
-  SectionTitle,
-  MenuRow,
-  Stat,
-  Disclosure,
-} from '@/shared/ui/learning';
+import { Badge, MenuRow, Pills } from '@/shared/ui/learning';
+import { ScreenTitle, ShortcutGrid, Metrics } from '@/shared/ui/presentation';
+
 type Grant = {
   id: string;
   adult_id: string;
+  display_name?: string;
   role: string;
   active: boolean;
   can_view_care: boolean;
@@ -41,11 +36,13 @@ export function StudentScreen({ route, navigation }: Props<'Student'>) {
   const initial = route.params.student;
   const resource = useResource<Student>('/students/' + initial.id);
   const report = useResource<Report>('/students/' + initial.id + '/report');
-  const { colors, preferences } = useTheme();
+  const [tab, setTab] = useState('learn');
+  const [edit, setEdit] = useState(false);
   useFocusEffect(
     React.useCallback(() => {
       void resource.reload();
-    }, [resource.reload]),
+      void report.reload();
+    }, [resource.reload, report.reload]),
   );
   const student = resource.data;
   return (
@@ -53,144 +50,163 @@ export function StudentScreen({ route, navigation }: Props<'Student'>) {
       <LoadState resource={resource} />
       {!!student && (
         <>
-          <View style={{ gap: 8 }}>
-            <Eyebrow>UMA JORNADA DE DESCOBERTAS</Eyebrow>
-            <Copy heading headingLevel={1} size="display">
-              {student.name}
-            </Copy>
-            <Badge
-              text={
-                student.confirmed_level
-                  ? levelLabel(student.confirmed_level)
-                  : 'Nível ainda não confirmado'
-              }
-            />
-          </View>
-          <View style={{ backgroundColor: colors.hero, borderRadius: 24, padding: 22, gap: 18 }}>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-              <View style={{ flex: 1, gap: 8 }}>
-                <Text
-                  style={{
-                    fontFamily: tokens.fontSemibold,
-                    color: colors.heroMuted,
-                    fontSize: 12 * preferences.font_scale,
-                    letterSpacing: 1.7,
-                  }}
-                >
-                  PRÓXIMO PASSO
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: tokens.fontHeading,
-                    color: colors.onHero,
-                    fontSize: 23 * preferences.font_scale,
-                    lineHeight: 32 * preferences.font_scale,
-                  }}
-                >
-                  {student.next_step === 'assessment'
-                    ? 'Vamos conhecer seu ponto de partida?'
-                    : 'Prontos para a próxima descoberta?'}
-                </Text>
-              </View>
-              <Mascot size={83} />
-            </View>
-            <Action
-              secondary
-              title={
-                student.next_step === 'assessment'
-                  ? 'Registrar avaliação inicial'
-                  : 'Continuar atividades'
-              }
-              onPress={() =>
-                navigation.navigate(student.next_step === 'assessment' ? 'Assessment' : 'Trail', {
-                  student,
-                })
-              }
-            />
-          </View>
-          {!!report.data && (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
-              <Stat value={report.data.completed_tasks} label="Tarefas concluídas" />
-              <Stat value={report.data.observations} label="Observações registradas" />
-            </View>
-          )}
-          <SectionTitle
-            title="Aprender e registrar"
-            detail="Atividades no aplicativo e observações do adulto têm registros próprios."
+          <ScreenTitle title={student.name} subtitle="Cada descoberta tem o seu tempo." />
+          <Badge
+            text={
+              student.confirmed_level
+                ? levelLabel(student.confirmed_level)
+                : 'Ponto de partida em construção'
+            }
           />
-          <MenuRow
-            icon={Users}
-            title="Comunicação, apoios e ponto de partida"
-            detail="Informações do estudante, avaliação e plano inicial"
-            onPress={() => navigation.navigate('Care', { student })}
+          <Pills
+            value={tab}
+            onChange={setTab}
+            options={[
+              { value: 'learn', label: 'Aprender' },
+              { value: 'follow', label: 'Acompanhar' },
+              { value: 'profile', label: 'Perfil' },
+            ]}
           />
-          <View style={{ gap: 10 }}>
-            <MenuRow
-              icon={BookOpen}
-              title="Aulas para explorar"
-              detail="Aulas do professor, com seu progresso salvo"
-              onPress={() => navigation.navigate('AssignedLessons', { student })}
-            />
-            <MenuRow
-              icon={Route}
-              title="Trilha de atividades"
-              detail="Etapas, tarefas e próximas descobertas"
-              onPress={() => navigation.navigate('Trail', { student })}
-            />
-            <MenuRow
-              icon={ClipboardList}
-              title="Avaliação inicial"
-              detail="Registrar evidências e apoios oferecidos"
-              onPress={() => navigation.navigate('Assessment', { student })}
-            />
-            <MenuRow
-              icon={MessageSquare}
-              title="Registrar observação"
-              detail="Inclui leitura oral acompanhada"
-              onPress={() => navigation.navigate('Observation', { student })}
-            />
-          </View>
-          <SectionTitle title="Olhar para a jornada" />
-          <View style={{ gap: 10 }}>
-            <MenuRow
-              icon={History}
-              title="Histórico"
-              detail="Cada registro, com sua origem e data"
-              onPress={() => navigation.navigate('History', { student })}
-            />
-            <MenuRow
-              icon={FileText}
-              title="Relatórios"
-              detail="Visão individual e por período"
-              onPress={() => navigation.navigate('Report', { student })}
-            />
-            <MenuRow
-              icon={Sparkles}
-              title="Análise com IA"
-              detail="Apoio ao adulto, com revisão humana"
-              onPress={() => navigation.navigate('Analysis', { student })}
-            />
-            <MenuRow
-              icon={BookOpen}
-              title="Orientações"
-              detail="Recomendações registradas pelo professor"
-              onPress={() => navigation.navigate('Guidance', { student })}
-            />
-          </View>
-          <AttentionCard studentId={student.id} />
-          {student.role === 'owner' && (
+          {tab === 'learn' && (
             <>
-              <Disclosure title="Perfil e adaptações">
-                <StudentProfile student={student} changed={resource.reload} />
-              </Disclosure>
-              <MenuRow
-                icon={Users}
-                title="Adultos autorizados"
-                detail="Compartilhar acompanhamento e gerenciar vínculos"
-                onPress={() => navigation.navigate('Links', { student })}
+              <Card>
+                <Copy heading>
+                  {student.next_step === 'assessment'
+                    ? 'Vamos conhecer o ponto de partida?'
+                    : 'Qual será a próxima descoberta?'}
+                </Copy>
+                <Copy muted>
+                  {student.next_step === 'assessment'
+                    ? 'Registre uma observação inicial antes de começar as atividades.'
+                    : 'Abra a jornada para escolher uma trilha e continuar.'}
+                </Copy>
+                <Action
+                  title={
+                    student.next_step === 'assessment'
+                      ? 'Registrar avaliação inicial'
+                      : 'Continuar jornada'
+                  }
+                  onPress={() =>
+                    navigation.navigate(
+                      student.next_step === 'assessment' ? 'Assessment' : 'Trail',
+                      { student },
+                    )
+                  }
+                />
+              </Card>
+              <ShortcutGrid
+                items={[
+                  {
+                    icon: BookOpen,
+                    title: 'Aulas',
+                    detail: 'Conteúdo e atividades do professor',
+                    onPress: () => navigation.navigate('AssignedLessons', { student }),
+                  },
+                  {
+                    icon: Route,
+                    title: 'Trilhas',
+                    detail: 'Um caminho por descoberta',
+                    onPress: () => navigation.navigate('Trail', { student }),
+                  },
+                  {
+                    icon: ClipboardList,
+                    title: 'Avaliação',
+                    detail: 'Registrar evidências iniciais',
+                    onPress: () => navigation.navigate('Assessment', { student }),
+                  },
+                  {
+                    icon: MessageSquare,
+                    title: 'Observação',
+                    detail: 'O que o adulto acompanhou',
+                    onPress: () => navigation.navigate('Observation', { student }),
+                  },
+                ]}
               />
             </>
           )}
+          {tab === 'follow' && (
+            <>
+              <LoadState resource={report} />
+              {!!report.data && (
+                <Metrics
+                  items={[
+                    { value: report.data.completed_tasks, label: 'Tarefas concluídas' },
+                    { value: report.data.assessments, label: 'Avaliações' },
+                    { value: report.data.observations, label: 'Observações' },
+                  ]}
+                />
+              )}
+              <ShortcutGrid
+                items={[
+                  {
+                    icon: FileText,
+                    title: 'Relatório',
+                    detail: 'Resultados e evidências',
+                    onPress: () => navigation.navigate('Report', { student }),
+                  },
+                  {
+                    icon: History,
+                    title: 'Histórico',
+                    detail: 'Cada registro, com sua origem',
+                    onPress: () => navigation.navigate('History', { student }),
+                  },
+                ]}
+              />
+              <MenuRow
+                icon={BookOpen}
+                title="Orientações do professor"
+                detail="Apoios registrados para a jornada"
+                onPress={() => navigation.navigate('Guidance', { student })}
+              />
+              <MenuRow
+                icon={Sparkles}
+                title="Análise assistida por IA"
+                detail="Módulo opcional · revisão humana"
+                onPress={() => navigation.navigate('Analysis', { student })}
+              />
+              <AttentionCard studentId={student.id} />
+            </>
+          )}
+          {tab === 'profile' && (
+            <>
+              <MenuRow
+                icon={HeartHandshake}
+                title="Comunicação e apoios"
+                detail="Adaptações e preferências do estudante"
+                onPress={() => navigation.navigate('Care', { student })}
+              />
+              {student.role === 'owner' ? (
+                <>
+                  <MenuRow
+                    icon={Pencil}
+                    title="Editar cadastro"
+                    detail="Nome, nascimento e apoios gerais"
+                    onPress={() => setEdit(true)}
+                  />
+                  <MenuRow
+                    icon={Users}
+                    title="Adultos autorizados"
+                    detail="Convites e permissões de acompanhamento"
+                    onPress={() => navigation.navigate('Links', { student })}
+                  />
+                </>
+              ) : (
+                <Copy muted>
+                  O adulto gestor do cadastro organiza os vínculos e os dados básicos.
+                </Copy>
+              )}
+            </>
+          )}
+          <Sheet visible={edit} title={'Cadastro de ' + student.name} close={() => setEdit(false)}>
+            <StudentProfile
+              startEditing
+              student={student}
+              changed={async () => {
+                await resource.reload();
+                setEdit(false);
+              }}
+            />
+          </Sheet>
         </>
       )}
     </Page>
@@ -243,7 +259,13 @@ export function LinksScreen({ route }: Props<'Links'>) {
       {result.data?.map((g) => (
         <Card key={g.id}>
           <Copy>
-            {g.adult_id} · {g.role} · {g.active ? 'Ativo' : 'Revogado'}
+            {g.display_name || 'Adulto autorizado'} ·{' '}
+            {g.role === 'owner'
+              ? 'Gestor do cadastro'
+              : g.role === 'teacher'
+                ? 'Professor'
+                : 'Responsável'}{' '}
+            · {g.active ? 'Ativo' : 'Revogado'}
           </Copy>
           {g.role !== 'owner' && g.active && (
             <>

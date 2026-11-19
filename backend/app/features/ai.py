@@ -15,6 +15,7 @@ from app.core.database import session
 from .models import Analysis, Content, Assignment, Student, AIGate, LessonGeneration, now
 from .contracts import Analyze, Review
 from .learning import grant, history, dto
+from .levels import ConfirmedLevel, LiteracyLevel, LABELS
 
 router = APIRouter()
 Identifier = Annotated[str, Field(min_length=1, max_length=100)]
@@ -32,15 +33,21 @@ class Recommendation(BaseModel):
 class Result(BaseModel):
     model_config = ConfigDict(extra='forbid')
     state: Literal['insufficient', 'suggestion']
-    suggested_level: Literal['pre-silabico', 'silabico', 'silabico-alfabetico', 'alfabetico'] | None
+    suggested_level: LiteracyLevel | None
     summary: str = Field(min_length=1, max_length=1000)
     evidence_ids: list[Identifier] = Field(max_length=20)
     limitations: list[Annotated[str, Field(min_length=1, max_length=500)]] = Field(min_length=1, max_length=10)
     recommendations: list[Recommendation] = Field(max_length=3)
 
 
+class LegacyResult(Result):
+    # Preserved v1 reviews may contain the old generic category; new provider schema cannot.
+    suggested_level: ConfirmedLevel | None
+
+
 def validate_result(value, snapshot):
-    parsed = Result.model_validate(value)
+    result_type = Result if snapshot.get('schema_version') == '2' else LegacyResult
+    parsed = result_type.model_validate(value)
     evidence = {e['id'] for e in snapshot['evidence']}
     allowed = {a['id'] for a in snapshot['allowed_activities']}
     sources = {s['id'] for s in snapshot['sources']}
@@ -83,11 +90,12 @@ def snapshot_for(db, sid, synthetic):
         # Deliberately do not send free text (may contain names/diagnoses/injection).
     activities = list(db.scalars(select(Content).where(Content.status == ('synthetic' if synthetic else 'published'), Content.kind == 'activity',Content.archived_at.is_(None))))
     references = [{'id': instrument['review_id'] + ':' + str(index), 'title': r['title'], 'text': r['excerpt']} for index, r in enumerate(instrument['references'])] if instrument else []
-    return {'schema_version': '1', 'evidence': evidence, 'technical_test': synthetic,
+    return {'schema_version': '2', 'evidence': evidence, 'technical_test': synthetic,
+            'literacy_levels': {key:value for key,value in LABELS.items() if key != 'silabico'},
             'previous_confirmed_level': db.get(Student, sid).confirmed_level,
             'rubric': {'id': 'synthetic-integration-v1' if synthetic else instrument['id'] if instrument else None,
                        'approved': bool(instrument), 'scope': 'technical_test_only' if synthetic else 'reviewed' if instrument else 'pending_D03',
-                       'rules': 'Teste sintético: apenas quando item som-inicial=A e resposta=A sugerir silabico; resposta=B sugerir pre-silabico. Sem correspondência, insuficiência.' if synthetic else instrument['rubric_text'] if instrument else None},
+                       'rules': 'Teste sintético: apenas quando item som-inicial=A e resposta=A sugerir silabico-sem-valor; resposta=B sugerir pre-silabico. Sem correspondência, insuficiência. Não constitui rubrica pedagógica.' if synthetic else instrument['rubric_text'] if instrument else None},
             'allowed_activities': [{'id': a.id, 'title': a.title, 'instructions': a.body['instructions']} for a in activities],
             'sources': [{'id': 'synthetic-corpus-v1', 'text': 'Exemplo inteiramente fictício para teste de integração, sem validade pedagógica.'}] if synthetic else references}
 

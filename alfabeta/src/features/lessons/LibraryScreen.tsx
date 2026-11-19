@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { View, FlatList } from 'react-native';
-import { Plus, Share2, Pencil, Copy as CopyIcon, BookOpen, Sparkles } from 'lucide-react-native';
+import {
+  Plus,
+  Share2,
+  Pencil,
+  Copy as CopyIcon,
+  BookOpen,
+  Sparkles,
+  SlidersHorizontal,
+} from 'lucide-react-native';
 import { Action, Card, Copy, Field, Notice } from '@/shared/ui';
 import { Eyebrow, Badge, Pills, Disclosure } from '@/shared/ui/learning';
 import { Sheet } from '@/shared/ui/Sheet';
@@ -15,12 +23,14 @@ import type { Lesson } from './types';
 import { AssignSheet } from './AssignSheet';
 import { PreviewSheet } from './PreviewSheet';
 import { LevelFilter } from '@/features/assessments/LevelFilter';
+import { IconAction } from '@/shared/ui/IconAction';
 export function LessonLibraryScreen({ route, navigation }: ScreenProps<'LessonLibrary'>) {
   const { colors } = useTheme();
   const save = useCommand();
   const [scope, setScope] = useState('mine');
   const [search, setSearch] = useState('');
   const [level, setLevel] = useState('');
+  const [filters, setFilters] = useState(false);
   const query = useDebounced(search);
   const lessons = usePaged<Lesson>(
     '/lessons?scope=' +
@@ -39,6 +49,7 @@ export function LessonLibraryScreen({ route, navigation }: ScreenProps<'LessonLi
   const outgoing = usePaged<{
     id: string;
     recipient_id: string;
+    recipient_name?: string;
     status: string;
     can_copy: boolean;
     can_redistribute: boolean;
@@ -64,26 +75,28 @@ export function LessonLibraryScreen({ route, navigation }: ScreenProps<'LessonLi
             Aulas
           </Copy>
           <Action
-            icon={Sparkles}
-            title="Criar com IA"
-            onPress={() => navigation.navigate('LessonAI')}
+            icon={Plus}
+            title="Nova aula"
+            onPress={() => navigation.navigate('LessonBuilder')}
           />
         </View>
-        <Action
-          secondary
-          icon={Plus}
-          title="Criar aula manualmente"
-          onPress={() => navigation.navigate('LessonBuilder')}
-        />
-        <Field label="Buscar aulas" value={search} onChangeText={setSearch} maxLength={120} />
-        <LevelFilter value={level} onChange={setLevel} />
+        <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-end' }}>
+          <View style={{ flex: 1 }}>
+            <Field label="Buscar aulas" value={search} onChangeText={setSearch} maxLength={120} />
+          </View>
+          <IconAction
+            icon={SlidersHorizontal}
+            label={level ? 'Filtros de aulas: um ativo' : 'Filtrar aulas'}
+            onPress={() => setFilters(true)}
+          />
+        </View>
         <Pills
           value={scope}
           options={[
-            { value: 'mine', label: 'Minhas aulas' },
-            { value: 'shared', label: 'Compartilhadas comigo' },
-            { value: 'received', label: 'Recebidas' },
-            { value: 'public', label: 'Públicas' },
+            { value: 'mine', label: 'Minhas' },
+            { value: 'shared', label: 'Equipe' },
+            { value: 'received', label: 'Convites' },
+            { value: 'public', label: 'Explorar' },
           ]}
           onChange={setScope}
         />
@@ -256,7 +269,7 @@ export function LessonLibraryScreen({ route, navigation }: ScreenProps<'LessonLi
                 />
                 <Copy muted>
                   O professor encontra esse código no próprio Perfil. Ele precisará aceitar a aula
-                  na aba Recebidas.
+                  na aba Convites.
                 </Copy>
                 <Action
                   secondary
@@ -297,7 +310,7 @@ export function LessonLibraryScreen({ route, navigation }: ScreenProps<'LessonLi
                 {outgoing.items.map((s) => (
                   <View key={s.id} style={{ gap: 8 }}>
                     <Copy>
-                      {s.recipient_id} ·{' '}
+                      {s.recipient_name || s.recipient_id} ·{' '}
                       {s.status === 'accepted'
                         ? 'Aceito'
                         : s.status === 'revoked'
@@ -333,6 +346,25 @@ export function LessonLibraryScreen({ route, navigation }: ScreenProps<'LessonLi
             )}
           </>
         )}
+      </Sheet>
+      <Sheet
+        visible={filters}
+        title="Encontrar a próxima aula"
+        close={() => setFilters(false)}
+        footer={<Action title="Ver aulas" onPress={() => setFilters(false)} />}
+      >
+        <Copy heading>Nível pedagógico</Copy>
+        <LevelFilter value={level} onChange={setLevel} />
+        <Copy muted>O filtro ajuda a localizar conteúdos. A escolha da aula cabe ao adulto.</Copy>
+        <Action
+          secondary
+          icon={Sparkles}
+          title="Criação assistida por IA"
+          onPress={() => {
+            setFilters(false);
+            navigation.navigate('LessonAI');
+          }}
+        />
       </Sheet>
       {assign && (
         <AssignSheet

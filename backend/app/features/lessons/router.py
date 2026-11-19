@@ -31,26 +31,18 @@ def library(scope:str='mine',q:str=Query('',max_length=120),offset:int=Query(0,g
         items=[]
         for share in shares:
             row=db.get(m.Content,share.content_id);revision=db.get(m.ContentRevision,share.revision_id)
-            if scope=='received':items.append({'id':row.id,'title':revision.snapshot['title'],'version':revision.version,'revision_id':revision.id,'share_id':share.id,'author_id':row.author_id,'description':'Convite de conteúdo. Aceitar não compartilha estudantes ou relatórios.'})
+            if scope=='received':
+                author=db.get(m.Adult,row.author_id)
+                items.append({'id':row.id,'title':revision.snapshot['title'],'version':revision.version,'revision_id':revision.id,'share_id':share.id,'author_id':row.author_id,'author_name':author.display_name if author else 'Autor indisponível','description':'Convite de conteúdo. Aceitar não compartilha estudantes ou relatórios.'})
             else:items.append({**dto_lesson(db,row,adult,revision,True),'share_id':share.id})
         return {'items':items,'total':total,'offset':offset,'next_offset':offset+limit if offset+limit<total else None}
     if scope=='mine':query=query.where(m.Content.author_id==adult.id)
     elif scope=='public':query=query.where(m.Content.status=='published',m.Content.body['visibility'].as_string()=='public')
-    else:
-        query=query.join(m.ContentShare,m.ContentShare.content_id==m.Content.id).where(m.ContentShare.recipient_id==adult.id,m.ContentShare.status==('pending' if scope=='received' else 'accepted'))
     if q:query=query.where(m.Content.title.ilike('%'+q.strip()+'%'))
     if level:query=query.where(m.Content.body['literacy_level'].as_string()==level)
     total=db.scalar(select(func.count()).select_from(query.subquery()))
     rows=list(db.scalars(query.order_by(m.Content.title,m.Content.id).offset(offset).limit(limit)).unique())
-    items=[]
-    for row in rows:
-        if scope in ('shared','received'):
-            shares=list(db.scalars(select(m.ContentShare).where(m.ContentShare.content_id==row.id,m.ContentShare.recipient_id==adult.id,m.ContentShare.status==('pending' if scope=='received' else 'accepted'))))
-            for share in shares:
-                revision=db.get(m.ContentRevision,share.revision_id)
-                if scope=='received':items.append({'id':row.id,'title':revision.snapshot['title'],'version':revision.version,'revision_id':revision.id,'share_id':share.id,'author_id':row.author_id,'description':'Convite de conteúdo. Aceitar não compartilha estudantes ou relatórios.'})
-                else:items.append({**dto_lesson(db,row,adult,revision,True),'share_id':share.id})
-        else:items.append(dto_lesson(db,row,adult,summary=True))
+    items=[dto_lesson(db,row,adult,summary=True) for row in rows]
     return {'items':items,'total':total,'offset':offset,'next_offset':offset+limit if offset+limit<total else None}
 
 @router.post('/lessons')
@@ -140,7 +132,11 @@ def outgoing(lid:str,offset:int=Query(0,ge=0),limit:int=Query(20,ge=1,le=50),adu
     query=select(m.ContentShare).where(m.ContentShare.content_id==lid,m.ContentShare.created_by==adult.id)
     total=db.scalar(select(func.count()).select_from(query.subquery()))
     rows=db.scalars(query.order_by(m.ContentShare.created_at,m.ContentShare.id).offset(offset).limit(limit))
-    return {'items':[dto(r) for r in rows],'total':total,'next_offset':offset+limit if offset+limit<total else None}
+    items=[]
+    for share in rows:
+        recipient=db.get(m.Adult,share.recipient_id)
+        items.append({**dto(share),'recipient_name':recipient.display_name if recipient else 'Conta indisponível'})
+    return {'items':items,'total':total,'next_offset':offset+limit if offset+limit<total else None}
 
 @router.post('/lesson-shares/{share_id}/accept')
 def accept(share_id:str,adult=Depends(identity),db:Session=Depends(session,scope='function'),key:str=Header('',alias='Idempotency-Key')):

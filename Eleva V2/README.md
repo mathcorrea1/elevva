@@ -1,5 +1,7 @@
 # Eleva V2 — documentação e implementação
 
+**Corte vigente da implementação — 19/11/2026:** [experiência integrada, rascunhos, perfis e relatório coletivo corrigido](24-implementacao-ux-integrada.md) · [galeria da aplicação atual](evidencias/ux-final-galeria.html) · [recibo de verificações](evidencias/ux-final-verificacao.json). Este corte supera descrições anteriores de navegação, início centrado em IA e schema legado de quatro níveis. Mantém fontes/prioridades originais e dependências externas explícitas. O TCC que o colega está revisando ainda precisa ser recebido e conferido.
+
 **Passagem para atualizar o TCC — 19/11/2026:** [o que revisar em cada capítulo, escopo previsto e situação real](18-atualizacao-tcc.md) · [prompt pronto para encaminhar](19-prompt-atualizacao-tcc.md) · [diagnóstico atual](ELEVVA-DIAGNOSTICO.md) · [Libras: decisão, cobertura e limites](ELEVVA-ACESSIBILIDADE-LIBRAS.md). Adendos atuais prevalecem sobre descrições históricas da implementação, preservando prioridades acadêmicas. IA live, rubrica/revisão, Libras concluída e APK continuam pendentes. [Verificações atuais](evidencias/evolucao-v5-verificacao.json).
 
 **Orientações do professor incorporadas:** retirar prototipagem, renomear Desenvolvimento, incluir Resultado e discussão e Conclusão; Trabalhos Futuros opcional. [O que conferir depois do Claude e complemento para a conversa já aberta](20-checklist-finalizacao-tcc.md). Alinhar verbos não transforma pendência em funcionalidade concluída; correções da banca1 exigem lista/ata efetivamente fornecida.

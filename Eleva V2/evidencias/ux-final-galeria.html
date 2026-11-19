@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eleva · revisão da experiência integrada</title>
+    <style>
+      :root { color-scheme: light dark; --bg:#f6f8fc; --surface:#fff; --text:#142239; --secondary:#536278; --line:#d8e2f0; --primary:#185dce; }
+      * { box-sizing:border-box; }
+      body { margin:0; font:1rem/1.6 system-ui,sans-serif; color:var(--text); background:var(--bg); }
+      header,main,footer { max-width:1280px; margin:auto; padding:28px; }
+      h1 { font-size:clamp(1.8rem,4vw,3rem); line-height:1.15; margin:.3em 0; }
+      h2 { font-size:1.15rem; margin:0; }
+      p { max-width:75ch; }
+      a { color:var(--primary); text-underline-offset:3px; }
+      a:focus-visible { outline:3px solid #a64500; outline-offset:4px; }
+      nav { display:flex; flex-wrap:wrap; gap:20px; }
+      main { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr)); gap:28px; }
+      figure { margin:0; border:1px solid var(--line); border-radius:24px; padding:20px; background:var(--surface); }
+      figure.wide { grid-column:1/-1; }
+      figcaption { padding-bottom:18px; }
+      figcaption p { margin:.5em 0 0; color:var(--secondary); font-size:.94rem; }
+      figure img { display:block; width:100%; max-width:390px; height:auto; margin:auto; border:1px solid var(--line); border-radius:14px; }
+      figure.wide img { max-width:100%; }
+      .label { color:var(--primary); font-weight:700; letter-spacing:.09em; font-size:.8rem; }
+      footer { color:var(--secondary); }
+      @media(prefers-color-scheme:dark) { :root { --bg:#0b1726; --surface:#15273b; --text:#f2f7ff; --secondary:#c3d3e8; --line:#425b75; --primary:#9ccbff; } }
+      @media(max-width:420px) { header,main,footer { padding:18px; } figure { padding:12px; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <span class="label">ELEVA · 19/11/2026</span>
+      <h1>Uma experiência mais simples, do início à aula.</h1>
+      <p>Capturas da aplicação em execução com dados fictícios. Celular simulado na web: 390 × 844; desktop: 1280 × 900; ampliação: 320 × 740. Não são imagens conceituais nem prova de execução nativa.</p>
+      <nav aria-label="Referências"><a href="../24-implementacao-ux-integrada.md">Mudanças e limites</a><a href="ux-final-verificacao.json">Verificações</a><a href="http://localhost:8081">Abrir aplicativo local</a></nav>
+    </header>
+    <main>
+      <figure><figcaption><h2>Entrada</h2><p>Login compacto, sem configurações sobre o formulário.</p></figcaption><a href="ux-final-login.png"><img src="ux-final-login.png" alt="Login do Eleva com Lumi, e-mail e senha" /></a></figure>
+      <figure><figcaption><h2>Responsável</h2><p>Escolha explícita do estudante, com uma ação principal.</p></figcaption><a href="ux-final-responsavel.png"><img src="ux-final-responsavel.png" alt="Início da responsável Ana com os estudantes vinculados" loading="lazy" /></a></figure>
+      <figure><figcaption><h2>Professor</h2><p>Autoria manual e atalhos para o trabalho diário.</p></figcaption><a href="ux-final-professor.png"><img src="ux-final-professor.png" alt="Início docente com criação de aula e quatro atalhos" loading="lazy" /></a></figure>
+      <figure class="wide"><figcaption><h2>Professor no computador</h2><p>Mesmos destinos, com navegação lateral e atalhos lado a lado.</p></figcaption><a href="ux-final-professor-desktop.png"><img src="ux-final-professor-desktop.png" alt="Painel docente em desktop, com menu lateral e área de acompanhamento" loading="lazy" /></a></figure>
+      <figure><figcaption><h2>Gerenciar estudantes</h2><p>Adicionar no cabeçalho e ações secundárias nos três pontos.</p></figcaption><a href="ux-final-lista-estudantes.png"><img src="ux-final-lista-estudantes.png" alt="Lista compacta de estudantes com busca e botão Adicionar" loading="lazy" /></a></figure>
+      <figure><figcaption><h2>Jornada do estudante</h2><p>Aprender, Acompanhar e Perfil organizam os próximos passos.</p></figcaption><a href="ux-final-estudante.png"><img src="ux-final-estudante.png" alt="Jornada do estudante Alex, no contexto Aprender" loading="lazy" /></a></figure>
+      <figure><figcaption><h2>Escolher uma trilha</h2><p>Capa abre o percurso; filtros e opções ficam sob demanda.</p></figcaption><a href="ux-final-trilhas.png"><img src="ux-final-trilhas.png" alt="Catálogo de trilhas com busca e cartões ilustrados" loading="lazy" /></a></figure>
+      <figure><figcaption><h2>Mapa da aprendizagem</h2><p>Aulas disponíveis e bloqueadas, sem transformar contagens em nível.</p></figcaption><a href="ux-final-mapa.png"><img src="ux-final-mapa.png" alt="Mapa da trilha Jardim das Descobertas do estudante Theo" loading="lazy" /></a></figure>
+      <figure><figcaption><h2>Biblioteca docente</h2><p>Autoria, compartilhamento e versões preservadas.</p></figcaption><a href="ux-final-biblioteca.png"><img src="ux-final-biblioteca.png" alt="Biblioteca de aulas com busca e escopos Minhas, Equipe, Convites e Explorar" loading="lazy" /></a></figure>
+      <figure><figcaption><h2>Relatório individual</h2><p>Resumo, Respostas e Histórico; exportação pelo cabeçalho.</p></figcaption><a href="ux-final-relatorio.png"><img src="ux-final-relatorio.png" alt="Resumo do relatório individual com contagens persistidas" loading="lazy" /></a></figure>
+      <figure><figcaption><h2>Perfil</h2><p>Conta, contexto e acesso às configurações.</p></figcaption><a href="ux-final-perfil.png"><img src="ux-final-perfil.png" alt="Perfil da professora Marina com configurações e convites" loading="lazy" /></a></figure>
+      <figure><figcaption><h2>Texto ampliado e contraste</h2><p>320 px, fonte adicional a 150% e alto contraste escuro; navegação quebra em duas linhas.</p></figcaption><a href="ux-final-configuracoes-320.png"><img src="ux-final-configuracoes-320.png" alt="Configurações em alto contraste e fonte ampliada, sem rolagem horizontal do documento" loading="lazy" /></a></figure>
+      <figure class="wide"><figcaption><h2>Construtor de aulas</h2><p>Miniaturas sequenciais, controles acessíveis e salvamento no cabeçalho. Conteúdo da captura é demonstração sintética.</p></figcaption><a href="ux-final-editor-desktop.png"><img src="ux-final-editor-desktop.png" alt="Construtor em desktop com oito telas e edição de texto e imagem" loading="lazy" /></a></figure>
+    </main>
+    <footer>IA ao vivo, APK instalado, revisão pedagógica e vídeos revisados em Libras permanecem dependências explícitas. A galeria não declara conformidade WCAG ou avaliação com público real.</footer>
+  </body>
+</html>

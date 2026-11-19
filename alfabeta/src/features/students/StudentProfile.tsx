@@ -5,22 +5,26 @@ import { useCommand } from '@/shared/data/hooks';
 export function StudentProfile({
   student,
   changed,
+  startEditing = false,
 }: {
   student: Student;
   changed: () => Promise<void>;
+  startEditing?: boolean;
 }) {
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(startEditing);
   const [name, setName] = useState(student.name);
   const [birth, setBirth] = useState(student.birth_date || '');
   const [supports, setSupports] = useState(student.supports.join('; '));
   const save = useCommand();
   return (
     <Card>
-      <Action
-        secondary
-        title={editing ? 'Fechar edição do perfil' : 'Editar perfil do estudante'}
-        onPress={() => setEditing((v) => !v)}
-      />
+      {!startEditing && (
+        <Action
+          secondary
+          title={editing ? 'Fechar edição do perfil' : 'Editar perfil do estudante'}
+          onPress={() => setEditing((v) => !v)}
+        />
+      )}
       {editing && (
         <>
           <Field label="Nome do estudante" value={name} onChangeText={setName} maxLength={60} />
@@ -46,7 +50,10 @@ export function StudentProfile({
                 {
                   name,
                   birth_date: birth || null,
-                  supports: supports ? [supports] : [],
+                  supports: supports
+                    .split(';')
+                    .map((s) => s.trim())
+                    .filter(Boolean),
                   version: student.version,
                 },
                 async () => {

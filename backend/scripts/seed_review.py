@@ -2,6 +2,7 @@
 import argparse
 import json
 import secrets
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 import httpx
@@ -14,7 +15,8 @@ from scripts.prepare_local import ROOT, main as prepare_local
 from scripts.review_data import seed_review_data
 
 ACTORS = {'A': ('Ana', 'guardian', 'ana'), 'B': ('Bruno', 'guardian', 'bruno'),
-          'P': ('Marina', 'teacher', 'marina'), 'Q': ('Paula', 'teacher', 'paula')}
+          'P': ('Marina', 'teacher', 'marina'), 'Q': ('Paula', 'teacher', 'paula'),
+          'G': ('Gustavo', 'teacher', 'gustavo')}
 API = 'http://127.0.0.1:8100'
 AUTH = 'http://127.0.0.1:3001'
 
@@ -65,15 +67,17 @@ def write_access_sheet(accounts, private_invites, output):
              '| Pessoa | Perfil | E-mail | Senha |', '|---|---|---|---|']
     for label, (name, profession, _) in ACTORS.items():
         a = accounts[label]
-        lines.append(f"| {name} | {'Professor' if profession == 'teacher' else 'Responsável'} | {a['email']} | {a['password']} |")
+        role = 'Gestor escolar' if label == 'G' else 'Professor' if profession == 'teacher' else 'Responsável'
+        lines.append(f"| {name} | {role} | {a['email']} | {a['password']} |")
     lines += ['', '## O que testar', '',
         '- Ana: Lia tem histórico e tarefas concluídas, em andamento e bloqueadas; Theo tem uma atividade em andamento; Nina aguarda avaliação inicial.',
         '- Marina: acompanha Lia, Theo e Nina por vínculo explícito; tem duas turmas e rascunhos na Biblioteca.',
         '- Bruno: acompanha Caio e Bia. Não vê as crianças de Ana.',
         '- Paula: acompanha Caio e Bia; o vínculo antigo com Theo está revogado até aceitar novo convite explícito.',
+        '- Gustavo: gestor da Escola Horizonte, com vínculos individuais explicitamente concedidos por Ana para Lia, Theo e Nina. Não vê os estudantes de Bruno.',
         '- Os registros da área IA são exemplos pré-gerados identificados. Nenhuma chamada ao Groq é criada pelo seed.',
         '- Instrumentos continuam em rascunho, sem parecer pedagógico inventado. Níveis permanecem sem confirmação.',
-        '- Para trocar de conta: Configurações → Sair da conta → Confirmar saída.',
+        '- Para trocar de conta: Perfil → Sair da conta → Confirmar saída.',
         '- Para rever o onboarding: Configurações → Rever apresentação do Eleva.', '',
         '## Convites de teste para Paula', '',
         'Em Ana, o identificador da destinatária é `' + accounts['Q']['id'] + '`. Os códigos abaixo são apenas de teste local; uso/expiração são conferidos pela API.']
@@ -82,6 +86,39 @@ def write_access_sheet(accounts, private_invites, output):
     lines += ['', 'O seed não apaga dados, não redefine suas senhas nem substitui alterações feitas nestes cenários. Repetir o comando não duplica a carga. Contas antigas do smoke continuam preservadas em demo-accounts.local.json.',
               '', 'Este arquivo contém senhas temporárias de teste, é ignorado pelo git e não deve ser publicado ou incluído no APK.']
     output.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+
+
+def prepare_manager(accounts, receipt, path):
+    """One-time synthetic setup through actual owner/grant APIs; reruns preserve revocations."""
+    if accounts['G'].get('manager_demo_initialized'):
+        return
+    headers_by_actor = {}
+    with httpx.Client(timeout=15) as client:
+        try:
+            for label in ('A', 'P', 'G'):
+                account = accounts[label]
+                signed = expect(client.post(AUTH + '/api/auth/sign-in/email', json={'email': account['email'], 'password': account['password']}, headers={'Origin': 'http://localhost:8081'}))
+                headers_by_actor[label] = {'Authorization': 'Bearer ' + signed['token']}
+                client.cookies.clear()
+            def get(label, route):
+                return expect(client.get(API + route, headers=headers_by_actor[label]))
+            def post(label, route, body):
+                return expect(client.post(API + route, headers={**headers_by_actor[label], 'Idempotency-Key': str(uuid.uuid4())}, json=body))
+            room = next(r for r in get('P', '/classrooms') if r['id'] == receipt['classrooms'][0])
+            staff = get('P', '/schools/' + room['school_id'] + '/staff')
+            if not any(row['adult_id'] == accounts['G']['id'] for row in staff['items']):
+                post('P', '/schools/' + room['school_id'] + '/staff', {'adult_id': accounts['G']['id'], 'role': 'manager'})
+            for key in ('lia', 'theo', 'nina'):
+                sid = receipt['students'][key]
+                if client.get(API + '/students/' + sid, headers=headers_by_actor['G']).status_code == 200:
+                    continue
+                invite = post('A', '/students/' + sid + '/invitations', {'recipient_id': accounts['G']['id'], 'role': 'teacher'})
+                post('G', '/invitations/accept', {'token': invite['token']})
+            accounts['G']['manager_demo_initialized'] = True
+            path.write_text(json.dumps(accounts, ensure_ascii=False, indent=2), encoding='utf-8')
+        finally:
+            for headers in headers_by_actor.values():
+                client.post(AUTH + '/api/auth/sign-out', json={}, headers=headers)
 
 
 def main():
@@ -107,10 +144,11 @@ def main():
                                    if k in ('completed_tasks', 'assigned_tasks', 'finished_attempts', 'observations', 'assessments', 'confirmed_level')}
                               for key, sid in receipt['students'].items()}
     private_path.write_text(json.dumps(invites, indent=2), encoding='utf-8')
+    prepare_manager(accounts, receipt, ROOT / 'identity' / 'review-accounts.local.json')
     write_access_sheet(accounts, invites, ROOT / 'identity' / 'ACESSOS-TESTE.local.md')
     (ROOT / '.eleva-local' / 'seed-review.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2), encoding='utf-8')
-    print('Carga de revisão pronta: 4 contas reais locais, 5 estudantes, 7 atividades, 3 aulas reutilizáveis, 3 escolas e 4 turmas; trilhas, histórico e exemplos pré-gerados de IA.')
-    print('Novos registros nesta execução: ' + str(sum(receipt['created'].values())))
+    print('Carga de revisão pronta: 5 contas reais locais (responsáveis, professores e gestor), 5 estudantes-base, atividades, aulas, escolas, turmas e histórico. IA pré-gerada identificada.')
+    print('Novos registros da carga pedagógica: ' + str(sum(receipt['created'].values())))
     print('E-mails e senhas: identity/ACESSOS-TESTE.local.md. Credenciais não foram impressas nem incluídas no aplicativo.')
 
 

@@ -1,6 +1,14 @@
-import { useState } from 'react';
-import { View } from 'react-native';
-import { Plus, Route, Users, Pencil, BookOpen } from 'lucide-react-native';
+import { useState, useRef } from 'react';
+import { View, Pressable } from 'react-native';
+import {
+  Plus,
+  Route,
+  Users,
+  Pencil,
+  BookOpen,
+  MoreHorizontal,
+  SlidersHorizontal,
+} from 'lucide-react-native';
 import { Page, Card, Copy, Action, Notice, Field } from '@/shared/ui';
 import { usePaged, useDebounced } from '@/shared/data/paged';
 import { Eyebrow, Badge, MenuRow } from '@/shared/ui/learning';
@@ -13,6 +21,9 @@ import type { Student } from '@/shared/contracts';
 import { Illustration } from './Illustration';
 import type { TrailSummary, Enrollment } from './types';
 import { AssignSheet } from '@/features/lessons/AssignSheet';
+import { repository } from '@/shared/http/repository';
+import { useTheme } from '@/shared/theme/ThemeProvider';
+import { IconAction } from '@/shared/ui/IconAction';
 import { LevelFilter } from '@/features/assessments/LevelFilter';
 
 export function CatalogScreen({
@@ -23,9 +34,16 @@ export function CatalogScreen({
   student?: Student;
 }) {
   const { profession, value, update } = useWorkspace();
+  const { colors } = useTheme();
+  const [pendingTrail, setPendingTrail] = useState<TrailSummary | null>(null);
+  const [tools, setTools] = useState<TrailSummary | null>(null);
+  const [focusedTrail, setFocusedTrail] = useState('');
+  const [openError, setOpenError] = useState('');
+  const opening = useRef(false);
   const me = useResource<{ id: string }>('/me');
   const [search, setSearch] = useState('');
   const [level, setLevel] = useState('');
+  const [filters, setFilters] = useState(false);
   const query = useDebounced(search);
   const catalog = usePaged<TrailSummary>(
     '/trails-page?q=' + encodeURIComponent(query) + (level ? '&level=' + level : ''),
@@ -46,21 +64,37 @@ export function CatalogScreen({
   const enrollments = useResource<Enrollment[]>(
     selected ? '/students/' + selected.id + '/trails' : null,
   );
-  async function open(trail: TrailSummary, forceNew = false) {
-    if (!selected) {
+  async function open(trail: TrailSummary, forceNew = false, target = selected) {
+    if (!target) {
+      setPendingTrail(trail);
       setPicker(true);
       return;
     }
-    const existing = enrollments.data?.filter((e) => e.trail_id === trail.id).slice(-1)[0];
-    if (existing && !forceNew) {
-      navigation.navigate('TrailMap', { student: selected, enrollmentId: existing.id });
-      return;
+    if (opening.current || save.busy) return;
+    opening.current = true;
+    setOpenError('');
+    try {
+      const saved =
+        target.id === selected?.id && enrollments.data
+          ? enrollments.data
+          : await repository.get<Enrollment[]>('/students/' + target.id + '/trails');
+      const existing = saved
+        .filter((e) => e.trail_id === trail.id)
+        .sort((a, b) => b.version - a.version)[0];
+      if (existing && !forceNew) {
+        navigation.navigate('TrailMap', { student: target, enrollmentId: existing.id });
+        return;
+      }
+      await save.run<{ id: string }>(
+        '/students/' + target.id + '/trails',
+        { trail_id: trail.id, version: trail.version },
+        (r) => navigation.navigate('TrailMap', { student: target, enrollmentId: r.id }),
+      );
+    } catch (error) {
+      setOpenError((error as Error).message);
+    } finally {
+      opening.current = false;
     }
-    await save.run<{ id: string }>(
-      '/students/' + selected.id + '/trails',
-      { trail_id: trail.id, version: trail.version },
-      (r) => navigation.navigate('TrailMap', { student: selected, enrollmentId: r.id }),
-    );
   }
   return (
     <Page>
@@ -76,102 +110,166 @@ export function CatalogScreen({
         onPress={() => setPicker(true)}
       />
       {profession === 'teacher' && (
-        <>
-          <Action
-            secondary
-            icon={BookOpen}
-            title="Biblioteca e construtor de aulas"
-            onPress={() => navigation.navigate('LessonLibrary')}
-          />
-          <Action
-            icon={Plus}
-            title="Criar trilha e aulas"
-            onPress={() => navigation.navigate('TrailAuthor')}
-          />
-        </>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+          <View style={{ flex: 1, minWidth: 140 }}>
+            <Action
+              secondary
+              icon={BookOpen}
+              title="Aulas"
+              accessibilityLabel="Minhas aulas"
+              onPress={() => navigation.navigate('LessonLibrary')}
+            />
+          </View>
+          <View style={{ flex: 1, minWidth: 140 }}>
+            <Action
+              icon={Plus}
+              title="Criar trilha"
+              onPress={() => navigation.navigate('TrailAuthor')}
+            />
+          </View>
+        </View>
       )}
-      <Field label="Buscar trilhas" value={search} onChangeText={setSearch} maxLength={120} />
-      <LevelFilter value={level} onChange={setLevel} />
+      <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-end' }}>
+        <View style={{ flex: 1 }}>
+          <Field label="Buscar trilhas" value={search} onChangeText={setSearch} maxLength={120} />
+        </View>
+        <IconAction
+          icon={SlidersHorizontal}
+          label={level ? 'Filtros de trilhas: um ativo' : 'Filtrar trilhas'}
+          onPress={() => setFilters(true)}
+        />
+      </View>
+      <Sheet
+        visible={filters}
+        title="Encontrar seu caminho"
+        close={() => setFilters(false)}
+        footer={<Action title="Ver trilhas" onPress={() => setFilters(false)} />}
+      >
+        <Copy heading>Nível pedagógico</Copy>
+        <LevelFilter value={level} onChange={setLevel} />
+        <Copy muted>
+          Escolha uma trilha com orientação do adulto, respeitando os apoios e o ritmo do estudante.
+        </Copy>
+      </Sheet>
       {catalog.loading && <Copy>Buscando trilhas…</Copy>}
       {!!catalog.error && <Notice error text={catalog.error} />}
       <LoadState resource={enrollments} />
       {catalog.items
         ?.filter((t) => !t.archived_at)
         .map((trail) => {
-          const enrolled = enrollments.data?.filter((e) => e.trail_id === trail.id).slice(-1)[0];
+          const enrolled = enrollments.data
+            ?.filter((e) => e.trail_id === trail.id)
+            .sort((a, b) => b.version - a.version)[0];
           const available = ['published', 'synthetic'].includes(trail.status);
           return (
             <Card key={trail.id}>
-              <View style={{ borderRadius: 18, overflow: 'hidden' }}>
-                <Illustration
-                  image={trail.cover || { builtin: trail.scenario, alt: '' }}
-                  height={180}
-                  cover
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                <Badge
+                  text={
+                    trail.status === 'synthetic'
+                      ? 'DEMONSTRAÇÃO'
+                      : trail.status === 'draft'
+                        ? 'RASCUNHO'
+                        : 'PUBLICADA'
+                  }
                 />
+                {profession === 'teacher' && (
+                  <IconAction
+                    label={'Opções da trilha ' + trail.title}
+                    icon={MoreHorizontal}
+                    onPress={() => setTools(trail)}
+                  />
+                )}
               </View>
-              <Badge
-                text={
-                  trail.status === 'synthetic'
-                    ? 'DEMONSTRAÇÃO · SEM VALIDAÇÃO PEDAGÓGICA'
-                    : trail.status === 'draft'
-                      ? 'RASCUNHO DO AUTOR'
-                      : 'CATÁLOGO PUBLICADO'
-                }
-              />
-              <Copy heading>{trail.title}</Copy>
-              <Copy muted>{trail.description}</Copy>
-              <Copy>
-                {trail.lesson_count} aulas
-                {enrollments.loading
-                  ? ' · buscando progresso salvo'
-                  : enrolled
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={'Explorar trilha ' + trail.title}
+                accessibilityState={{ disabled: !available || save.busy }}
+                disabled={!available || save.busy}
+                onPress={() => void open(trail)}
+                onFocus={() => setFocusedTrail(trail.id)}
+                onBlur={() => setFocusedTrail('')}
+                style={{
+                  gap: 12,
+                  borderRadius: 18,
+                  borderWidth: 2,
+                  borderColor: focusedTrail === trail.id ? colors.focus : 'transparent',
+                }}
+              >
+                <View style={{ borderRadius: 18, overflow: 'hidden' }}>
+                  <Illustration
+                    image={trail.cover || { builtin: trail.scenario, alt: '' }}
+                    height={180}
+                    cover
+                  />
+                </View>
+                <Copy heading>{trail.title}</Copy>
+                <Copy muted>{trail.description}</Copy>
+                <Copy>
+                  {trail.lesson_count} aulas
+                  {enrolled
                     ? ' · ' +
                       enrolled.completed_lessons +
                       ' de ' +
                       enrolled.total_lessons +
                       ' concluídas'
-                    : selected
-                      ? ' · ainda não iniciada'
-                      : ''}
-              </Copy>
+                    : ''}
+                </Copy>
+              </Pressable>
               <Action
                 icon={Route}
                 title={
-                  enrolled
-                    ? 'Continuar trilha'
-                    : selected
-                      ? 'Começar trilha'
-                      : 'Escolher estudante e começar'
+                  enrolled ? 'Continuar trilha' : selected ? 'Começar trilha' : 'Explorar trilha'
                 }
-                disabled={save.busy || !available || (!enrollments.data && !!selected)}
+                disabled={save.busy || !available}
                 onPress={() => void open(trail)}
               />
               {enrolled && enrolled.version < trail.version && (
                 <Action
                   secondary
-                  title={'Iniciar versão ' + trail.version + ' como novo percurso'}
+                  title={'Conhecer versão ' + trail.version}
                   onPress={() => setNewVersion(trail)}
-                />
-              )}
-              {trail.author_id === me.data?.id && profession === 'teacher' && (
-                <Action
-                  secondary
-                  icon={Pencil}
-                  title="Abrir autoria desta trilha"
-                  onPress={() => navigation.navigate('TrailAuthor', { trailId: trail.id })}
-                />
-              )}
-              {profession === 'teacher' && (
-                <Action
-                  secondary
-                  icon={Users}
-                  title="Disponibilizar para turma ou estudantes"
-                  onPress={() => setGroupTrail(trail)}
                 />
               )}
             </Card>
           );
         })}
+      {!!openError && <Notice error text={openError} />}
+      <Sheet
+        visible={!!tools}
+        title={tools?.title || 'Opções da trilha'}
+        close={() => setTools(null)}
+      >
+        {tools?.author_id === me.data?.id && (
+          <Action
+            secondary
+            icon={Pencil}
+            title="Editar trilha"
+            onPress={() => {
+              if (!tools) return;
+              const trail = tools;
+              setTools(null);
+              navigation.navigate('TrailAuthor', { trailId: trail.id });
+            }}
+          />
+        )}
+        <Action
+          secondary
+          icon={Users}
+          title="Atribuir à turma ou estudantes"
+          onPress={() => {
+            setGroupTrail(tools);
+            setTools(null);
+          }}
+        />
+      </Sheet>
       {enrollments.data
         ?.filter((e) => !catalog.items.some((t) => t.id === e.trail_id && !t.archived_at))
         .map((e) => (
@@ -245,7 +343,14 @@ export function CatalogScreen({
           }}
         />
       </Sheet>
-      <Sheet visible={picker} title="Quem vai explorar?" close={() => setPicker(false)}>
+      <Sheet
+        visible={picker}
+        title="Quem vai explorar?"
+        close={() => {
+          setPicker(false);
+          setPendingTrail(null);
+        }}
+      >
         <Field
           label="Buscar estudante para acompanhar"
           value={studentSearch}
@@ -263,7 +368,11 @@ export function CatalogScreen({
             onPress={() => {
               update({ studentId: s.id });
               setPicker(false);
-              if (provided) navigation.navigate('Trail', { student: s });
+              if (pendingTrail) {
+                const trail = pendingTrail;
+                setPendingTrail(null);
+                void open(trail, false, s);
+              } else if (provided) navigation.navigate('Trail', { student: s });
             }}
           />
         ))}

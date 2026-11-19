@@ -31,10 +31,33 @@ export function AssignSheet({
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [selectedSchools, setSelectedSchools] = useState<string[]>([]);
   const save = useCommand();
+  const [assigned, setAssigned] = useState<number | null>(null);
   const count = selectedStudents.length + selectedClasses.length + selectedSchools.length;
   function toggle(id: string, values: string[], set: (v: string[]) => void) {
     set(values.includes(id) ? values.filter((v) => v !== id) : [...values, id]);
   }
+  if (assigned !== null)
+    return (
+      <Sheet
+        visible={!!lesson}
+        title="Tudo pronto para aprender"
+        close={close}
+        footer={<Action title="Concluir" onPress={close} />}
+      >
+        <Copy heading>{lesson?.title}</Copy>
+        <Notice
+          text={
+            assigned
+              ? `${trail ? 'Trilha disponível' : 'Aula disponível'} para ${assigned} estudante(s) com vínculo autorizado.`
+              : 'Nenhum estudante elegível foi encontrado nos grupos selecionados.'
+          }
+        />
+        <Copy muted>
+          A atribuição foi salva no servidor. As respostas aparecerão no histórico e nos relatórios
+          quando o estudante realizar a aula.
+        </Copy>
+      </Sheet>
+    );
   return (
     <Sheet
       visible={!!lesson}
@@ -51,7 +74,7 @@ export function AssignSheet({
           }
           disabled={!count || save.busy}
           onPress={() =>
-            void save.run(
+            void save.run<{ assigned: number }>(
               (trail ? '/trails/' : '/lessons/') + lesson?.id + '/assign',
               {
                 ...(trail ? { version: lesson?.version } : { revision_id: lesson?.revision_id }),
@@ -59,7 +82,7 @@ export function AssignSheet({
                 classroom_ids: selectedClasses,
                 school_ids: selectedSchools,
               },
-              close,
+              (result) => setAssigned(result.assigned),
             )
           }
         />

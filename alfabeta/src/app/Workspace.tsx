@@ -35,6 +35,15 @@ export function WorkspaceProvider({
 }>) {
   const [value, setValue] = useState(empty);
   const touched = useRef(false);
+  const previousProfession = useRef(profession);
+  useEffect(() => {
+    if (previousProfession.current !== profession) {
+      previousProfession.current = profession;
+      touched.current = true;
+      setValue(empty);
+      void AsyncStorage.setItem('eleva-workspace:' + account, JSON.stringify(empty));
+    }
+  }, [profession, account]);
   useEffect(() => {
     let alive = true;
     void AsyncStorage.getItem('eleva-workspace:' + account).then((raw) => {

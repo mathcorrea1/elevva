@@ -1,18 +1,11 @@
 import { useState, useEffect } from 'react';
 import { View } from 'react-native';
-import { SlidersHorizontal, FileChartColumn, ClipboardList, Route } from 'lucide-react-native';
-import { Page, Card, Copy, Action, Notice, Field } from '@/shared/ui';
+import { SlidersHorizontal, FileChartColumn, ClipboardList } from 'lucide-react-native';
+import { Page, Card, Copy, Action, Field } from '@/shared/ui';
 import { useDebounced } from '@/shared/data/paged';
 import { Sheet } from '@/shared/ui/Sheet';
-import {
-  Eyebrow,
-  SectionTitle,
-  Stat,
-  Badge,
-  MenuRow,
-  Pills,
-  Disclosure,
-} from '@/shared/ui/learning';
+import { SectionTitle, Badge, MenuRow, Pills } from '@/shared/ui/learning';
+import { ScreenTitle, Metrics } from '@/shared/ui/presentation';
 import { useTheme } from '@/shared/theme/ThemeProvider';
 import { useResource } from '@/shared/data/hooks';
 import { LoadState } from '@/shared/ui/ResourceState';
@@ -34,6 +27,8 @@ export function OverviewScreen({ navigation }: ScreenProps<'Reports'>) {
   const [open, setOpen] = useState(false);
   const [offset, setOffset] = useState(0);
   const [search, setSearch] = useState('');
+  const [section, setSection] = useState('summary');
+  const [method, setMethod] = useState(false);
   const searchQuery = useDebounced(search);
   const teacher = profession === 'teacher';
   useEffect(() => {
@@ -58,17 +53,25 @@ export function OverviewScreen({ navigation }: ScreenProps<'Reports'>) {
   const active = Object.values(filters).filter(Boolean).length;
   return (
     <Page>
-      <Eyebrow>
-        {teacher ? 'UM OLHAR PARA O CONTEXTO ESCOLAR' : 'CADA ESTUDANTE, SUA PRÓPRIA JORNADA'}
-      </Eyebrow>
-      <Copy heading headingLevel={1} size="display">
-        {teacher ? 'Panorama da turma' : 'Como estão as descobertas?'}
-      </Copy>
-      <Copy muted>
-        {teacher
-          ? 'Veja os registros antes de aprofundar cada estudante. Nenhum gráfico substitui a análise das evidências.'
-          : 'Próximos passos dos estudantes que você acompanha, com linguagem simples e dados próprios.'}
-      </Copy>
+      <ScreenTitle
+        title="Relatórios"
+        subtitle={
+          teacher
+            ? 'Um olhar para cada descoberta da turma.'
+            : 'Acompanhe cada estudante, no seu ritmo.'
+        }
+        action={
+          <Action
+            secondary
+            icon={SlidersHorizontal}
+            title={active ? 'Filtros · ' + active : 'Filtros'}
+            onPress={() => {
+              setDraft(filters);
+              setOpen(true);
+            }}
+          />
+        }
+      />
       {teacher ? (
         <ContextPicker />
       ) : (
@@ -78,269 +81,219 @@ export function OverviewScreen({ navigation }: ScreenProps<'Reports'>) {
           apply={(start, end) => update({ start, end })}
         />
       )}
-      <Action
-        secondary
-        icon={SlidersHorizontal}
-        title={
-          active
-            ? 'Filtros de acompanhamento · ' + active + ' ativos'
-            : 'Filtrar estudantes e evidências'
-        }
-        onPress={() => {
-          setDraft(filters);
-          setOpen(true);
-        }}
+      <Pills
+        value={section}
+        onChange={setSection}
+        options={[
+          { value: 'summary', label: 'Resumo' },
+          { value: 'students', label: 'Estudantes' },
+          { value: 'evidence', label: 'Evidências' },
+        ]}
       />
-      {active > 0 && (
-        <Badge
-          text={Object.entries(filters)
-            .filter(([, v]) => v)
-            .map(([k, v]) =>
-              k === 'student_id'
-                ? data.data?.options.students.find((s) => s.id === v)?.name ||
-                  'Estudante selecionado'
-                : k === 'level'
-                  ? categoryLabel(v)
-                  : v,
-            )
-            .join(' · ')}
-        />
-      )}
       <LoadState resource={data} />
-      <Field
-        label="Buscar estudante no panorama"
-        value={search}
-        onChangeText={setSearch}
-        maxLength={120}
-      />
       {teacher && !value.schoolId && (
-        <Notice text="Selecione sua escola para abrir o panorama. Você pode reunir as turmas autorizadas da escola ou escolher uma turma específica." />
+        <Card>
+          <Copy heading>Qual contexto vamos acompanhar?</Copy>
+          <Copy muted>
+            Selecione sua escola e, se desejar, uma turma para reunir os registros autorizados.
+          </Copy>
+        </Card>
       )}
       {data.data && (!teacher || !!value.schoolId) && (
         <>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
-            <Stat
-              value={data.data.totals.students || 0}
-              label={teacher ? 'Estudantes autorizados' : 'Estudantes acompanhados'}
-            />
-            <Stat value={data.data.totals.assessments || 0} label="Avaliações no período" />
-            <Stat
-              value={data.data.totals.pending_assessments || 0}
-              label="Avaliações iniciais pendentes"
-            />
-            <Stat value={data.data.totals.pending_reviews || 0} label="Análises a revisar" />
-          </View>
-          <Card>
-            <Copy heading>Onde estamos hoje</Copy>
-            <Copy muted>
-              Distribuição dos níveis confirmados e das situações sem confirmação. Denominador:{' '}
-              {data.data.pagination.total}{' '}
-              {teacher ? 'estudantes autorizados' : 'estudantes vinculados'} do filtro.
-            </Copy>
-            {data.data.level_distribution.map((d) => (
-              <View key={d.level} style={{ gap: 7 }}>
-                <Copy>
-                  {categoryLabel(d.level)}: {d.count}
+          {section === 'summary' && (
+            <>
+              <Metrics
+                items={[
+                  { value: data.data.totals.students || 0, label: 'Estudantes' },
+                  { value: data.data.totals.completed_tasks || 0, label: 'Tarefas concluídas' },
+                  {
+                    value: data.data.totals.pending_assessments || 0,
+                    label: 'Avaliações a registrar',
+                  },
+                ]}
+              />
+              <TimelineChart series={data.data.series} />
+              <Card>
+                <Copy heading>Pontos de partida</Copy>
+                <Copy muted size="caption">
+                  Distribuição dos níveis confirmados entre {data.data.pagination.total} estudantes
+                  do filtro.
                 </Copy>
-                <View
-                  aria-hidden={true}
-                  accessible={false}
-                  style={{
-                    height: 12,
-                    backgroundColor: colors.divider,
-                    borderRadius: 6,
-                    overflow: 'hidden',
-                  }}
-                >
-                  <View
-                    style={{
-                      height: 12,
-                      width: `${data.data?.pagination.total ? (d.count / data.data.pagination.total) * 100 : 0}%`,
-                      backgroundColor: colors.primary,
-                    }}
+                {data.data.level_distribution.map((d) => (
+                  <View key={d.level} style={{ gap: 6 }}>
+                    <Copy>
+                      {categoryLabel(d.level)} · {d.count}
+                    </Copy>
+                    <View
+                      aria-hidden
+                      accessible={false}
+                      style={{
+                        height: 8,
+                        backgroundColor: colors.divider,
+                        borderRadius: 8,
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <View
+                        style={{
+                          height: 8,
+                          width: ((data.data!.pagination.total
+                            ? (d.count / data.data!.pagination.total) * 100
+                            : 0) + '%') as `${number}%`,
+                          backgroundColor: colors.primary,
+                        }}
+                      />
+                    </View>
+                  </View>
+                ))}
+                {!data.data.level_distribution.length && (
+                  <Copy muted>Ainda não há estudantes neste filtro.</Copy>
+                )}
+              </Card>
+              <SectionTitle title="Próximos passos" />
+              {data.data.students
+                .filter((s) => s.attention.length)
+                .slice(0, 3)
+                .map((s) => (
+                  <MenuRow
+                    key={s.id}
+                    icon={ClipboardList}
+                    title={s.name}
+                    detail={s.attention[0].reason}
+                    onPress={() => navigation.navigate(s.attention[0].action, { student: s })}
                   />
-                </View>
-              </View>
-            ))}
-            {!data.data.level_distribution.length && (
-              <Copy>Nenhum estudante corresponde ao contexto e aos filtros atuais.</Copy>
-            )}
-            <Copy size="caption" muted>
-              Azul: quantidade de estudantes nesta categoria. Não mede percentual de alfabetização.
-            </Copy>
-          </Card>
-          <TimelineChart series={data.data.series} />
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
-            <Stat
-              value={data.data.totals.completed_tasks || 0}
-              label="Tarefas concluídas no período"
-            />
-            <Stat
-              value={data.data.totals.completed_lessons || 0}
-              label="Aulas concluídas no período"
-            />
-            <Stat value={data.data.totals.observations || 0} label="Observações do adulto" />
-            <Stat
-              value={data.data.totals.completed_trails || 0}
-              label="Trilhas concluídas no período"
-            />
-          </View>
-          {data.data && (
+                ))}
+              {!data.data.students.some((s) => s.attention.length) && (
+                <Copy muted>Nenhuma pendência de registro na página atual.</Copy>
+              )}
+              <Action
+                secondary
+                title="Ver estudantes e registros"
+                onPress={() => setSection('students')}
+              />
+              {teacher && !!value.classroomId && (
+                <MenuRow
+                  icon={FileChartColumn}
+                  title="Relatório coletivo e PDF"
+                  detail="Resumo autorizado da turma selecionada"
+                  onPress={() =>
+                    navigation.navigate('Collective', {
+                      classroomId: value.classroomId,
+                      title: 'Turma selecionada',
+                    })
+                  }
+                />
+              )}
+            </>
+          )}
+          {section === 'students' && (
+            <>
+              <Field
+                label="Buscar estudante no relatório"
+                value={search}
+                onChangeText={setSearch}
+                maxLength={120}
+              />
+              <Copy muted size="caption">
+                {data.data.students.length} de {data.data.pagination.total} estudantes neste filtro.
+              </Copy>
+              {data.data.students.map((s) => (
+                <MenuRow
+                  key={s.id}
+                  icon={FileChartColumn}
+                  title={s.name}
+                  detail={
+                    categoryLabel(s.category) + ' · ' + s.completed_tasks + ' tarefas concluídas'
+                  }
+                  onPress={() =>
+                    navigation.navigate('Report', {
+                      student: s,
+                      classroomId: teacher ? value.classroomId || undefined : undefined,
+                    })
+                  }
+                />
+              ))}
+              {!data.data.students.length && (
+                <Copy muted>
+                  Nenhum estudante corresponde à busca. Experimente limpar os filtros.
+                </Copy>
+              )}
+            </>
+          )}
+          {section === 'evidence' && (
+            <>
+              <SectionTitle title="Habilidades e respostas" detail={data.data.detail_scope} />
+              <EvidenceGroups groups={data.data.comparable_groups} />
+              {data.data.observed_support.map((o) => (
+                <Card key={o.evidence_id}>
+                  <Badge text="OBSERVAÇÃO DO ADULTO" />
+                  <Copy heading>{o.skill}</Copy>
+                  <Copy>{o.text}</Copy>
+                  <Copy muted size="caption">
+                    {o.support || 'Apoio não informado'} ·{' '}
+                    {new Date(o.date).toLocaleDateString('pt-BR')}
+                  </Copy>
+                  {data.data!.students.some((s) => s.id === o.student_id) && (
+                    <Action
+                      secondary
+                      title="Abrir evidências do estudante"
+                      onPress={() => {
+                        const student = data.data!.students.find((s) => s.id === o.student_id)!;
+                        navigation.navigate('Report', {
+                          student,
+                          classroomId: teacher ? value.classroomId || undefined : undefined,
+                        });
+                      }}
+                    />
+                  )}
+                </Card>
+              ))}
+              {!data.data.comparable_groups.length && !data.data.observed_support.length && (
+                <Copy muted>Ainda não há evidências comparáveis nesta página e período.</Copy>
+              )}
+            </>
+          )}
+          {section !== 'summary' && data.data.pagination.total > data.data.pagination.limit && (
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
               <Action
                 secondary
-                title="Página anterior de estudantes"
+                title="Anterior"
                 disabled={!offset}
                 onPress={() => setOffset(Math.max(0, offset - data.data!.pagination.limit))}
               />
               <Action
                 secondary
-                title="Próxima página de estudantes"
-                disabled={data.data.pagination.next_offset === null}
+                title="Próxima"
+                disabled={data.data.pagination.next_offset == null}
                 onPress={() => setOffset(data.data!.pagination.next_offset!)}
               />
             </View>
           )}
-          <SectionTitle
-            title="O que merece um próximo olhar?"
-            detail="Pendências de registro, revisão e sinalizações manuais. Sem diagnóstico ou ranking."
-          />
-          <Copy muted>
-            {data.data.detail_scope} Exibindo {data.data.students.length} de{' '}
-            {data.data.pagination.total} estudantes.
-          </Copy>
-          {data.data.students
-            .filter((s) => s.attention.length)
-            .map((s) => (
-              <Card key={s.id}>
-                <Copy heading>{s.name}</Copy>
-                {s.attention.map((reason, i) => (
-                  <View key={i} style={{ gap: 8 }}>
-                    <Copy>{reason.reason}</Copy>
-                    <Action
-                      secondary
-                      title={
-                        reason.action === 'Assessment'
-                          ? 'Registrar avaliação'
-                          : reason.action === 'Analysis'
-                            ? 'Revisar análise'
-                            : 'Abrir acompanhamento e evidências'
-                      }
-                      onPress={() => navigation.navigate(reason.action, { student: s })}
-                    />
-                  </View>
-                ))}
-              </Card>
-            ))}
-          {!data.data.students.some((s) => s.attention.length) && (
-            <Notice text="Sem pendências ou marcações neste filtro. Isso não substitui a observação pedagógica." />
-          )}
-          <Disclosure title="Habilidades e respostas para investigar">
-            <Copy muted>
-              Fatos de itens equivalentes: conteúdo, versão, questão e apoios registrados.
-              Habilidades vêm do cadastro do autor; não são inferidas por condição do estudante.
-            </Copy>
-            <EvidenceGroups
-              groups={data.data.comparable_groups.filter((g) => g.correct < g.responses)}
-            />
-            {data.data.observed_support.map((o) => (
-              <Card key={o.evidence_id}>
-                <Badge text="OBSERVAÇÃO MANUAL" />
-                <Copy heading>{o.skill}</Copy>
-                <Copy>{o.text}</Copy>
-                <Copy muted>
-                  {o.support || 'Apoio não descrito'} ·{' '}
-                  {new Date(o.date).toLocaleDateString('pt-BR')}
-                </Copy>
-                {data.data?.students.find((s) => s.id === o.student_id) && (
-                  <Action
-                    secondary
-                    title="Abrir evidências deste estudante"
-                    onPress={() => {
-                      const student = data.data!.students.find((s) => s.id === o.student_id)!;
-                      navigation.navigate('Report', {
-                        student,
-                        classroomId: teacher ? value.classroomId || undefined : undefined,
-                      });
-                    }}
-                  />
-                )}
-              </Card>
-            ))}
-          </Disclosure>
-          <SectionTitle title={teacher ? 'Estudantes por situação' : 'Acompanhar cada estudante'} />
-          {[
-            'unassessed',
-            'unconfirmed',
-            'pre-silabico',
-            'silabico',
-            'silabico-sem-valor',
-            'silabico-com-valor',
-            'silabico-alfabetico',
-            'alfabetico',
-          ]
-            .filter((level) => data.data!.students.some((s) => s.category === level))
-            .map((level) => (
-              <View key={level} style={{ gap: 12 }}>
-                <Badge text={categoryLabel(level)} />
-                {data
-                  .data!.students.filter((s) => s.category === level)
-                  .map((s) => (
-                    <Card key={s.id}>
-                      <Copy heading>{s.name}</Copy>
-                      <Copy>
-                        {s.completed_lessons} aulas e {s.completed_tasks} tarefas concluídas no
-                        período.
-                      </Copy>
-                      <Copy muted>
-                        Última avaliação:{' '}
-                        {s.last_assessment
-                          ? new Date(s.last_assessment).toLocaleDateString('pt-BR')
-                          : 'ainda não registrada'}
-                        . {s.supports.length ? s.supports.length + ' apoios cadastrados.' : ''}
-                      </Copy>
-                      <MenuRow
-                        icon={FileChartColumn}
-                        title={'Ver evidências de ' + s.name}
-                        detail={
-                          teacher
-                            ? 'Investigar habilidades, respostas e contexto comparável'
-                            : 'Entender registros e próximos passos'
-                        }
-                        onPress={() =>
-                          navigation.navigate('Report', {
-                            student: s,
-                            classroomId: teacher ? value.classroomId || undefined : undefined,
-                          })
-                        }
-                      />
-                      <Action
-                        secondary
-                        icon={s.next_step === 'assessment' ? ClipboardList : Route}
-                        title={
-                          s.next_step === 'assessment'
-                            ? 'Fazer avaliação inicial'
-                            : 'Abrir trilhas do estudante'
-                        }
-                        onPress={() =>
-                          navigation.navigate(
-                            s.next_step === 'assessment' ? 'Assessment' : 'Trail',
-                            { student: s },
-                          )
-                        }
-                      />
-                    </Card>
-                  ))}
-              </View>
-            ))}
-          <Notice text={data.data.assessment_freshness.note} />
-          {data.data.limitations.map((l) => (
-            <Copy muted size="caption" key={l}>
-              {l}
-            </Copy>
-          ))}
+          <Action quiet title="Como ler estes dados" onPress={() => setMethod(true)} />
         </>
       )}
+      <Sheet visible={method} title="Sobre os registros" close={() => setMethod(false)}>
+        <Copy>
+          Os gráficos reúnem entregas, avaliações e observações registradas. Contagem de tarefas não
+          é percentual de alfabetização.
+        </Copy>
+        <Copy>
+          Nível confirmado, sugestão da IA e correção de um exercício são informações diferentes.
+          Respostas aguardando revisão não contam automaticamente como erro.
+        </Copy>
+        {!!data.data && (
+          <>
+            <Copy>{data.data.detail_scope}</Copy>
+            <Copy>{data.data.assessment_freshness.note}</Copy>
+            {data.data.limitations.map((l) => (
+              <Copy muted key={l}>
+                {l}
+              </Copy>
+            ))}
+          </>
+        )}
+      </Sheet>
       <Sheet
         visible={open}
         title="Filtrar acompanhamento"

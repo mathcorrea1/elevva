@@ -13,7 +13,14 @@ const attempt = z
   .object({
     id: z.string(),
     version: z.number().int().positive(),
-    responses: z.record(z.union([z.number().int(),z.string().max(200),z.array(z.string()).max(12),z.record(z.string())])),
+    responses: z.record(
+      z.union([
+        z.number().int(),
+        z.string().max(200),
+        z.array(z.string()).max(12),
+        z.record(z.string()),
+      ]),
+    ),
     status: z.enum(['in_progress', 'finished']),
   })
   .passthrough();
@@ -29,21 +36,75 @@ const report = z
     ),
     events: z.array(z.unknown()),
     limitations: z.array(z.string()),
-    series:z.array(z.object({day:z.string(),activities:z.number().int().nonnegative(),assessments:z.number().int().nonnegative(),observations:z.number().int().nonnegative()})),
-    completed_stages:z.number().int().nonnegative(),
-    total_stages:z.number().int().nonnegative(),
-    achievements:z.array(z.object({id:z.string(),title:z.string(),description:z.string()})),
+    series: z.array(
+      z.object({
+        day: z.string(),
+        activities: z.number().int().nonnegative(),
+        assessments: z.number().int().nonnegative(),
+        observations: z.number().int().nonnegative(),
+      }),
+    ),
+    completed_stages: z.number().int().nonnegative(),
+    total_stages: z.number().int().nonnegative(),
+    achievements: z.array(z.object({ id: z.string(), title: z.string(), description: z.string() })),
   })
   .passthrough();
-const journeyTask = z.object({id:z.string(),title:z.string(),state:z.enum(['available','locked','in_progress','completed']),locked:z.boolean(),completed_at:z.string().nullable(),instructions:z.string(),item_count:z.number().int().nonnegative(),block_reason:z.string().nullable()});
-const journey = z.object({stages:z.array(z.object({id:z.string(),title:z.string(),description:z.string(),state:z.enum(['available','locked','in_progress','completed']),completed:z.number().int().nonnegative(),total:z.number().int().positive(),tasks:z.array(journeyTask)})),completed_tasks:z.number().int().nonnegative(),total_tasks:z.number().int().nonnegative(),assessment_required:z.boolean(),achievements:z.array(z.object({id:z.string(),title:z.string(),description:z.string()})),note:z.string()});
+const journeyTask = z.object({
+  id: z.string(),
+  title: z.string(),
+  state: z.enum(['available', 'locked', 'in_progress', 'completed']),
+  locked: z.boolean(),
+  completed_at: z.string().nullable(),
+  instructions: z.string(),
+  item_count: z.number().int().nonnegative(),
+  block_reason: z.string().nullable(),
+});
+const journey = z.object({
+  stages: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      description: z.string(),
+      state: z.enum(['available', 'locked', 'in_progress', 'completed']),
+      completed: z.number().int().nonnegative(),
+      total: z.number().int().positive(),
+      tasks: z.array(journeyTask),
+    }),
+  ),
+  completed_tasks: z.number().int().nonnegative(),
+  total_tasks: z.number().int().nonnegative(),
+  assessment_required: z.boolean(),
+  achievements: z.array(z.object({ id: z.string(), title: z.string(), description: z.string() })),
+  note: z.string(),
+});
+const collective = z.object({
+  classroom: z.object({ id: z.string(), name: z.string() }).passthrough(),
+  students: z.array(report),
+  student_profiles: z.array(student),
+  totals: z
+    .object({
+      students: z.number().int().nonnegative(),
+      completed_tasks: z.number().int().nonnegative(),
+      assessments: z.number().int().nonnegative(),
+      observations: z.number().int().nonnegative(),
+    })
+    .passthrough(),
+  series: report.shape.series,
+  pagination: z.object({
+    total: z.number().int().nonnegative(),
+    offset: z.number().int().nonnegative(),
+    next_offset: z.number().int().nonnegative().nullable(),
+  }),
+  note: z.string(),
+});
 export function validateResponse(path: string, method: string, data: unknown): unknown {
   let schema: z.ZodTypeAny | null = null;
   if (path === '/students') schema = method === 'GET' ? z.array(student) : student;
   else if (/^\/students\/[^/]+(?:\/profile)?$/.test(path)) schema = student;
   else if (/^\/students\/[^/]+\/report(?:\?|$)/.test(path)) schema = report;
-  else if (method==='GET'&&/^\/students\/[^/]+\/journey$/.test(path)) schema=journey;
-  else if (method==='GET'&&/^\/classrooms\/[^/]+\/report(?:\?|$)/.test(path)) schema=z.object({classroom:z.object({id:z.string(),name:z.string()}).passthrough(),students:z.array(report),note:z.string()});
+  else if (method === 'GET' && /^\/students\/[^/]+\/journey$/.test(path)) schema = journey;
+  else if (method === 'GET' && /^\/classrooms\/[^/]+\/report(?:\?|$)/.test(path))
+    schema = collective;
   else if (
     /\/attempts\/[^/]+\/(responses|finish)$/.test(path) ||
     /\/assignments\/[^/]+\/start$/.test(path)

@@ -109,8 +109,17 @@ export function TabNavigation({ state, descriptors, navigation, insets }: Bottom
                 target: route.key,
                 canPreventDefault: true,
               });
-              if (!selected && !event.defaultPrevented)
-                navigation.navigate(route.name, route.params);
+              if (!event.defaultPrevented) {
+                const destinations: Record<string, string> = {
+                  Inicio: 'Home',
+                  Estudantes: 'Children',
+                  Escolas: 'Schools',
+                  Trilhas: 'Trails',
+                  Relatórios: 'Reports',
+                  Perfil: 'Profile',
+                };
+                navigation.navigate(route.name, { screen: destinations[route.name] || 'Home' });
+              }
             }}
             style={({ pressed }) => ({
               width: sidebar ? '100%' : `${100 / columns}%`,
@@ -138,7 +147,7 @@ export function TabNavigation({ state, descriptors, navigation, insets }: Bottom
                 flexShrink: 1,
               }}
             >
-              {!sidebar && !large && route.name === 'Relatórios' ? 'Relat.' : label}
+              {label}
             </Text>
           </Pressable>
         );

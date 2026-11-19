@@ -1,12 +1,12 @@
 # Abrir e testar o Eleva
 
-**Atualização para o TCC — 19/11/2026:** [mapa de mudanças por capítulo](Eleva%20V2/18-atualizacao-tcc.md), [prompt encaminhável](Eleva%20V2/19-prompt-atualizacao-tcc.md) e [diagnóstico atual](Eleva%20V2/ELEVVA-DIAGNOSTICO.md). Início docente agora destaca Criar com IA; configuração sem chave informa indisponibilidade e mantém criação manual. Groq live e APK continuam pendentes. [Verificações atuais](Eleva%20V2/evidencias/evolucao-v5-verificacao.json).
+**Experiência integrada — 19/11/2026:** [mudanças e percursos executados](Eleva%20V2/24-implementacao-ux-integrada.md), [telas reais](Eleva%20V2/evidencias/ux-final-galeria.html) e [verificações atuais](Eleva%20V2/evidencias/ux-final-verificacao.json). Início docente prioriza criação manual; IA é módulo opcional da escola. Há rascunho de avaliação persistido por adulto, navegação uniforme e relatório coletivo corrigido. Serviços remotos, Groq live, revisão pedagógica/Libras e APK instalado continuam pendentes.
 
 ## Aulas, compartilhamento e estudantes — entrega atual
 
 Execute **`.\iniciar-eleva.ps1`** no PowerShell, na raiz do projeto. Abra **http://localhost:8081** e use os [acessos locais de revisão](identity/ACESSOS-TESTE.local.md). A = responsável Ana; P = professora Marina; B/Q são o outro grupo. Os percursos abaixo funcionam no ambiente local de desenvolvimento.
 
-Professor: **Início → Minhas aulas → Criar aula**. Preencha Sobre; em Telas adicione conteúdo/atividade, escolha o formato e configure o editor específico. Salve pelo cabeçalho, confira Prévia e disponibilize demonstração sintética. Publicação real continua exigindo revisão designada. Biblioteca permite usar, copiar, compartilhar e atribuir a estudantes/turmas/escolas autorizadas; destinatário docente aceita em Recebidas. No ateliê de trilhas, escolha “Aula com telas da biblioteca” para reutilizar uma revisão.
+Professor: **Início → Minhas aulas → Nova aula**. Preencha Sobre; em Telas adicione conteúdo/atividade, escolha o formato e configure o editor específico. Salve pelo cabeçalho, confira Prévia e disponibilize demonstração sintética. Publicação real continua exigindo revisão designada. Biblioteca permite usar, copiar, compartilhar e atribuir a estudantes/turmas/escolas autorizadas; destinatário docente aceita em Convites. No ateliê de trilhas, escolha “Aula com telas da biblioteca” para reutilizar uma revisão.
 
 Responsável: **Estudantes → nome do estudante → Aulas para explorar**. Há escolha única/múltipla, ordenação, associação e escrita curta, com pausa/posição/rascunho persistidos. Theo conserva uma aula pausada; Lia tem entrega e revisão escrita fictícias feitas nos testes. Para começar novamente, o professor faz nova atribuição, preservando o histórico anterior.
 
@@ -36,7 +36,7 @@ Abra **http://localhost:8081**. O iniciador sobe Better Auth, FastAPI e Expo web
 
 **Use os novos [acessos de revisão](identity/ACESSOS-TESTE.local.md)**. Ana/Marina acompanham Lia, Theo e Nina; Bruno/Paula acompanham Caio e Bia. Se estiver conectado a uma conta antiga, saia em **Perfil** e entre com o novo e-mail da tabela. As contas antigas e seus registros foram preservados.
 
-**Jornadas atuais:** responsável tem Início, Estudantes, Trilhas, Relatórios e Perfil; professora tem Escolas no lugar de Estudantes e chega à gestão de estudantes também pelo Início. Em P selecione Escola Horizonte → Turma Descobertas para ver os dados populados; Escola das Nuvens demonstra uma turma vazia. Perfil → Configurações contém aparência e acessibilidade. Seed inclui 3 escolas, 4 turmas e percursos persistidos. [Entrega atual](Eleva%20V2/17-construtor-aulas-e-compartilhamento.md).
+**Jornadas atuais:** todos os contextos adultos têm Início, Estudantes, Trilhas, Relatórios e Perfil. Professores e gestores abrem Escolas e turmas pelo Início/Perfil. Em P selecione Escola Horizonte → Turma Descobertas para ver os dados populados; Escola das Nuvens demonstra uma turma vazia. Perfil → Configurações contém aparência, leitura e acessibilidade. G é o gestor sintético com concessões explícitas. A carga-base inclui 3 escolas e 4 turmas; cadastros adicionais de revisão são preservados. [Entrega atual](Eleva%20V2/24-implementacao-ux-integrada.md).
 
 Repetir o iniciador não duplica a carga nem desfaz edições. Para iniciar sem executar o seed outra vez, use `.\iniciar-eleva.ps1 -SemSeed`. Para parar somente os processos registrados do Eleva:
 
@@ -48,7 +48,7 @@ Os seeds incluem 7 atividades legadas, 3 aulas reutilizáveis, orientações, ra
 
 ## Abrir agora
 
-Web local: `http://localhost:8081`. Pode cadastrar um adulto fictício pela interface. Os quatro acessos atuais ficam em `identity/review-accounts.local.json` e na tabela legível `identity/ACESSOS-TESTE.local.md`. O arquivo `identity/demo-accounts.local.json` conserva as contas do teste anterior. Todos são arquivos locais ignorados pelo git, fora do APK; não publique seu conteúdo.
+Web local: `http://localhost:8081`. Pode cadastrar um adulto fictício pela interface. Os cinco acessos atuais (A/B/P/Q/G) ficam em `identity/review-accounts.local.json` e na tabela legível `identity/ACESSOS-TESTE.local.md`. O arquivo `identity/demo-accounts.local.json` conserva as contas do teste anterior. Todos são arquivos locais ignorados pelo git, fora do APK; não publique seu conteúdo.
 
 Para testar sem navegar pelo JSON: [acessos de responsáveis e professores](identity/ACESSOS-TESTE.local.md), com e-mails e senhas. A versão atual abre o onboarding no primeiro acesso; depois ele pode ser revisto em Configurações. Aparência e tamanho de texto ficam na aba Configurações. [Galeria da revisão visual anterior](Eleva%20V2/evidencias/premium-galeria.html); a prévia na8092 é opcional e não é iniciada pelo comando principal.
 

@@ -26,6 +26,8 @@ export function ExportPDF({ path, period }: { path: string; period: string }) {
     let temporary: string | null = null;
     try {
       const file = await repository.get<PDF>(path + (period || '?') + '&detail=' + detail);
+      if (account !== sessionGeneration())
+        throw new Error('Conta alterada. Exporte novamente pela conta atual.');
       if (file.mime_type !== 'application/pdf' || !file.base64.startsWith('JVBERi0'))
         throw new Error('O servidor não retornou um PDF válido.');
       if (Platform.OS === 'web') {

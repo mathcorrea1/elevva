@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Copy, Field, Action, Notice } from '@/shared/ui';
 import { useResource, useCommand } from '@/features/learning/hooks';
+import { Pills } from '@/shared/ui/learning';
 export function ProfileCard({ changed }: { changed?: () => Promise<void> }) {
   const result = useResource<{
     id: string;
@@ -21,17 +22,14 @@ export function ProfileCard({ changed }: { changed?: () => Promise<void> }) {
       <Copy heading>Minha conta adulta</Copy>
       <Field label="Seu nome no Eleva" value={name} onChangeText={setName} maxLength={100} />
       <Copy>Contexto de uso:</Copy>
-      {(['guardian', 'teacher'] as const).map((role) => (
-        <Action
-          key={role}
-          secondary={profession !== role}
-          title={
-            (profession === role ? 'Selecionado: ' : '') +
-            (role === 'teacher' ? 'Professor' : 'Responsável')
-          }
-          onPress={() => setProfession(role)}
-        />
-      ))}
+      <Pills
+        value={profession}
+        options={[
+          { value: 'guardian', label: 'Responsável' },
+          { value: 'teacher', label: 'Professor' },
+        ]}
+        onChange={(value) => setProfession(value as 'guardian' | 'teacher')}
+      />
       <Copy muted>
         Escolher professor não dá acesso a estudantes. O vínculo precisa ser concedido pelo gestor.
       </Copy>
@@ -40,7 +38,6 @@ export function ProfileCard({ changed }: { changed?: () => Promise<void> }) {
         disabled={save.busy || !name.trim()}
         onPress={() => void save.run('/me', { display_name: name, profession }, changed, 'PATCH')}
       />
-      <Copy muted>Identificador para convite: {result.data?.id || 'Carregando'}</Copy>
       {!!save.message && <Notice text={save.message} />}
       {!!save.error && <Notice error text={save.error} />}
     </Card>

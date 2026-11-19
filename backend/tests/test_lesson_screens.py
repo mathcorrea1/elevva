@@ -63,7 +63,10 @@ def test_sharing_versions_and_transactional_bulk_isolation(client):
     row=create(client)
     r=client.post('/lessons/'+row['id']+'/shares',json={'revision_id':row['revision_id'],'recipient_id':'test-Q','can_copy':True},headers=headers('P','share'));assert r.status_code==200,r.text
     share=r.json()
-    assert len(client.get('/lessons?scope=received',headers=headers('Q')).json()['items'])==1
+    incoming=client.get('/lessons?scope=received',headers=headers('Q')).json()['items']
+    assert len(incoming)==1 and incoming[0]['author_name']==row['author_name']
+    outgoing=client.get('/lessons/'+row['id']+'/shares',headers=headers('P')).json()['items']
+    assert outgoing[0]['recipient_name'] and outgoing[0]['recipient_id']=='test-Q'
     assert client.post('/lesson-shares/'+share['id']+'/accept',headers=headers('Q','accept')).status_code==200
     # Sharing content does not share personal student records.
     assert client.get('/students/synthetic-lia/report',headers=headers('Q')).status_code==404

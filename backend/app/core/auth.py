@@ -43,7 +43,8 @@ def identity(request: Request, db: Session = Depends(session, scope='function'))
         raise HTTPException(401, 'Sessão de teste expirada')
     if not config.auth_base_url:
         raise HTTPException(503, 'Better Auth não configurado')
-    headers = {k: request.headers[k] for k in ('authorization', 'cookie') if k in request.headers}
+    # Never let a newer browser cookie change the author of a command carrying another bearer.
+    headers = {'authorization': bearer} if bearer else ({'cookie': request.headers['cookie']} if request.headers.get('cookie') else {})
     if not headers:
         raise HTTPException(401, 'Entre novamente')
     try:

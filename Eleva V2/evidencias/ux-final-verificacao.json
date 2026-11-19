@@ -1,0 +1,221 @@
+{
+  "date": "2026-11-19",
+  "timezone": "America/Sao_Paulo",
+  "base_commit": "c6f25f6",
+  "scope": "Development only; synthetic profiles and evidence; no deploy/provisioning",
+  "automated": {
+    "backend": {
+      "passed": 70,
+      "warning": "Starlette TestClient/httpx deprecation; no failure"
+    },
+    "frontend": {
+      "passed": 29,
+      "suites": 17
+    },
+    "typescript": "passed",
+    "eslint": "passed",
+    "git_diff_check": "passed"
+  },
+  "exports": {
+    "web": {
+      "passed": true,
+      "bundle": "AppEntry-b90eee06d7d9d6813d3986ac21b55060.js"
+    },
+    "android_hermes": {
+      "passed": true,
+      "bundle": "AppEntry-47d92dc2ef892169313539cb62aa0115.hbc",
+      "is_apk": false
+    }
+  },
+  "migration": {
+    "head": "e16891ac5603",
+    "known_local_sqlite": "upgraded with backup",
+    "fresh_sqlite": "full chain passed",
+    "postgresql": "SQL generated offline only; not executed",
+    "sql_file": "ux-final-postgresql-offline.sql"
+  },
+  "seed_repeat": {
+    "rows_unchanged": true,
+    "alex_preserved": true,
+    "changed_tables": {},
+    "drafts": 1
+  },
+  "browser": {
+    "app_origin": "http://localhost:8081",
+    "api": "http://localhost:8100",
+    "identity": "Better Auth real local",
+    "actors_checked": [
+      "A",
+      "B",
+      "P",
+      "Q",
+      "G"
+    ],
+    "student_flow": "Alex registered, descriptive assessment, assigned lesson, all five mechanics, pause/partial answer/reload/resume, submitted, written variant reviewed",
+    "written_result": {
+      "before_review": {
+        "correct": 4,
+        "review": 1
+      },
+      "after_review": {
+        "correct": 5,
+        "review": 0
+      },
+      "confirmed_level": null
+    },
+    "assessment_draft": "Nina restored after reload, remains unfinalized",
+    "authoring": "G authored/saved/previewed/synthetic-released three-screen lesson; Q accepted content share and assigned to Caio without receiving G/P student access",
+    "classroom": "P created synthetic classroom and enrolled Alex; aggregate and individual counts matched stored evidence",
+    "revocation": "G received/accepted Alex invitation; after owner revoked, report/history/care/analyses all returned 404 and list removed student at refocus",
+    "pdf_downloads": [
+      {
+        "kind": "individual",
+        "pages": 1,
+        "valid_pdf": true
+      },
+      {
+        "kind": "collective",
+        "pages": 1,
+        "valid_pdf": true
+      }
+    ],
+    "appearance": "System/light/dark, independent high contrast, extra text scale 1.5, sampled 320px document did not overflow horizontally; preferences saved and recovered",
+    "dialog": "One named dialog; repeated Tab contained; Escape closed; focus returned to opener",
+    "reading": "PT-BR voices available; speechSynthesis speaking true, stop false, repeat available; no human intelligibility assessment",
+    "builder_hydration": "Existing eight-screen lesson was editable only after data loaded; tested with delayed request",
+    "static_export_boot": "Current export loaded onboarding/login; temporary static origin not allowed by identity CORS; no authenticated deployment validation",
+    "static_export_bundle_observed": "AppEntry-b90eee06d7d9d6813d3986ac21b55060.js"
+  },
+  "libras": {
+    "widget_and_player_loaded": true,
+    "translation_requested": true,
+    "translation_success_proven": false,
+    "observed_failure": "Translation cancelled after timeout/no data; dictionary entry returned 404",
+    "reviewed_videos": 0,
+    "android_webview_validated": false
+  },
+  "external": {
+    "groq_live_call": false,
+    "remote_postgresql": false,
+    "smtp_flow": false,
+    "android_apk": "Blocked before compile by missing JAVA_HOME/java; SDK/adb unavailable; release URLs still local and signing remains debug",
+    "physical_android": false,
+    "ios": false,
+    "pedagogical_approval": false,
+    "real_students_tested": false,
+    "wcag_conformance_claimed": false,
+    "nvda_talkback_validated": false
+  },
+  "captures": [
+    {
+      "file": "ux-final-biblioteca.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "049c928e4b79e1aad68c54302922b0d2c999b73a89518a1bae5dbb09952a8ebc"
+    },
+    {
+      "file": "ux-final-configuracoes-320.png",
+      "pixels": [
+        320,
+        740
+      ],
+      "sha256": "6dd6e59879f832659ad7d68f8e1a19663ff1e8398058c65be92b868af29fa100"
+    },
+    {
+      "file": "ux-final-editor-desktop.png",
+      "pixels": [
+        1280,
+        900
+      ],
+      "sha256": "13a21f6fdc6b09eaf95dfdb1adf58841fe7b224b55f90e357af9299c8867f3cf"
+    },
+    {
+      "file": "ux-final-estudante.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "966669850685e7891b15a91146f5b27f9548c0b7e12be5c59a1d9127c6a98f0c"
+    },
+    {
+      "file": "ux-final-lista-estudantes.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "bdc211d8da150ab3c078f73147b5ffc5fd2eb4e92969a93fc42e21cd16e04449"
+    },
+    {
+      "file": "ux-final-login.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "76cb12d817723c43cf03744ccf102b1a3c7263307bb4450b95e1cd34d6218a0c"
+    },
+    {
+      "file": "ux-final-mapa.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "4af10fceaa8bbefeb0273efd6957bc098d20f7354ff138132e64490be8188cc5"
+    },
+    {
+      "file": "ux-final-perfil.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "b322fac1f86206067a717002f2fe0966fcc4d2bf745299fb8f07a1309b563a41"
+    },
+    {
+      "file": "ux-final-professor-desktop.png",
+      "pixels": [
+        1280,
+        900
+      ],
+      "sha256": "e9cd3e7762a61ae60e4bdd2a4561979670a49d3af099996e6239fb97471a8996"
+    },
+    {
+      "file": "ux-final-professor.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "943c957c0b39ab22b73b51a4c3dcf140bdbd3a44a02a1df6bf78bcb95df5e74f"
+    },
+    {
+      "file": "ux-final-relatorio.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "ac827f1bc10d34216d6d1599409776b8d6d542aa05e5d129f196e4affd1b4263"
+    },
+    {
+      "file": "ux-final-responsavel.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "475f1367f63721bf36ce016c36459fcd75689497b23b335e09fb078562846a0c"
+    },
+    {
+      "file": "ux-final-trilhas.png",
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "9b999019c4f7b3dc1bcc7981b956c9b5b8c2fbbc2d69d0bcbba76caf96657573"
+    }
+  ],
+  "ai_schema": {
+    "new_snapshot_version": "2",
+    "provider_enum_categories": 5,
+    "legacy_generic_category": "accepted only for historical v1 result validation",
+    "live_provider_validated": false
+  }
+}

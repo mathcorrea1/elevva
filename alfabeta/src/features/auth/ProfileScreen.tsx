@@ -1,10 +1,20 @@
 import { useState } from 'react';
-import { View } from 'react-native';
-import { Settings, Pencil, CircleHelp, BookOpen, LogOut, Fingerprint } from 'lucide-react-native';
+import { View, Share, Platform } from 'react-native';
+import {
+  Settings,
+  Pencil,
+  CircleHelp,
+  BookOpen,
+  LogOut,
+  Fingerprint,
+  School,
+  Sparkles,
+} from 'lucide-react-native';
 import { useResource } from '@/shared/data/hooks';
 import { useWorkspace } from '@/app/Workspace';
-import { Page, Card, Copy, Action } from '@/shared/ui';
-import { MenuRow, Eyebrow, Badge } from '@/shared/ui/learning';
+import { Page, Card, Copy, Action, Notice } from '@/shared/ui';
+import { MenuRow, Badge } from '@/shared/ui/learning';
+import { ScreenTitle, ShortcutGrid } from '@/shared/ui/presentation';
 import { Sheet } from '@/shared/ui/Sheet';
 import { Initial } from '@/features/workspace/Dashboards';
 import { LoadState } from '@/shared/ui/ResourceState';
@@ -13,56 +23,105 @@ import type { ScreenProps } from '@/app/routes';
 export function ProfileScreen({ navigation }: ScreenProps<'Profile'>) {
   const { logout, profession, profileChanged } = useWorkspace();
   const data = useResource<{ id: string; display_name: string; profession: string }>('/me');
+  const schools = useResource<{ can_manage: boolean }[]>(
+    profession === 'teacher' ? '/schools' : null,
+  );
   const [edit, setEdit] = useState(false);
   const [help, setHelp] = useState(false);
+  const [invites, setInvites] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [shareStatus, setShareStatus] = useState('');
+  async function shareIdentifier() {
+    if (!data.data?.id) return;
+    setShareStatus('');
+    try {
+      if (Platform.OS === 'web' && navigator.clipboard) {
+        await navigator.clipboard.writeText(data.data.id);
+        setShareStatus('Identificador copiado.');
+      } else {
+        await Share.share({ message: data.data.id, title: 'Meu identificador no Eleva' });
+      }
+    } catch {
+      setShareStatus('Não foi possível compartilhar. O identificador continua disponível acima.');
+    }
+  }
   return (
     <Page>
-      <Eyebrow>QUE BOM TER VOCÊ POR AQUI</Eyebrow>
-      <Copy heading headingLevel={1} size="display">
-        Seu perfil
-      </Copy>
+      <ScreenTitle title="Seu perfil" subtitle="Sua conta e o seu jeito de aprender juntos." />
       <LoadState resource={data} />
       <Card>
-        <View style={{ alignItems: 'center', gap: 16, paddingVertical: 12 }}>
-          <Initial name={data.data?.display_name || 'E'} size={88} />
-          <Copy heading>{data.data?.display_name || 'Sua conta'}</Copy>
-          <Badge
-            text={
-              profession === 'teacher'
-                ? 'Professor · espaço de ensinar'
-                : 'Responsável · espaço de acompanhar'
-            }
-          />
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+          <Initial name={data.data?.display_name || 'E'} size={64} />
+          <View style={{ flex: 1, gap: 8 }}>
+            <Copy heading>{data.data?.display_name || 'Sua conta'}</Copy>
+            <Badge
+              text={
+                profession === 'teacher'
+                  ? schools.data?.some((s) => s.can_manage)
+                    ? 'Professor · gestão escolar'
+                    : 'Professor'
+                  : 'Responsável'
+              }
+            />
+          </View>
         </View>
-        <Action secondary icon={Pencil} title="Editar meu perfil" onPress={() => setEdit(true)} />
+        <Action
+          secondary
+          icon={Pencil}
+          title="Editar perfil e contexto"
+          onPress={() => setEdit(true)}
+        />
       </Card>
-      <MenuRow
-        icon={Settings}
-        title="Configurações"
-        detail="Aparência, acessibilidade, áudio e Libras"
-        onPress={() => navigation.navigate('Settings')}
+      <ShortcutGrid
+        items={[
+          {
+            icon: Settings,
+            title: 'Configurações',
+            detail: 'Aparência, leitura e acessibilidade',
+            onPress: () => navigation.navigate('Settings'),
+          },
+          {
+            icon: Fingerprint,
+            title: 'Convites',
+            detail: 'Seu identificador para vínculos',
+            onPress: () => setInvites(true),
+          },
+        ]}
       />
+      {profession === 'teacher' && (
+        <>
+          <MenuRow
+            icon={School}
+            title="Escolas e turmas"
+            detail="Contextos, equipe e matrículas"
+            onPress={() => navigation.navigate('Schools')}
+          />
+          <MenuRow
+            icon={BookOpen}
+            title="Minha biblioteca de aulas"
+            detail="Autoria e conteúdo compartilhado"
+            onPress={() => navigation.navigate('LessonLibrary')}
+          />
+        </>
+      )}
       <MenuRow
         icon={BookOpen}
-        title={profession === 'teacher' ? 'Biblioteca e autoria' : 'Biblioteca de orientações'}
-        detail="Conteúdos para apoiar as descobertas"
+        title="Orientações pedagógicas"
+        detail="Conteúdos para apoiar a aprendizagem"
         onPress={() => navigation.navigate('Library')}
+      />
+      <MenuRow
+        icon={Sparkles}
+        title="Recursos de IA"
+        detail="Módulo opcional para a escola"
+        onPress={() => navigation.navigate('AIHub')}
       />
       <MenuRow
         icon={CircleHelp}
         title="Ajuda e sobre o Eleva"
-        detail="Como acompanhar a jornada"
+        detail="Como aproveitar os próximos passos"
         onPress={() => setHelp(true)}
       />
-      <Card>
-        <Fingerprint size={24} />
-        <Copy size="caption" muted>
-          Identificador para receber convites
-        </Copy>
-        <Copy>{data.data?.id || 'Carregando…'}</Copy>
-        <Copy muted>Compartilhe somente com o adulto que vai conceder seu vínculo.</Copy>
-      </Card>
       <Action
         secondary
         destructive
@@ -78,24 +137,45 @@ export function ProfileScreen({ navigation }: ScreenProps<'Profile'>) {
             setEdit(false);
           }}
         />
-        <Copy muted>
-          A identificação usa suas iniciais. Envio de foto ainda não está disponível nesta versão.
+      </Sheet>
+      <Sheet visible={invites} title="Seu identificador" close={() => setInvites(false)}>
+        <Copy>
+          Compartilhe com o adulto que vai enviar seu convite. Receber um convite não dá acesso até
+          você aceitá-lo.
         </Copy>
+        <Card>
+          <Copy>{data.data?.id || 'Carregando…'}</Copy>
+        </Card>
+        <Action
+          secondary
+          title={Platform.OS === 'web' ? 'Copiar identificador' : 'Compartilhar identificador'}
+          disabled={!data.data?.id}
+          onPress={() => void shareIdentifier()}
+        />
+        {!!shareStatus && <Notice text={shareStatus} />}
+        <Action
+          title="Aceitar um convite"
+          onPress={() => {
+            setInvites(false);
+            navigation.navigate('Children');
+          }}
+        />
       </Sheet>
       <Sheet visible={help} title="Cada estudante, seu ritmo" close={() => setHelp(false)}>
         <Copy>
-          Comece cadastrando um estudante ou recebendo um convite. Registre a avaliação inicial,
-          realize atividades e acompanhe os registros nos relatórios.
+          Em Estudantes, adicione um cadastro ou aceite um convite. Na jornada, registre o ponto de
+          partida, abra aulas e acompanhe os resultados.
         </Copy>
         <Copy>
-          Professores organizam o acompanhamento por escola e turma. Matrícula não concede acesso
-          aos dados: cada vínculo precisa ser autorizado.
+          Professores criam aulas e organizam escolas e turmas. Cada estudante precisa de vínculo
+          autorizado; compartilhar uma aula não compartilha dados pessoais.
         </Copy>
         <Copy>
-          Use Configurações para ajustar fonte, contraste e leitura. Apoios não exigem diagnóstico.
-          Conteúdo sintético serve à demonstração e não classifica alfabetização.
+          Configurações reúne aparência, tamanho do texto, leitura e apoio em Libras. Adaptações não
+          exigem diagnóstico.
         </Copy>
         <Action
+          secondary
           title="Abrir configurações"
           onPress={() => {
             setHelp(false);
@@ -105,10 +185,10 @@ export function ProfileScreen({ navigation }: ScreenProps<'Profile'>) {
       </Sheet>
       <Sheet visible={confirm} title="Sair do Eleva?" close={() => setConfirm(false)}>
         <Copy>
-          Os registros salvos continuarão disponíveis quando você entrar novamente. Alterações ainda
-          não enviadas serão descartadas.
+          Seus registros salvos continuam disponíveis ao entrar novamente. Confira se há alterações
+          pendentes antes de sair.
         </Copy>
-        <Action secondary title="Cancelar" onPress={() => setConfirm(false)} />
+        <Action secondary title="Continuar no Eleva" onPress={() => setConfirm(false)} />
         <Action destructive icon={LogOut} title="Sair da conta" onPress={logout} />
       </Sheet>
     </Page>

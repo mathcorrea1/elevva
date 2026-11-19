@@ -1,5 +1,7 @@
 # Implementação — checkpoint de 22/10/2026
 
+**Corte de implementação vigente:** [24 — experiência integrada e verificação local, 19/11/2026](24-implementacao-ux-integrada.md). Inclui navegação uniforme, perfil/configurações, rascunhos persistidos de avaliação, contrato de cinco níveis, coletivo corrigido, cinco contas e novos percursos executados. [Galeria](evidencias/ux-final-galeria.html) · [recibo atual](evidencias/ux-final-verificacao.json). O restante deste arquivo preserva o histórico dos incrementos e suas limitações originais.
+
 Base: especificação 0.2 e autorização para o caminho 2. **Implementação em andamento, sem declaração de entrega integral, qualidade pedagógica ou conformidade WCAG.** Este registro atualiza o estado do produto; os quadros de auditoria em 02/03 conservam o diagnóstico original.
 
 **Estado em29/10:** [carga de revisão14](14-revisao-com-seeds.md), iniciador `iniciar-eleva.ps1` e4 contas novas com5 crianças/3 turmas. Repetição e reinício foram testados sem duplicação ou perda de edições.26 testes backend e15 frontend passaram. Seeds de IA são explicitamente pré-gerados e não encerram F06; dados/contas anteriores permanecem preservados. Os resultados abaixo registram as etapas anteriores; a revisão14 descreve a preparação atual.

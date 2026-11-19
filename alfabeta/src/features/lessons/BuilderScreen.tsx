@@ -31,6 +31,7 @@ import { emptyValue } from './types';
 import { ScreenThumbnail } from './ScreenThumbnail';
 import { literacyOptions } from '@/features/assessments/levels';
 import { LibrasAction } from '@/features/accessibility/libras-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const screenTypes = [
   { value: 'text', label: 'Texto' },
   { value: 'image', label: 'Imagem' },
@@ -69,6 +70,7 @@ export function BuilderScreen({ route, navigation }: ScreenProps<'LessonBuilder'
   const resource = useResource<Lesson>(lid ? '/lessons/' + lid : null);
   const save = useCommand();
   const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState<LessonBody>({ ...initial, screens: [screen()] });
@@ -162,9 +164,30 @@ export function BuilderScreen({ route, navigation }: ScreenProps<'LessonBuilder'
     );
   }
   const p = body.screens[previewIndex];
+  // Existing content must hydrate before editing; a late response cannot replace typed text.
+  if (lid && saved?.id !== lid)
+    return (
+      <Page title="Abrindo sua aula">
+        <LoadState resource={resource} />
+        <Action
+          secondary
+          icon={ArrowLeft}
+          title="Voltar às aulas"
+          onPress={() => navigation.goBack()}
+        />
+      </Page>
+    );
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
-      <View style={{ padding: 16, gap: 10, borderBottomWidth: 1, borderColor: colors.divider }}>
+      <View
+        style={{
+          padding: 16,
+          paddingTop: Math.max(16, insets.top + 8),
+          gap: 10,
+          borderBottomWidth: 1,
+          borderColor: colors.divider,
+        }}
+      >
         <View
           style={{
             flexDirection: 'row',

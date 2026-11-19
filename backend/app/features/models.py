@@ -96,6 +96,17 @@ class Assessment(Base):
     created_at: Mapped[str] = mapped_column(String(40), default=now)
 
 
+class AssessmentDraft(Base):
+    __tablename__ = 'assessment_drafts'
+    __table_args__ = (UniqueConstraint('student_id', 'adult_id'),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    student_id: Mapped[str] = mapped_column(ForeignKey('students.id'), index=True)
+    adult_id: Mapped[str] = mapped_column(ForeignKey('adults.id'))
+    body: Mapped[dict] = mapped_column(JSON, default=dict)
+    version: Mapped[int] = mapped_column(default=1)
+    updated_at: Mapped[str] = mapped_column(String(40), default=now)
+
+
 class LearningStage(Base):
     __tablename__ = 'learning_stages'
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)

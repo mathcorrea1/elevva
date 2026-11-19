@@ -23,11 +23,12 @@ import { LibraryScreen, ClassroomsScreen } from '@/features/teaching/screens';
 import { SettingsScreen } from '@/features/accessibility/SettingsScreen';
 import { ResetPasswordGate } from '@/features/auth/ResetPasswordGate';
 import { PublicEntry } from '@/features/auth/PublicEntry';
+import { PasswordField } from '@/features/auth/PasswordField';
 import { onSessionExpired } from '@/features/auth/session';
 import { GuidanceScreen } from '@/features/guidance/GuidanceScreen';
 import { TabNavigation } from './TabNavigation';
 import { AccessibleErrorBoundary } from '@/shared/ui/AccessibleErrorBoundary';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import { Poppins_400Regular } from '@expo-google-fonts/poppins/400Regular';
 import { Poppins_500Medium } from '@expo-google-fonts/poppins/500Medium';
@@ -67,10 +68,12 @@ const StackNav = createNativeStackNavigator<Routes>();
 const Tabs = createBottomTabNavigator();
 function LearningNavigator({ initial = 'Home' }: { initial?: keyof Routes }) {
   const { colors, reducedMotion, preferences } = useTheme();
+  const insets = useSafeAreaInsets();
   return (
     <StackNav.Navigator
       initialRouteName={initial}
-      screenOptions={({ navigation }) => ({
+      screenOptions={({ navigation, route }) => ({
+        headerShown: route.name !== initial,
         headerStyle: { backgroundColor: colors.surface },
         headerTintColor: colors.text,
         headerTitleStyle: {
@@ -92,7 +95,10 @@ function LearningNavigator({ initial = 'Home' }: { initial?: keyof Routes }) {
                   />
                 ) : null
             : undefined,
-        contentStyle: { backgroundColor: colors.background },
+        contentStyle: {
+          backgroundColor: colors.background,
+          paddingTop: route.name === initial ? insets.top : 0,
+        },
         animation: reducedMotion ? 'none' : 'default',
       })}
     >
@@ -330,7 +336,13 @@ function Root() {
                   ? 'Recuperar acesso'
                   : 'Que bom ter você aqui'}
             </Copy>
-            <Copy muted>Entre com sua conta de responsável ou professor.</Copy>
+            <Copy muted>
+              {mode === 'register'
+                ? 'Comece a acompanhar novas descobertas.'
+                : mode === 'reset'
+                  ? 'Enviaremos as instruções para o seu e-mail.'
+                  : 'Acesse suas aulas e acompanhamentos.'}
+            </Copy>
             {mode === 'register' && (
               <Field label="Seu nome" value={name} onChangeText={setName} maxLength={100} />
             )}
@@ -343,13 +355,10 @@ function Root() {
               autoComplete="email"
             />
             {mode !== 'reset' && (
-              <Field
-                label={mode === 'register' ? 'Senha (mínimo 10 caracteres)' : 'Senha'}
+              <PasswordField
                 value={password}
                 onChangeText={setPassword}
-                secureTextEntry
-                autoCapitalize="none"
-                autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
+                registering={mode === 'register'}
               />
             )}
             <Action
@@ -419,15 +428,9 @@ function Root() {
               <Tabs.Screen name="Inicio" options={{ title: 'Início' }}>
                 {() => <LearningNavigator initial="Home" />}
               </Tabs.Screen>
-              {profession === 'teacher' ? (
-                <Tabs.Screen name="Escolas">
-                  {() => <LearningNavigator initial="Schools" />}
-                </Tabs.Screen>
-              ) : (
-                <Tabs.Screen name="Estudantes">
-                  {() => <LearningNavigator initial="Children" />}
-                </Tabs.Screen>
-              )}
+              <Tabs.Screen name="Estudantes">
+                {() => <LearningNavigator initial="Children" />}
+              </Tabs.Screen>
               <Tabs.Screen name="Trilhas">
                 {() => <LearningNavigator initial="Trails" />}
               </Tabs.Screen>
